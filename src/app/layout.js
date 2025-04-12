@@ -2,6 +2,16 @@
 import "../styles/globals.css";
 import Header from "@/components/layouts/Header";
 
+import { Hind_Siliguri } from "next/font/google";
+
+const hindSiliguri = Hind_Siliguri({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+
+
 
 export const metadata = {
   title: "RYAN CLINIC",
@@ -11,7 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`antialiased`} >
+      <body className={`antialiased hindSiliguri.className`} >
 
         <Header />
 
