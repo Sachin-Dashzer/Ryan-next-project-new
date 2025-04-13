@@ -40,7 +40,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-new overflow-hidden">
       <div className="p-6">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Book Your Free consult Now !

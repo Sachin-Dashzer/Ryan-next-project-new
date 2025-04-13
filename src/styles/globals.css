@@ -125,3 +125,30 @@
 
 
 
+.servicesGrid{
+  display: grid;
+  grid-template-columns:  70% 30%;
+}
+
+.shadow-new{
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.137);
+}
+
+section{
+
+  padding: 40px 0 ;
+}
+
+.swiper-button-prev:after, .swiper-button-next:after {
+  color: var(--foreground);
+  font-size: 24px !important;
+  font-weight: bolder;
+}
+.swiper-button-prev, .swiper-button-next {
+  
+  top: 45% !important;
+  background-color: white;
+  padding: 10px 20px !important;
+  border-radius: 50%;
+  transform: scale(0.6);
+}

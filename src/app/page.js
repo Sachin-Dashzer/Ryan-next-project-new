@@ -1,5 +1,7 @@
 import Image from "next/image";
 import HairTransplantPage from "./home/homeServices";
+import WhyChooseRyanClinic from "./home/whyChooseUs";
+
 
 export default function Home() {
   return (
@@ -18,6 +20,8 @@ export default function Home() {
       </div>
 
       <HairTransplantPage />
+      <WhyChooseRyanClinic />
+      
     </>
   );
 }
