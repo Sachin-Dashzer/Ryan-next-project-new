@@ -89,7 +89,7 @@ const Header = () => {
           <nav className="hidden lg:flex">
             <ul className="flex space-x-1">
               {navItems.map((item) => (
-                <li className="font-semibold relative" key={item.key || item.name} >
+                <li className="font-semibold relative text" key={item.key || item.name} >
                   {item.hasDropdown ? (
                     <div
                       onMouseEnter={() => toggleDropdown(item.key)} 
@@ -108,7 +108,7 @@ const Header = () => {
                               <li key={dropdownItem.href}>
                                 <Link
                                   href={dropdownItem.href}
-                                  className="block px-4 py-2 font-semibold text-sm text-white underline hover:bg-gray-700"
+                                  className="block px-4 py-2 font-normal text text-white underline hover:bg-gray-700"
                                 >
                                   {dropdownItem.name}
                                 </Link>
@@ -131,15 +131,15 @@ const Header = () => {
           {/* Nav Buttons */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Button className="bg-white text-black cursor-pointer hover:bg-black hover:text-white">
+              <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
                 <Phone className="h-4 w-4" />
-                <span className="text-xs md:text-sm ">Call us</span>
+                <span className="">Call us</span>
               </Button>
             </div>
             <div className="flex items-center gap-2">
-              <Button className="bg-white text-black cursor-pointer hover:bg-black hover:text-white">
+              <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
                 <Calendar className="h-4 w-4" />
-                <span className="text-xs md:text-sm  hidden 2xl:block">
+                <span className=" hidden 2xl:block">
                   Book appointment
                 </span>
               </Button>

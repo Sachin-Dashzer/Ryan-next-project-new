@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -52,7 +51,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: rgba(45 , 45 ,45 ,1);
+  --primary: rgba(45, 45, 45, 1);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -77,6 +76,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --font-baloo: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .dark {
@@ -122,33 +123,226 @@
   }
 }
 
-
-
-
-.servicesGrid{
-  display: grid;
-  grid-template-columns:  70% 30%;
+body {
+  font-family: var(--font-baloo);
 }
 
-.shadow-new{
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #f2f2f2;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  outline: 1px solid rgb(19, 19, 19);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* *,
+*::after,
+*::before,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+} */
+
+.text {
+  font-size: 16px;
+}
+
+p {
+  font-size: 18px;
+}
+
+section {
+  padding: 60px 0 60px;
+}
+
+.large_heading {
+  font-size: 40px;
+}
+
+.heading {
+  font-size: 35px;
+}
+
+.sub_heading {
+  font-size: 30px;
+}
+
+.small_heading {
+  font-size: 26px;
+  line-height: 40px;
+}
+
+.title {
+  font-size: 19px;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+.shadow-new {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.137);
 }
 
-section{
-
-  padding: 40px 0 ;
-}
-
-.swiper-button-prev:after, .swiper-button-next:after {
+.swiper-button-prev:after,
+.swiper-button-next:after {
   color: var(--foreground);
   font-size: 24px !important;
   font-weight: bolder;
 }
-.swiper-button-prev, .swiper-button-next {
-  
+.swiper-button-prev,
+.swiper-button-next {
   top: 45% !important;
   background-color: white;
   padding: 10px 20px !important;
   border-radius: 50%;
   transform: scale(0.6);
+}
+
+.whyChooseGrid {
+  display: grid;
+  grid-template-columns: 40% 57%;
+  gap: 3%;
+}
+
+@media only screen and (max-width: 767px) {
+  p {
+    font-size: 14px;
+  }
+
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .header {
+    padding: 0px 0;
+  }
+
+  .large_heading {
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  .small_heading {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  section {
+    overflow: inherit;
+    padding: 30px 0;
+  }
+
+  .heading {
+    font-size: 24px;
+    line-height: normal;
+  }
+
+  .sub_heading {
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 990px) {
+  p {
+    font-size: 16px;
+  }
+
+  section {
+    padding: 35px 0 35px;
+  }
+
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .large_heading {
+    font-size: 33px;
+    line-height: 50px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .sub_heading {
+    font-size: 23px;
+  }
+
+  .small_heading {
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 990px) and (max-width: 1024px) {
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .popup-offerForm-box {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .containerFull {
+    padding: 0 30px;
+  }
+
+  /* .popup-offerForm-box{
+    width: 65%;
+  } */
+}
+
+@media (min-width: 1280px) {
+  .containerFull {
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1600px) {
+  .containerFull {
+    max-width: 1706px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1320px;
+  }
 }

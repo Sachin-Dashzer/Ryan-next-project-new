@@ -37,7 +37,7 @@ const clinicCards = [
 export default function HairTransplantPage() {
   return (
     <section>
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 ">
+      <div className="containerFull ">
         <h1 className="text-3xl md:text-3xl text-center mb-10 font-hind">
           Top Hair Transplant Clinics in Delhi, and Across India: Best Deals &
           Results

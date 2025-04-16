@@ -2,6 +2,10 @@ import Image from "next/image";
 import HairTransplantPage from "./home/homeServices";
 import WhyChooseRyanClinic from "./home/whyChooseUs";
 
+import OurTechnique from "./home/ourTechniques";
+import OurResults from "./home/ourResults";
+ import TurkeySpecialists from "./home/turkeySpecialists"
+
 
 export default function Home() {
   return (
@@ -21,6 +25,9 @@ export default function Home() {
 
       <HairTransplantPage />
       <WhyChooseRyanClinic />
+      <OurTechnique />
+      <OurResults />
+      <TurkeySpecialists />
       
     </>
   );

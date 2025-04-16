@@ -2,12 +2,22 @@
 import "../styles/globals.css";
 import Header from "@/components/layouts/Header";
 
+import { Baloo_Bhaijaan_2 } from 'next/font/google';
+
+
 import { Hind_Siliguri } from "next/font/google";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
+});
+
+const baloo = Baloo_Bhaijaan_2({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-baloo', // optional, if using CSS variable
 });
 
 
@@ -21,7 +31,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`antialiased hindSiliguri.className`} >
+      <body className={`antialiased hindSiliguri.className baloo.className`} >
 
         <Header />
 
