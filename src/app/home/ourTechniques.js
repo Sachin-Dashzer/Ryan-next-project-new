@@ -6,66 +6,69 @@ import { Check } from "lucide-react";
 const procedures = [
   {
     title: "Sapphire FUE Technique",
-    image: "/sapphire-fue.jpg",
+    image:
+      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742129556/fue-banner_tmxskw.jpg",
     features: [
       "Micro Sapphire Pen",
       "3 x PRP Session.",
       "1 Year Online Post-operative Follow Up",
-      "Guarantee Certificate."
-    ]
+      "Guarantee Certificate.",
+    ],
   },
   {
     title: "Turkey Experts DHI",
-    image: "/turkey-experts.jpg",
+    image:
+      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742122125/turkey-doctor_yhwmt3.webp",
     features: [
       "Turkish Choi Pen",
       "3 x PRP Session.",
       "1 Year Online Post-operative Follow Up",
-      "Guarantee Certificate."
+      "Guarantee Certificate.",
     ],
-    highlight: true
+    highlight: true,
   },
   {
     title: "DHI Technique",
-    image: "/dhi-technique.jpg",
+    image:
+      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742129542/dhi-banner_cfkksz.jpg",
     features: [
       "Turkish Choi Pen",
       "3 x PRP Session.",
       "1 Year Online Post-operative Follow Up",
-      "Guarantee Certificate."
-    ]
-  }
+      "Guarantee Certificate.",
+    ],
+  },
 ];
 
 export default function OurTechnique() {
   return (
-    <div className="py-12 px-4 md:px-10 bg-white flex flex-col items-center">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl">
+    <section className=" bg-white flex flex-col items-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full px-8 py-12">
         {procedures.map((procedure, idx) => (
           <Card
             key={idx}
-            className={`rounded-xl shadow-md transition-all duration-300 ${
-              procedure.highlight ? "bg-[#45758b] text-white" : "bg-white"
+            className={`rounded-xl shadow-md transition-all duration-600 hover:bg-[#45758b] translate-y-5 hover:translate-0 cursor-pointer ease-in-out hover:text-white ${
+              procedure.highlight ? "bg-[#45758b] text-white translate-y-0" : "bg-white"
             }`}
           >
-            <CardContent className="flex flex-col items-center p-6">
-              <div className="w-36 h-36 mb-4">
+            <CardContent className="flex flex-col items-center p-8">
+              <div className="w-48 h-48 mb-4 ">
                 <Image
                   src={procedure.image}
                   alt={procedure.title}
-                  width={200}
-                  height={200}
-                  className="rounded-full object-cover w-full h-full"
+                  width={230}
+                  height={230}
+                  className="rounded-full object-cover shadow-2xl border-4 w-full h-full"
                 />
               </div>
-              <h3 className="text-xl font-bold underline text-center mb-4 uppercase">
+              <h3 className="small_heading mt-2 font-bold underline text-center mb-4 uppercase">
                 {procedure.title}
               </h3>
               <ul className="space-y-2 w-full">
                 {procedure.features.map((feature, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-2 text-sm md:text-base"
+                    className="flex border-b-[1px] border-pink-300  title items-start gap-2 pb-1 pt-2"
                   >
                     <Check className="w-4 h-4 mt-1" />
                     {feature}
@@ -77,6 +80,6 @@ export default function OurTechnique() {
           </Card>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
