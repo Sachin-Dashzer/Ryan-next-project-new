@@ -6,17 +6,20 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
 const images = [
-  '/results/img1.jpg',
-  '/results/img2.jpg',
-  '/results/img3.jpg',
-  '/results/img4.jpg',
-  '/results/img5.jpg',
-  '/results/img6.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121390/result-3_pg8vxt.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121386/result-2_bqpxee.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121382/result-1_ezklcb.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121381/result-4_po8ofu.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121390/result-3_pg8vxt.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121386/result-2_bqpxee.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121382/result-1_ezklcb.jpg',
+  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121381/result-4_po8ofu.jpg',
+ 
 ];
 
 export default function OurResults() {
   return (
-    <section className="py-12 px-4 text-center">
+    <section className="py-12 text-center">
       <h2 className="text-3xl font-bold mb-2">Ryan&apos;s Results</h2>
       <p className="max-w-2xl mx-auto text-gray-600 mb-8">
         Our results aren&apos;t just great, they&apos;re <strong>outstanding</strong>!
@@ -35,9 +38,9 @@ export default function OurResults() {
         breakpoints={{
           640: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 3 },
         }}
-        className="w-full max-w-6xl mx-auto"
+        className="w-full max-w-7xl mx-auto"
       >
         {images.map((src, index) => (
           <SwiperSlide key={index} className="rounded-lg overflow-hidden">

@@ -51,31 +51,36 @@ export default function WhyChooseRyanClinic() {
 
   const stats = [
     {
-      icon: <Calendar className="w-12 h-12" />,
+      image:
+        "https://res.cloudinary.com/dha2ecdnn/image/upload/v1744614668/calender_qwn8yt.png",
       end: 12,
       label: "Years",
       suffix: "+",
     },
     {
-      icon: <Hospital className="w-12 h-12" />,
-      end: 12,
-      label: "Branches",
-      suffix: "+",
-    },
-    {
-      icon: <Globe className="w-12 h-12" />,
-      end: 4,
-      label: "Countries",
-      suffix: "+",
-    },
-    {
-      icon: <Users className="w-12 h-12" />,
+      image:
+        "https://res.cloudinary.com/dha2ecdnn/image/upload/v1744614669/patients_prrolz.png",
       end: 66,
       label: "Delighted Patients",
       suffix: "K+",
     },
     {
-      icon: <ScrollText className="w-12 h-12" />,
+      image:
+        "https://res.cloudinary.com/dha2ecdnn/image/upload/v1744614668/hospital_gzd17w.png",
+      end: 12,
+      label: "Branches",
+      suffix: "+",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/dha2ecdnn/image/upload/v1744614668/globe_dxpeps.png",
+      end: 4,
+      label: "Countries",
+      suffix: "+",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/dha2ecdnn/image/upload/v1744614668/bill_jp5tje.png",
       end: 100,
       label: "Procedures Everyday",
       suffix: "+",
@@ -209,21 +214,31 @@ export default function WhyChooseRyanClinic() {
 
           <div
             ref={ref}
-            className="grid md:grid-cols-3 lg:grid-cols-5  mt-12 bg-white rounded-2xl p-12 text-[#4B768E]"
+            className="grid items-stretch w-full mx-auto max-w-[95%] md:grid-cols-3 lg:grid-cols-5  mt-12 bg-white rounded-2xl p-7 px-6 text-[#4B768E]"
           >
             {stats.map((item, index) => (
-              <div key={index} className="flex gap-5  justify-center items-center">
-                <div className="">{item.icon}</div>
+              <div
+                key={index}
+                className="flex gap-5  justify-center items-center"
+              >
+                <div className="">
+                  <Image
+                    src={item.image}
+                    alt={item.label}
+                    width={65}
+                    height={65}
+                  />
+                </div>
                 <div>
                   {" "}
-                  <p className="font-bold text-2xl mt-2">
+                  <p className="font-bold text-black small_heading mt-2">
                     <AnimatedNumber
                       end={item.end}
                       suffix={item.suffix}
                       start={startCount}
                     />
                   </p>
-                  <p className="text-sm text-[#4B768E]/80">{item.label}</p>
+                  <p className="text-sm text-black">{item.label}</p>
                 </div>
               </div>
             ))}

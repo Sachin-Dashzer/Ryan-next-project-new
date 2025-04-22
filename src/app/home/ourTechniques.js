@@ -51,7 +51,7 @@ export default function OurTechnique() {
               procedure.highlight ? "bg-[#45758b] text-white translate-y-0" : "bg-white"
             }`}
           >
-            <CardContent className="flex flex-col items-center p-8">
+            <CardContent className="flex flex-col items-center py-4 px-8">
               <div className="w-48 h-48 mb-4 ">
                 <Image
                   src={procedure.image}
@@ -75,7 +75,7 @@ export default function OurTechnique() {
                   </li>
                 ))}
               </ul>
-              <Button className="mt-6">Book Appointment</Button>
+              <Button className="mt-6 bg-transparent border-1 shadow-lg cursor-pointer text text-  ">Book Appointment</Button>
             </CardContent>
           </Card>
         ))}
