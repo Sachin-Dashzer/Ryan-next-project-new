@@ -29,11 +29,13 @@ export default function OurResults() {
         to explore our impressive <span className="text-blue-500">outcomes</span> and read feedback from our satisfied customers.
       </p>
 
+    
       <Swiper
-        modules={[Navigation, Pagination]}
+        modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={1}
         navigation
+        loop
         pagination={{ clickable: true }}
         breakpoints={{
           640: { slidesPerView: 2 },

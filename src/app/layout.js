@@ -1,6 +1,7 @@
 
 import "../styles/globals.css";
 import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 
 import { Baloo_Bhaijaan_2 } from 'next/font/google';
 
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
 
         {children}
 
-
+        <Footer />
 
       </body>
     </html>

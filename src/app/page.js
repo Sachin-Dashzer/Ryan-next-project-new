@@ -4,7 +4,9 @@ import WhyChooseRyanClinic from "./home/whyChooseUs";
 
 import OurTechnique from "./home/ourTechniques";
 import OurResults from "./home/ourResults";
- import TurkeySpecialists from "./home/turkeySpecialists"
+import TurkeySpecialists from "./home/turkeySpecialists"
+import OurBranches from "./home/ourBranches";
+import Testimonials from "./home/testimonial";
 
 
 export default function Home() {
@@ -28,6 +30,8 @@ export default function Home() {
       <OurTechnique />
       <OurResults />
       <TurkeySpecialists />
+      <OurBranches />
+      <Testimonials />
       
     </>
   );
