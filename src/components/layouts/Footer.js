@@ -105,71 +105,86 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Middle Section - Services + More About Us */}
       <div className="border-t border-gray-700 py-10 px-6 md:px-10 lg:px-20 space-y-10">
-        {/* Services and About Grid */}
-        {/* <div className="grid items-center justify-between md:grid-cols-4 lg:grid-cols-4 gap-10">
-          <div>
-            <h3 className="font-bold text-xl mb-4">Our Services</h3>
-            <div className="grid grid-cols-2 gap-2 text-sm text-gray-300">
-              
-             
-            </div>
-          </div>
+        <h4 className="font-bold sub_heading my-2">Our Services</h4>
 
-          {/* <div>
-            <h3 className="font-bold text-xl mb-4">More About us</h3>
-            <div className="grid grid-cols-2 gap-2 text-sm text-gray-300">
-              <p>Home</p>
-              <p>Our Gallery</p>
-              <p>About</p>
-              <p>Our Videos</p>
-              <p>Our Jobs</p>
-              <p>Contact Us</p>
-            </div>
-          </div> */}
-
-        {/* Social Media }
-          <div>
-            <h3 className="font-bold text-xl mb-4">Follow Us</h3>
-            <div className="flex gap-6 items-center text-white text-base">
-              <div className="flex gap-2 items-center">
-                <FaFacebookF />
-              </div>
-              <div className="flex gap-2 items-center">
-                <FaInstagram />
-              </div>
-              <div className="flex gap-2 items-center">
-                <FaYoutube />
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        <h4 className="font-bold sub_heading">Our Services</h4>
-
-        <div className="grid md:grid-cols-3 gap-10 text-left border-t p-10">
+        <div className="grid md:grid-cols-3 gap-10 text-left border-y p-10">
           <ul className="border-r">
-            <li className="text-xl  my-3 pl-10">DHI In India</li>
-            <li className="text-xl  my-3 pl-10">Beard transplant</li>
-            <li className="text-xl  my-3 pl-10">FUE Hair Transplant</li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">DHI In India </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Beard transplant </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">FUE Hair Transplant </Link>
+            </li>
           </ul>
           <ul className="border-r">
-            <li className="text-xl  my-3 pl-10">Hairline Transplant</li>
-            <li className="text-xl  my-3 pl-10">Female Hair Transplant</li>
-            <li className="text-xl  my-3 pl-10">Eyebrow Transplant</li>
-            <li className="text-xl  my-3 pl-10">PRP Treatment</li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Hairline Transplant </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Female Hair Transplant </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Eyebrow Transplant </Link>
+            </li>
           </ul>
           <ul className="">
-            <li className="text-xl  my-3 pl-10">Chemical Skin Peels</li>
-            <li className="text-xl  my-3 pl-10">Alopecia Treatment</li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">PRP Treatment </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Chemical Skin Peels </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Alopecia Treatment </Link>
+            </li>
           </ul>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10 text-left">
+        <h4 className="font-bold sub_heading mb-2 mt-2">More about us</h4>
+
+        <div className="grid md:grid-cols-4 gap-10 text-left border-y p-10">
+          <ul className="border-r">
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Home </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">About </Link>
+            </li>
+          </ul>
+          <ul className="border-r">
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Our Gallery </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Our Videos </Link>
+            </li>
+          </ul>
+          <ul className="border-r">
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Our Jobs </Link>
+            </li>
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Contact us </Link>
+            </li>
+          </ul>
+          <ul className="">
+            <li className="text-xl  my-3 pl-10">
+              <Link href="/contact">Follow us </Link>
+            </li>
+            <li className="text-xl flex gap-4 small_heading  my-3 pl-10">
+              <FaFacebookF /> <FaInstagram /> <FaYoutube />
+            </li>
+          </ul>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-10 my-4 text-left">
           {/* Delhi Branch */}
           <div>
-            <h4 className="font-bold text-white underline mb-2">
+            <h4 className="font-bold small_heading text-white underline mb-2">
               Delhi Branch
             </h4>
             <p>CD 163, Block CD, Dakshini Pitampura,</p>
@@ -178,7 +193,7 @@ export default function Footer() {
 
           {/* Mumbai Branch */}
           <div>
-            <h4 className="font-bold text-white underline mb-2">
+            <h4 className="font-bold small_heading text-white underline mb-2">
               Mumbai Branch
             </h4>
             <p>
@@ -189,7 +204,7 @@ export default function Footer() {
 
           {/* Hyderabad Branch */}
           <div>
-            <h4 className="font-bold text-white underline mb-2">
+            <h4 className="font-bold small_heading text-white underline mb-2">
               Hydrabad Branch
             </h4>
             <p>
@@ -199,6 +214,11 @@ export default function Footer() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="border-t bg-black border-gray-700 py-7 md:px-10 lg:px-20 text-sm  text-gray-300">
+        <h5 className="title font-bold text-center">
+          © 2025 – All Rights Reserved to RYAN CLINIC
+        </h5>
       </div>
     </footer>
   );

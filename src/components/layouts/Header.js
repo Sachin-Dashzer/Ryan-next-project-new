@@ -102,7 +102,7 @@ const Header = () => {
                       </button>
 
                       {openDropdown === item.key && (
-                        <div className="absolute z-10  left-0 w-48 rounded-sm bg-primary ">
+                          <div className="absolute z-10  left-0 w-48 rounded-sm bg-primary ">
                           <ul className="py-1">
                             {item.dropdownItems.map((dropdownItem) => (
                               <li key={dropdownItem.href}>
