@@ -1,9 +1,9 @@
-// app/api/hello/route.js
+import { dbConnect } from "@/lib/dbConnect";
+// import User from "@/models/User";
 
-export async function GET(request) {
-    return new Response(JSON.stringify({ message: 'Hello from API!' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-  
+export async function GET(req) {
+  await dbConnect();
+
+  // const users = await User.find();
+  return Response.json({});
+}
