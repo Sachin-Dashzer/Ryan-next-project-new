@@ -1,8 +1,13 @@
+import dbConnect from "./dbConnect";
 
-export const asyncHandler = (fn) => async (req, res, next) => {
+export const asyncHandler = (fn) => async (req, context) => {
   try {
-    await fn(req, res, next);
+    await dbConnect();
+    return await fn(req, res, next);
   } catch (error) {
-    console.error("Error occurred after response was sent:", error);
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
