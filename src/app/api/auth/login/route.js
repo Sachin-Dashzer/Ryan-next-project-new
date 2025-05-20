@@ -1,12 +1,16 @@
 
+
 import { NextResponse } from "next/server";
 import { asyncHandler } from "@/lib/asyncHandler";
+import { registerUser } from "@/controllers/authController";
 
-export const Get = asyncHandler(async()=>{
 
 
-    const result = await loginUser();
+export const POST = asyncHandler(async(req) =>{
 
-    return NextResponse.json(result, { status: 200 });
 
+    const body = await req.json();
+    const data = await registerUser(body);
+
+    return NextResponse.json(data , {status : 201});
 })
