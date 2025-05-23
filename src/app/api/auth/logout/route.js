@@ -1,18 +1,17 @@
-
-
-
 import { NextResponse } from "next/server";
+import { asyncHandler } from "@/lib/asyncHandler";
 
+export const GET = asyncHandler(async (req) => {
+  const response = NextResponse.json({
+    success: true,
+    message: "User logout successfully",
+  });
 
-export async function Get(req , res ){
+  response.cookies.set("token", "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0), 
+  });
 
-    try{
-
-        const body = await req.body()
-
-
-    }
-    catch(error){
-        console.log(error)
-    }
-}
+  return response;
+});
