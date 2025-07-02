@@ -1,4 +1,3 @@
-// components/HairTransplantForm.jsx
 "use client";
 
 import { useState } from "react";
@@ -19,7 +18,6 @@ export default function ContactForm() {
     name: "",
     email: "",
     phone: "",
-    address: "",
     serviceType: "",
     message: "",
   });
@@ -41,7 +39,7 @@ export default function ContactForm() {
 
   return (
     <div className="bg-white rounded-lg shadow-new overflow-hidden">
-      <div className="p-6">
+      <div className="p-6 py-8">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Book Your Free consult Now !
         </h2>
@@ -70,12 +68,13 @@ export default function ContactForm() {
             onChange={handleChange}
             required
           />
-          <Input
+         
+          {/* <Input
             placeholder="Your Address"
             name="address"
             value={formData.address}
             onChange={handleChange}
-          />
+          /> */}
           <Select value={formData.serviceType} onValueChange={handleSelectChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="What do you want" />
@@ -94,7 +93,7 @@ export default function ContactForm() {
             onChange={handleChange}
             className="h-24"
           />
-          <Button type="submit" className="w-full bg-gray-800 hover:bg-gray-900">
+          <Button type="submit" className="w-full h-12 text-white bg-gray-800 hover:bg-gray-900">
             Get a Free Consult
           </Button>
         </form>

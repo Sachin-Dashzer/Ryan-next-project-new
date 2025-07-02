@@ -31,8 +31,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`antialiased hindSiliguri.className baloo.className`} >
+    <html lang="en" className={baloo.variable}>
+      <body className="antialiased">
 
         <Header />
 
