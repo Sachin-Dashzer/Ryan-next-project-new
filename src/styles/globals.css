@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: rgba(45, 45, 45, 1);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #f2f2f2;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  outline: 1px solid rgb(19, 19, 19);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a , button{
+  cursor: pointer;
+}
+
+
+/* *,
+*::after,
+*::before,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+} */
+
+.text {
+  font-size: 16px;
+}
+
+p {
+  font-size: 18px;
+}
+
+section {
+  padding: 60px 0 60px;
+}
+
+.large_heading {
+  font-size: 40px;
+}
+
+.heading {
+  font-size: 35px;
+}
+
+.sub_heading {
+  font-size: 30px;
+}
+
+.small_heading {
+  font-size: 26px;
+  line-height: 40px;
+}
+
+.title {
+  font-size: 19px;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+.shadow-new {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.137);
+}
+
+.bg-light {
+  background-color: #f2f2f2 !important;
+}
+
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  color: var(--foreground);
+  font-size: 24px !important;
+  font-weight: bolder;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  top: 45% !important;
+  background-color: white;
+  padding: 10px 20px !important;
+  border-radius: 50%;
+  transform: scale(0.6);
+}
+
+.whyChooseGrid {
+  display: grid;
+  grid-template-columns: 40% 57%;
+  gap: 3%;
+}
+
+
+.branchslides .brachbox{
+  transition: all 0.4s ease-in-out;
+}
+.branchslides:hover .brachbox{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.825);
+  
+}
+.branchslides:hover .brachbox .title{
+  transition: all 0.4s ease-in-out;
+  font-size: 30px;
+}
+.branchslides:hover .brachbox button{
+  display: block;
+  transition: all 0.4s ease-in-out;
+}
+
+
+
+.bg-primary{
+  background-color: var(--primary);
+}
+
+
+
+.sun-editor .se-wrapper {
+
+  min-height: 200px;
+
+}
+
+
+.sun-editor .se-svg, .sun-editor button > svg {
+    width: 11px !important;
+    height: 11px !important;
+}
+
+.sun-editor .se-btn-module-border {
+    margin: 5px 10px !important;
+}
+
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+  p {
+    font-size: 14px;
+  }
+
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .header {
+    padding: 0px 0;
+  }
+
+  .large_heading {
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  .small_heading {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  section {
+    overflow: inherit;
+    padding: 30px 0;
+  }
+
+  .heading {
+    font-size: 24px;
+    line-height: normal;
+  }
+
+  .sub_heading {
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+
+  
+}
+
+@media (min-width: 768px) and (max-width: 990px) {
+  p {
+    font-size: 16px;
+  }
+
+  section {
+    padding: 35px 0 35px;
+  }
+
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .large_heading {
+    font-size: 33px;
+    line-height: 50px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .sub_heading {
+    font-size: 23px;
+  }
+
+  .small_heading {
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 990px) and (max-width: 1024px) {
+  .containerFull {
+    padding: 0 15px;
+  }
+
+  .popup-offerForm-box {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .containerFull {
+    padding: 0 30px;
+  }
+
+  /* .popup-offerForm-box{
+    width: 65%;
+  } */
+}
+
+@media (min-width: 1280px) {
+  .containerFull {
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1600px) {
+  .containerFull {
+    max-width: 1706px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1320px;
+  }
+}
