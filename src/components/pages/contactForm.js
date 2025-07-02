@@ -34,16 +34,15 @@ export default function ContactForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // Handle form submission logic here
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-new overflow-hidden">
+    <div className="bg-white rounded-lg shadow-new stickyItem">
       <div className="p-6 py-8">
-        <h2 className="text-2xl font-semibold mb-6 text-center">
+        <h2 className="text-3xl font-semibold mb-4 text-center">
           Book Your Free consult Now !
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-flow-col gap-4">
             <Input
               placeholder="Your Name*"

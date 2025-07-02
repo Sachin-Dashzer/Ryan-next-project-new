@@ -18,7 +18,7 @@
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: #0a0a0a;
 }
 
 body::-webkit-scrollbar {
@@ -54,9 +54,6 @@ h4 {
   font-size: 16px;
 }
 
-p {
-  font-size: 18px;
-}
 
 section {
   padding: 60px 0 60px;
@@ -95,7 +92,7 @@ section {
   background-color: #4a778b;
 }
 .bg-light {
-  background-color: #f2f2f2 !important;
+  background-color: #f2f2f2d0 !important;
 }
 
 .swiper-button-prev:after,
@@ -205,7 +202,11 @@ section {
   font-size: 15px;
 }
 
-
+.pageLayout{
+  display: grid;
+  grid-template-columns: 60% 40%;
+  column-gap: 20px;
+}
 
 
 
@@ -242,7 +243,6 @@ section {
   }
 
   section {
-    overflow: inherit;
     padding: 30px 0;
   }
 
