@@ -1,48 +1,63 @@
 import { NextResponse } from "next/server";
 import { withDB } from "@/lib/withDB";
-import Blog from "@/models/blog";
+import Services from "@/models/service";
 
 const handler = async (req) => {
   const body = await req.json();
+  const {
+    metadata,
+    bannerData,
+    overviewData,
+    typesData,
+    benefitsData,
+    faq,
+    extraFields,
+  } = body;
 
-  const { metaTitle, metaDiscription ,pageTitle, pageUrl, pageImageUrl, blogTitle, blogContent } = body;
-
-  if (!metaDiscription || !metaTitle || !pageTitle || !pageUrl || !pageImageUrl || !blogTitle || !blogContent) {
+  if (
+    !metadata?.title ||
+    !metadata?.description ||
+    !metadata?.pageurl ||
+    !bannerData?.title ||
+    !bannerData?.description ||
+    !bannerData?.url ||
+    !overviewData ||
+    !benefitsData?.details ||
+    !benefitsData?.image
+  ) {
     return NextResponse.json(
-      {
-        message: "Please fill all the required fields",
-        data: body,
-      },
+      { message: "Please fill all the required fields", data: body },
       { status: 400 }
     );
   }
 
-  const existedBlog = await Blog.findOne({ pageUrl });
+  const existedService = await Services.findOne({
+    "metadata.pageurl": metadata.pageurl,
+  });
 
-  if (existedBlog) {
-    return NextResponse({
-      message: "Blog already exists",
-      data: body,
-      status: 400,
-    });
+  if (existedService) {
+    return NextResponse.json(
+      { message: "Service already exists", data: body },
+      { status: 409 }
+    );
   }
-  const newBlog = new Blog({
-    metaTitle,
-    metaDiscription,
-    pageTitle,
-    pageUrl,
-    pageImageUrl,
-    blogTitle,
-    blogContent,
+
+  const newService = new Services({
+    metadata,
+    bannerData,
+    overviewData,
+    typesData,
+    benefitsData,
+    faq,
+    extraFields,
   });
 
-  await newBlog.save();
+  await newService.save();
 
-  return NextResponse.json({
-    message: "Blog received successfully!",
-    data: body,
-    status: 200,
-  });
+  return NextResponse.json(
+    { message: "Service registered successfully!", data: newService },
+    { status: 201 }
+  );
 };
 
 export const POST = withDB(handler);

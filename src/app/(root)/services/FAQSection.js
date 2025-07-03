@@ -37,7 +37,6 @@ export default function FAQSection() {
     <section className="bg-light">
       <div className="containerFull">
         <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-8 items-center">
-          {/* Left - FAQ List */}
           <div className="px-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-6 underline underline-offset-4">
               Frequently Asked Questions About Dermaplaning
