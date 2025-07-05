@@ -1,102 +1,36 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
-const ServiceSchema = new mongoose.Schema(
-  {
-    metadata: {
-      title: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      description: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      pageurl: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    },
-
-    bannerData: {
-      title: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      description: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      url: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    },
-
-    overviewData: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    typesData: {
-      images: [
-        {
-          type: String,
-          trim: true,
-        },
-      ],
-      details: [
-        {
-          type: String,
-          trim: true,
-        },
-      ],
-    },
-
-    benefitsData: {
-      details: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      image: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    },
-
-    faq: {
-      details: [
-        {
-          type: String,
-          trim: true,
-        },
-      ],
-    },
-    extraFields: {
-      detail1: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      detail2: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    },
+const serviceSchema = new mongoose.Schema({
+  bannerData: {
+    description: String,
+    imageurl: String,
+    title: String
   },
-  {
-    timestamps: true,
+  benefitsData: {
+    details: String,
+    image: String
+  },
+  extraFields: {
+    detail1: String,
+    detail2: String
+  },
+  faq: [{
+    question: String,
+    length: Number
+  }],
+  metadata: {
+    description: String,
+    pageurl: String,
+    title: String,
+    overviewData: String
+  },
+  typesData: {
+    details: String,
+    images: [String]
   }
-);
+}, {
+  timestamps: true
+});
 
-export default mongoose.models.Service ||
-  mongoose.model("Service", ServiceSchema);
+export default mongoose.models.Service || mongoose.model('Service', serviceSchema);
+

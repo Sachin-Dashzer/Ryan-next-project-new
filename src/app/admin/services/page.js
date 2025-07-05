@@ -1,17 +1,25 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { Plus, Trash, Save, ChevronRight } from "lucide-react";
+import { Plus, Trash, Save } from "lucide-react";
+import ImageUploader from "@/components/admin/ImageUploader";
+
 const SunEditor = dynamic(() => import("suneditor-react"), { ssr: false });
 import "suneditor/dist/css/suneditor.min.css";
 
 export default function CreateServicePage() {
-  const editorRef = useRef(null);
+  // Editor refs
+  const overviewEditorRef = useRef(null);
+  const typesEditorRef = useRef(null);
+  const benefitsEditorRef = useRef(null);
+  const additionalDetail1EditorRef = useRef(null);
+  const additionalDetail2EditorRef = useRef(null);
 
+  // Form state
   const [form, setForm] = useState({
     metadata: { title: "", description: "", pageurl: "" },
-    bannerData: { title: "", description: "", url: "" },
+    bannerData: { title: "", description: "", imageurl: "" },
     overviewData: "",
     typesData: { images: ["", "", ""], details: "" },
     benefitsData: { details: "", image: "" },
@@ -21,8 +29,8 @@ export default function CreateServicePage() {
   const [serverMsg, setServerMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ---------- helpers ---------- //
-  function update(path, value) {
+  // Generic form update helper
+  const updateForm = useCallback((path, value) => {
     setForm((prev) => {
       const next = structuredClone(prev);
       path.reduce((obj, key, idx) => {
@@ -32,68 +40,186 @@ export default function CreateServicePage() {
       }, next);
       return next;
     });
-  }
+  }, []);
 
-  // Array helpers for FAQ
-  const addFAQItem = () => {
+  // FAQ management
+  const addFAQItem = useCallback(() => {
     const newEntries = [...form.faq.entries, { question: "", answer: "" }];
-    update(["faq", "entries"], newEntries);
+    updateForm(["faq", "entries"], newEntries);
+  }, [form.faq.entries, updateForm]);
+
+  const updateFAQItem = useCallback(
+    (index, field) => (e) => {
+      const newEntries = [...form.faq.entries];
+      newEntries[index][field] = e.target.value;
+      updateForm(["faq", "entries"], newEntries);
+    },
+    [form.faq.entries, updateForm]
+  );
+
+  const removeFAQItem = useCallback(
+    (index) => () => {
+      const newEntries = form.faq.entries.filter((_, idx) => idx !== index);
+      updateForm(
+        ["faq", "entries"],
+        newEntries.length ? newEntries : [{ question: "", answer: "" }]
+      );
+    },
+    [form.faq.entries, updateForm]
+  );
+
+  // Image upload handlers
+  const handleBannerImageUpload = useCallback(
+    (url) => {
+      updateForm(["bannerData", "imageurl"], url);
+    },
+    [updateForm]
+  );
+
+  const handleServiceImageUpload = useCallback(
+    (index) => (url) => {
+      const newImages = [...form.typesData.images];
+      newImages[index] = url;
+      updateForm(["typesData", "images"], newImages);
+    },
+    [form.typesData.images, updateForm]
+  );
+
+  const handleBenefitsImageUpload = useCallback(
+    (url) => {
+      updateForm(["benefitsData", "image"], url);
+    },
+    [updateForm]
+  );
+
+  // Editor change handlers
+  const handleOverviewChange = useCallback(
+    (content) => {
+      updateForm(["overviewData"], content);
+    },
+    [updateForm]
+  );
+
+  const handleTypesChange = useCallback(
+    (content) => {
+      updateForm(["typesData", "details"], content);
+    },
+    [updateForm]
+  );
+
+  const handleBenefitsChange = useCallback(
+    (content) => {
+      updateForm(["benefitsData", "details"], content);
+    },
+    [updateForm]
+  );
+
+  const handleAdditionalDetail1Change = useCallback(
+    (content) => {
+      updateForm(["extraFields", "detail1"], content);
+    },
+    [updateForm]
+  );
+
+  const handleAdditionalDetail2Change = useCallback(
+    (content) => {
+      updateForm(["extraFields", "detail2"], content);
+    },
+    [updateForm]
+  );
+
+  // Form validation
+  const validateForm = () => {
+    const { metadata, bannerData, overviewData, typesData, benefitsData, faq } =
+      form;
+
+    if (!metadata.title || !metadata.description || !metadata.pageurl) {
+      return "Please fill in all metadata fields";
+    }
+    if (!bannerData.title || !bannerData.description || !bannerData.imageurl) {
+      return "Please fill in all banner fields";
+    }
+    if (!overviewData) {
+      return "Please provide an overview description";
+    }
+    if (!typesData.details) {
+      return "Please provide type description";
+    }
+    if (typesData.images.some((img) => !img)) {
+      return "Please provide all 3 service images";
+    }
+    if (!benefitsData.details || !benefitsData.image) {
+      return "Please fill in all benefits fields";
+    }
+    if (faq.entries.some((entry) => !entry.question || !entry.answer)) {
+      return "Please fill in all FAQ questions and answers";
+    }
+
+    return null;
   };
 
-  const updateFAQItem = (i, field) => (e) => {
-    const newEntries = [...form.faq.entries];
-    newEntries[i][field] = e.target.value;
-    update(["faq", "entries"], newEntries);
+  // Reset form after successful submission
+  const resetForm = () => {
+    setForm({
+      metadata: { title: "", description: "", pageurl: "" },
+      bannerData: { title: "", description: "", imageurl: "" },
+      overviewData: "",
+      typesData: { images: ["", "", ""], details: "" },
+      benefitsData: { details: "", image: "" },
+      faq: { entries: [{ question: "", answer: "" }] },
+      extraFields: { detail1: "", detail2: "" },
+    });
+
+    // Reset editors with proper error handling
+    setTimeout(() => {
+      [
+        overviewEditorRef,
+        typesEditorRef,
+        benefitsEditorRef,
+        additionalDetail1EditorRef,
+        additionalDetail2EditorRef,
+      ].forEach((ref) => {
+        try {
+          if (ref.current && typeof ref.current.setContents === "function") {
+            ref.current.setContents("");
+          }
+        } catch (error) {
+          console.warn("Error resetting editor:", error);
+        }
+      });
+    }, 100);
   };
 
-  const removeFAQItem = (i) => () => {
-    const newEntries = form.faq.entries.filter((_, idx) => idx !== i);
-    update(
-      ["faq", "entries"],
-      newEntries.length ? newEntries : [{ question: "", answer: "" }]
-    );
-  };
-
-  const handleEditorChange = (content) => {
-    setFormData((prev) => ({
-      ...prev,
-      blogContent: content,
-    }));
-  };
-
-  // Helper for image URLs (fixed 3 items)
-  const updateImageItem = (i) => (e) => {
-    const newImages = [...form.typesData.images];
-    newImages[i] = e.target.value;
-    update(["typesData", "images"], newImages);
-  };
-
-  // ---------- submit ---------- //
+  // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setServerMsg("");
 
+    const validationError = validateForm();
+    if (validationError) {
+      setServerMsg(`Validation Error: ${validationError}`);
+      setLoading(false);
+      return;
+    }
+
+    console.log(form);
+
     try {
-      const res = await fetch("/api/services/register", {
+      const res = await fetch("/api/service/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       const data = await res.json();
+
       setServerMsg(
         data.ok ? "Service created successfully!" : `Error: ${data.message}`
       );
-      if (data.ok)
-        setForm({
-          metadata: { title: "", description: "", pageurl: "" },
-          bannerData: { title: "", description: "", url: "" },
-          overviewData: "",
-          typesData: { images: ["", "", ""], details: "" },
-          benefitsData: { details: "", image: "" },
-          faq: { entries: [{ question: "", answer: "" }] },
-          extraFields: { detail1: "", detail2: "" },
-        });
+
+      if (data.ok) {
+        resetForm();
+      }
     } catch (err) {
       setServerMsg(`Request failed: ${err.message}`);
     } finally {
@@ -101,74 +227,166 @@ export default function CreateServicePage() {
     }
   };
 
-  // ---------- UI builders ---------- //
-  const renderFAQEntries = () => {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">FAQ Entries</h3>
-          <button
-            type="button"
-            onClick={addFAQItem}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            Add FAQ
-          </button>
+  // Fixed Editor configuration - Minimal setup to avoid iframe issues
+  const sunEditorOptions = {
+    height: 300,
+    buttonList: [
+      [
+        "undo",
+        "redo",
+        "formatBlock",
+        "bold",
+        "underline",
+        "italic",
+        "fontColor",
+        "hiliteColor",
+        "align",
+        "list",
+        "link",
+        "image",
+        "codeView",
+      ],
+    ],
+   
+  };
+
+  // Input field component
+  const InputField = ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    required = false,
+    type = "text",
+  }) => (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        required={required}
+        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+      />
+    </div>
+  );
+
+  // Enhanced Editor component with comprehensive error handling
+  const EditorField = ({ label, editorRef, onChange, defaultValue }) => {
+    const [editorKey, setEditorKey] = useState(0);
+    const [editorError, setEditorError] = useState(null);
+
+    const handleEditorError = useCallback((error) => {
+      console.warn("SunEditor error caught:", error);
+      setEditorError(error);
+
+      // Try to recover by reinitializing the editor
+      setTimeout(() => {
+        setEditorKey((prev) => prev + 1);
+        setEditorError(null);
+      }, 1000);
+    }, []);
+
+    const getSunEditorInstance = useCallback(
+      (sunEditor) => {
+        if (sunEditor) {
+          try {
+            editorRef.current = sunEditor;
+
+            // Comprehensive iframe auto-height fix
+
+            // Additional safety checks
+
+            // Disable any auto-height functionality
+            if (sunEditor.options) {
+              sunEditor.options.enableAutoSize = false;
+            }
+          } catch (error) {
+            console.warn("Error setting up editor instance:", error);
+            handleEditorError(error);
+          }
+        }
+      },
+      [editorRef, handleEditorError]
+    );
+
+    const handleLoad = useCallback(() => {
+      try {
+        if (editorRef.current && defaultValue) {
+          editorRef.current.setContents(defaultValue);
+        }
+      } catch (error) {
+        console.warn("Error loading editor content:", error);
+        handleEditorError(error);
+      }
+    }, [editorRef, defaultValue, handleEditorError]);
+
+    if (editorError) {
+      return (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {label}
+          </label>
+          <div className="w-full p-4 border border-red-300 rounded-lg bg-red-50">
+            <p className="text-red-700 text-sm mb-2">
+              Editor temporarily unavailable. Attempting to recover...
+            </p>
+            <textarea
+              value={defaultValue || ""}
+              onChange={(e) => onChange(e.target.value)}
+              rows={8}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              placeholder="Enter content here..."
+            />
+          </div>
         </div>
-        <div className="space-y-6">
-          {form.faq.entries.map((entry, i) => (
-            <div key={i} className="bg-gray-50 rounded-lg p-4 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">
-                  FAQ {i + 1}
-                </span>
-                {form.faq.entries.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={removeFAQItem(i)}
-                    className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
-                  >
-                    <Trash className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Question
-                </label>
-                <input
-                  type="text"
-                  value={entry.question}
-                  onChange={updateFAQItem(i, "question")}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  placeholder="Enter FAQ question"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Answer
-                </label>
-                <textarea
-                  value={entry.answer}
-                  onChange={updateFAQItem(i, "answer")}
-                  rows={3}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
-                  placeholder="Enter FAQ answer"
-                  required
-                />
-              </div>
-            </div>
-          ))}
+      );
+    }
+
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label}
+        </label>
+        <div className="sun-editor-wrapper">
+          <SunEditor
+            key={editorKey}
+            getSunEditorInstance={getSunEditorInstance}
+            onChange={onChange}
+            defaultValue={defaultValue || ""}
+            setOptions={sunEditorOptions}
+            onLoad={handleLoad}
+            onError={handleEditorError}
+            // Add these props for better error handling
+            disable={false}
+            readOnly={false}
+            placeholder="Enter content here..."
+            autoFocus={false}
+            lang="en"
+          />
         </div>
       </div>
     );
   };
 
+  // Section wrapper component
+  const Section = ({ title, description, children }) => (
+    <div className="bg-white rounded-xl border border-gray-200 p-8">
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">{title}</h2>
+        <p className="text-gray-600">{description}</p>
+      </div>
+      {children}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen ">
-      <div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-8">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900">
             Create New Service
@@ -180,373 +398,275 @@ export default function CreateServicePage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="space-y-12">
+        <form onSubmit={handleSubmit} className="space-y-12">
           {/* Metadata Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Service Metadata
-              </h2>
-              <p className="text-gray-600">
-                Basic information about your service
-              </p>
-            </div>
+          <Section
+            title="Service Metadata"
+            description="Basic information about your service"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Service Title
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter service title"
-                  value={form.metadata.title}
-                  onChange={(e) =>
-                    update(["metadata", "title"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
-                </label>
-                <input
-                  type="text"
-                  placeholder="Brief description"
-                  value={form.metadata.description}
-                  onChange={(e) =>
-                    update(["metadata", "description"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
+              <InputField
+                label="Service Title"
+                value={form.metadata.title}
+                onChange={(e) =>
+                  updateForm(["metadata", "title"], e.target.value)
+                }
+                placeholder="Enter service title"
+                required
+              />
+              <InputField
+                label="Description"
+                value={form.metadata.description}
+                onChange={(e) =>
+                  updateForm(["metadata", "description"], e.target.value)
+                }
+                placeholder="Brief description"
+                required
+              />
               <div className="lg:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Page URL
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://example.com/service-page"
+                <InputField
+                  label="Page URL"
                   value={form.metadata.pageurl}
                   onChange={(e) =>
-                    update(["metadata", "pageurl"], e.target.value)
+                    updateForm(["metadata", "pageurl"], e.target.value)
                   }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  placeholder="https://example.com/service-page"
                   required
                 />
               </div>
             </div>
-          </div>
+          </Section>
 
           {/* Banner Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Banner Configuration
-              </h2>
-              <p className="text-gray-600">
-                Set up the main banner for your service page
-              </p>
-            </div>
+          <Section
+            title="Banner Configuration"
+            description="Set up the main banner for your service page"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Banner Title
-                </label>
-                <input
-                  type="text"
-                  placeholder="Main banner title"
-                  value={form.bannerData.title}
-                  onChange={(e) =>
-                    update(["bannerData", "title"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Banner Description
-                </label>
-                <input
-                  type="text"
-                  placeholder="Banner subtitle or description"
-                  value={form.bannerData.description}
-                  onChange={(e) =>
-                    update(["bannerData", "description"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
+              <InputField
+                label="Banner Title"
+                value={form.bannerData.title}
+                onChange={(e) =>
+                  updateForm(["bannerData", "title"], e.target.value)
+                }
+                placeholder="Main banner title"
+                required
+              />
+              <InputField
+                label="Banner Description"
+                value={form.bannerData.description}
+                onChange={(e) =>
+                  updateForm(["bannerData", "description"], e.target.value)
+                }
+                placeholder="Banner subtitle or description"
+                required
+              />
               <div className="lg:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Banner Image URL
                 </label>
-                <input
-                  type="url"
-                  placeholder="https://example.com/banner-image.jpg"
-                  value={form.bannerData.url}
-                  onChange={(e) =>
-                    update(["bannerData", "url"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
+                <div>
+                  <ImageUploader onUpload={handleBannerImageUpload} />
+                  {form.bannerData.imageurl && (
+                    <a
+                      className="text-xs text-blue-500 cursor-pointer"
+                      target="blank"
+                      href={form.bannerData.imageurl}
+                    >
+                      {" "}
+                      {form.bannerData.imageurl}
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </Section>
 
           {/* Overview Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Service Overview
-              </h2>
-              <p className="text-gray-600">Detailed overview of your service</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Overview Content
-              </label>
-              <SunEditor
-                getSunEditorInstance={(sunEditor) => {
-                  editorRef.current = sunEditor;
-                }}
-                onChange={handleEditorChange}
-                defaultValue=""
-                setOptions={{
-                  height: 300,
-                  buttonList: [
-                    [
-                      "undo",
-                      "redo",
-                      "formatBlock",
-                      "bold",
-                      "underline",
-                      "italic",
-                      "fontColor",
-                      "hiliteColor",
-                      "align",
-                      "list",
-                      "link",
-                      "image",
-                      "codeView",
-                    ],
-                  ],
-                }}
-              />
-            </div>
-          </div>
+          <Section
+            title="Service Overview"
+            description="Detailed overview of your service"
+          >
+            <EditorField
+              label="Overview Content"
+              editorRef={overviewEditorRef}
+              onChange={handleOverviewChange}
+              defaultValue={form.overviewData}
+            />
+          </Section>
 
           {/* Types Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Service Types
-              </h2>
-              <p className="text-gray-600">
-                Define your service type and add three representative images
-              </p>
-            </div>
+          <Section
+            title="Service Types"
+            description="Define your service type and add three representative images"
+          >
             <div className="space-y-8">
-              {/* Type Details - Single Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Type Description
-                </label>
-                <SunEditor
-                  getSunEditorInstance={(sunEditor) => {
-                    editorRef.current = sunEditor;
-                  }}
-                  onChange={handleEditorChange}
-                  defaultValue=""
-                  setOptions={{
-                    height: 300,
-                    buttonList: [
-                      [
-                        "undo",
-                        "redo",
-                        "formatBlock",
-                        "bold",
-                        "underline",
-                        "italic",
-                        "fontColor",
-                        "hiliteColor",
-                        "align",
-                        "list",
-                        "link",
-                        "image",
-                        "codeView",
-                      ],
-                    ],
-                  }}
-                />
-              </div>
+              <EditorField
+                label="Type Description"
+                editorRef={typesEditorRef}
+                onChange={handleTypesChange}
+                defaultValue={form.typesData.details}
+              />
 
-              {/* Image URLs - Fixed 3 */}
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                   Service Images (3 required)
                 </h3>
                 <div className="space-y-4">
-                  {form.typesData.images.map((imageUrl, i) => (
-                    <div key={i}>
+                  {form.typesData.images.map((imageUrl, index) => (
+                    <div key={index}>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Image {i + 1} URL
+                        Image {index + 1} URL
                       </label>
-                      <input
-                        type="url"
-                        value={imageUrl}
-                        onChange={updateImageItem(i)}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                        placeholder={`https://example.com/service-image-${
-                          i + 1
-                        }.jpg`}
-                        required
-                      />
+                      <div className="space-y-2">
+                        <ImageUploader
+                          onUpload={handleServiceImageUpload(index)}
+                        />
+                        {imageUrl && (
+                          <a
+                            className="text-xs text-blue-500 cursor-pointer "
+                            target="blank"
+                            href={imageUrl}
+                          >
+                            {imageUrl}
+                          </a>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
+          </Section>
 
           {/* Benefits Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Service Benefits
-              </h2>
-              <p className="text-gray-600">
-                Highlight the key benefits of your service
-              </p>
-            </div>
+          <Section
+            title="Service Benefits"
+            description="Highlight the key benefits of your service"
+          >
             <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Benefits Description
-                </label>
-                <SunEditor
-                  getSunEditorInstance={(sunEditor) => {
-                    editorRef.current = sunEditor;
-                  }}
-                  onChange={handleEditorChange}
-                  defaultValue=""
-                  setOptions={{
-                    height: 300,
-                    buttonList: [
-                      [
-                        "undo",
-                        "redo",
-                        "formatBlock",
-                        "bold",
-                        "underline",
-                        "italic",
-                        "fontColor",
-                        "hiliteColor",
-                        "align",
-                        "list",
-                        "link",
-                        "image",
-                        "codeView",
-                      ],
-                    ],
-                  }}
-                />{" "}
-              </div>
+              <EditorField
+                label="Benefits Description"
+                editorRef={benefitsEditorRef}
+                onChange={handleBenefitsChange}
+                defaultValue={form.benefitsData.details}
+              />
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Benefits Image URL
                 </label>
-                <input
-                  type="url"
-                  placeholder="https://example.com/benefits-image.jpg"
-                  value={form.benefitsData.image}
-                  onChange={(e) =>
-                    update(["benefitsData", "image"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
+                <div className="space-y-2">
+                  <ImageUploader onUpload={handleBenefitsImageUpload} />
+                  {form.benefitsData.image && (
+                    <a
+                      className="text-xs text-blue-500 cursor-pointer"
+                      target="blank"
+                      href={form.benefitsData.image}
+                    >
+                      {" "}
+                      {form.benefitsData.image}
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </Section>
 
           {/* FAQ Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-gray-600">
-                Add common questions and answers about your service
-              </p>
+          <Section
+            title="Frequently Asked Questions"
+            description="Add common questions and answers about your service"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium text-gray-900">
+                  FAQ Entries
+                </h3>
+                <button
+                  type="button"
+                  onClick={addFAQItem}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 transition-colors"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add FAQ
+                </button>
+              </div>
+              <div className="space-y-6">
+                {form.faq.entries.map((entry, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-50 rounded-lg p-4 space-y-4"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">
+                        FAQ {index + 1}
+                      </span>
+                      {form.faq.entries.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={removeFAQItem(index)}
+                          className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                    <InputField
+                      label="Question"
+                      value={entry.question}
+                      onChange={updateFAQItem(index, "question")}
+                      placeholder="Enter FAQ question"
+                      required
+                    />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Answer
+                      </label>
+                      <textarea
+                        value={entry.answer}
+                        onChange={updateFAQItem(index, "answer")}
+                        rows={3}
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                        placeholder="Enter FAQ answer"
+                        required
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            {renderFAQEntries()}
-          </div>
+          </Section>
 
-          {/* Extra Fields Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Additional Information
-              </h2>
-              <p className="text-gray-600">
-                Any additional details or custom fields
-              </p>
-            </div>
+          {/* Additional Information Section */}
+          <Section
+            title="Additional Information"
+            description="Any additional details or custom fields"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Additional Detail 1
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter additional detail"
-                  value={form.extraFields.detail1}
-                  onChange={(e) =>
-                    update(["extraFields", "detail1"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Additional Detail 2
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter additional detail"
-                  value={form.extraFields.detail2}
-                  onChange={(e) =>
-                    update(["extraFields", "detail2"], e.target.value)
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  required
-                />
-              </div>
+              <EditorField
+                label="Additional Detail 1"
+                editorRef={additionalDetail1EditorRef}
+                onChange={handleAdditionalDetail1Change}
+                defaultValue={form.extraFields.detail1}
+              />
+              <EditorField
+                label="Additional Detail 2"
+                editorRef={additionalDetail2EditorRef}
+                onChange={handleAdditionalDetail2Change}
+                defaultValue={form.extraFields.detail2}
+              />
             </div>
-          </div>
+          </Section>
 
           {/* Submit Section */}
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
+          <Section
+            title="Ready to Create Service?"
+            description="Review all information before submitting"
+          >
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">
-                  Ready to Create Service?
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Review all information before submitting
-                </p>
-              </div>
               <button
                 type="submit"
                 disabled={loading}
-                onClick={handleSubmit}
                 className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? (
@@ -574,8 +694,8 @@ export default function CreateServicePage() {
                 {serverMsg}
               </div>
             )}
-          </div>
-        </div>
+          </Section>
+        </form>
       </div>
     </div>
   );
