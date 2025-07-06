@@ -1,12 +1,198 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useMemo, memo } from "react";
 import dynamic from "next/dynamic";
 import { Plus, Trash, Save } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
 
 const SunEditor = dynamic(() => import("suneditor-react"), { ssr: false });
 import "suneditor/dist/css/suneditor.min.css";
+
+// Memoized Input Field Component
+const InputField = memo(({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required,
+  type = "text",
+}) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      {label}
+    </label>
+    <input
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      required={required}
+      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+    />
+  </div>
+));
+
+// Memoized Editor Field Component
+const EditorField = memo(({ label, editorRef, onChange, defaultValue, editorId }) => {
+  const [editorError, setEditorError] = useState(null);
+
+  const handleEditorError = useCallback((error) => {
+    console.warn("SunEditor error caught:", error);
+    setEditorError(error);
+  }, []);
+
+  const getSunEditorInstance = useCallback(
+    (sunEditor) => {
+      if (sunEditor) {
+        try {
+          editorRef.current = sunEditor;
+          if (sunEditor.options) {
+            sunEditor.options.enableAutoSize = false;
+          }
+        } catch (error) {
+          console.warn("Error setting up editor instance:", error);
+          handleEditorError(error);
+        }
+      }
+    },
+    [editorRef, handleEditorError]
+  );
+
+  const handleLoad = useCallback(() => {
+    try {
+      if (editorRef.current && defaultValue) {
+        editorRef.current.setContents(defaultValue);
+      }
+    } catch (error) {
+      console.warn("Error loading editor content:", error);
+      handleEditorError(error);
+    }
+  }, [editorRef, defaultValue, handleEditorError]);
+
+  const sunEditorOptions = useMemo(() => ({
+    height: 300,
+    buttonList: [
+      [
+        "undo",
+        "redo",
+        "formatBlock",
+        "bold",
+        "underline",
+        "italic",
+        "fontColor",
+        "hiliteColor",
+        "align",
+        "list",
+        "link",
+        "image",
+        "codeView",
+      ],
+    ],
+  }), []);
+
+  if (editorError) {
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label}
+        </label>
+        <div className="w-full p-4 border border-red-300 rounded-lg bg-red-50">
+          <p className="text-red-700 text-sm mb-2">
+            Editor temporarily unavailable. Attempting to recover...
+          </p>
+          <textarea
+            value={defaultValue || ""}
+            onChange={(e) => onChange(e.target.value)}
+            rows={8}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+            placeholder="Enter content here..."
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+      <div className="sun-editor-wrapper">
+        <SunEditor
+          key={editorId}
+          getSunEditorInstance={getSunEditorInstance}
+          onChange={onChange}
+          defaultValue={defaultValue || ""}
+          setOptions={sunEditorOptions}
+          onLoad={handleLoad}
+          onError={handleEditorError}
+          disable={false}
+          readOnly={false}
+          placeholder="Enter content here..."
+          autoFocus={false}
+          lang="en"
+        />
+      </div>
+    </div>
+  );
+});
+
+// Memoized Section Component
+const Section = memo(({ title, description, children }) => (
+  <div className="bg-white rounded-xl border border-gray-200 p-8">
+    <div className="mb-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-2">{title}</h2>
+      <p className="text-gray-600">{description}</p>
+    </div>
+    {children}
+  </div>
+));
+
+// Memoized FAQ Item Component
+const FAQItem = memo(({ entry, index, onQuestionChange, onAnswerChange, onRemove, canRemove }) => (
+  <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+    <div className="flex items-center justify-between">
+      <span className="text-sm font-medium text-gray-700">
+        FAQ {index + 1}
+      </span>
+      {canRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+        >
+          <Trash className="h-4 w-4" />
+        </button>
+      )}
+    </div>
+    <InputField
+      label="Question"
+      value={entry.question}
+      onChange={onQuestionChange}
+      placeholder="Enter FAQ question"
+      required={true}
+    />
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Answer
+      </label>
+      <textarea
+        value={entry.answer}
+        onChange={onAnswerChange}
+        rows={3}
+        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+        placeholder="Enter FAQ answer"
+        required
+      />
+    </div>
+  </div>
+));
+
+// Set display names for better debugging
+InputField.displayName = 'InputField';
+EditorField.displayName = 'EditorField';
+Section.displayName = 'Section';
+FAQItem.displayName = 'FAQItem';
 
 export default function CreateServicePage() {
   // Editor refs
@@ -29,109 +215,101 @@ export default function CreateServicePage() {
   const [serverMsg, setServerMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Generic form update helper
-  const updateForm = useCallback((path, value) => {
+  // Optimized form update helper with batch updates
+  const updateForm = useCallback((updates) => {
     setForm((prev) => {
-      const next = structuredClone(prev);
-      path.reduce((obj, key, idx) => {
-        if (idx === path.length - 1) obj[key] = value;
-        else obj = obj[key];
-        return obj;
-      }, next);
+      const next = { ...prev };
+      
+      // Handle multiple updates in a single setState call
+      if (Array.isArray(updates)) {
+        updates.forEach(({ path, value }) => {
+          path.reduce((obj, key, idx) => {
+            if (idx === path.length - 1) obj[key] = value;
+            else obj = obj[key];
+            return obj;
+          }, next);
+        });
+      } else {
+        const { path, value } = updates;
+        path.reduce((obj, key, idx) => {
+          if (idx === path.length - 1) obj[key] = value;
+          else obj = obj[key];
+          return obj;
+        }, next);
+      }
+      
       return next;
     });
   }, []);
 
-  // FAQ management
-  const addFAQItem = useCallback(() => {
-    const newEntries = [...form.faq.entries, { question: "", answer: "" }];
-    updateForm(["faq", "entries"], newEntries);
-  }, [form.faq.entries, updateForm]);
+  // Memoized handlers to prevent unnecessary re-renders
+  const handleMetadataChange = useCallback((field) => (e) => {
+    updateForm({ path: ["metadata", field], value: e.target.value });
+  }, [updateForm]);
 
-  const updateFAQItem = useCallback(
-    (index, field) => (e) => {
-      const newEntries = [...form.faq.entries];
-      newEntries[index][field] = e.target.value;
-      updateForm(["faq", "entries"], newEntries);
-    },
-    [form.faq.entries, updateForm]
-  );
-
-  const removeFAQItem = useCallback(
-    (index) => () => {
-      const newEntries = form.faq.entries.filter((_, idx) => idx !== index);
-      updateForm(
-        ["faq", "entries"],
-        newEntries.length ? newEntries : [{ question: "", answer: "" }]
-      );
-    },
-    [form.faq.entries, updateForm]
-  );
-
-  // Image upload handlers
-  const handleBannerImageUpload = useCallback(
-    (url) => {
-      updateForm(["bannerData", "imageurl"], url);
-    },
-    [updateForm]
-  );
-
-  const handleServiceImageUpload = useCallback(
-    (index) => (url) => {
-      const newImages = [...form.typesData.images];
-      newImages[index] = url;
-      updateForm(["typesData", "images"], newImages);
-    },
-    [form.typesData.images, updateForm]
-  );
-
-  const handleBenefitsImageUpload = useCallback(
-    (url) => {
-      updateForm(["benefitsData", "image"], url);
-    },
-    [updateForm]
-  );
+  const handleBannerDataChange = useCallback((field) => (e) => {
+    updateForm({ path: ["bannerData", field], value: e.target.value });
+  }, [updateForm]);
 
   // Editor change handlers
-  const handleOverviewChange = useCallback(
-    (content) => {
-      updateForm(["overviewData"], content);
-    },
-    [updateForm]
-  );
+  const handleOverviewChange = useCallback((content) => {
+    updateForm({ path: ["overviewData"], value: content });
+  }, [updateForm]);
 
-  const handleTypesChange = useCallback(
-    (content) => {
-      updateForm(["typesData", "details"], content);
-    },
-    [updateForm]
-  );
+  const handleTypesChange = useCallback((content) => {
+    updateForm({ path: ["typesData", "details"], value: content });
+  }, [updateForm]);
 
-  const handleBenefitsChange = useCallback(
-    (content) => {
-      updateForm(["benefitsData", "details"], content);
-    },
-    [updateForm]
-  );
+  const handleBenefitsChange = useCallback((content) => {
+    updateForm({ path: ["benefitsData", "details"], value: content });
+  }, [updateForm]);
 
-  const handleAdditionalDetail1Change = useCallback(
-    (content) => {
-      updateForm(["extraFields", "detail1"], content);
-    },
-    [updateForm]
-  );
+  const handleAdditionalDetail1Change = useCallback((content) => {
+    updateForm({ path: ["extraFields", "detail1"], value: content });
+  }, [updateForm]);
 
-  const handleAdditionalDetail2Change = useCallback(
-    (content) => {
-      updateForm(["extraFields", "detail2"], content);
-    },
-    [updateForm]
-  );
+  const handleAdditionalDetail2Change = useCallback((content) => {
+    updateForm({ path: ["extraFields", "detail2"], value: content });
+  }, [updateForm]);
+
+  // Image upload handlers
+  const handleBannerImageUpload = useCallback((url) => {
+    updateForm({ path: ["bannerData", "imageurl"], value: url });
+  }, [updateForm]);
+
+  const handleServiceImageUpload = useCallback((index) => (url) => {
+    const newImages = [...form.typesData.images];
+    newImages[index] = url;
+    updateForm({ path: ["typesData", "images"], value: newImages });
+  }, [form.typesData.images, updateForm]);
+
+  const handleBenefitsImageUpload = useCallback((url) => {
+    updateForm({ path: ["benefitsData", "image"], value: url });
+  }, [updateForm]);
+
+  // FAQ management with memoized handlers
+  const addFAQItem = useCallback(() => {
+    const newEntries = [...form.faq.entries, { question: "", answer: "" }];
+    updateForm({ path: ["faq", "entries"], value: newEntries });
+  }, [form.faq.entries, updateForm]);
+
+  const updateFAQItem = useCallback((index, field) => (e) => {
+    const newEntries = [...form.faq.entries];
+    newEntries[index][field] = e.target.value;
+    updateForm({ path: ["faq", "entries"], value: newEntries });
+  }, [form.faq.entries, updateForm]);
+
+  const removeFAQItem = useCallback((index) => () => {
+    const newEntries = form.faq.entries.filter((_, idx) => idx !== index);
+    updateForm({
+      path: ["faq", "entries"],
+      value: newEntries.length ? newEntries : [{ question: "", answer: "" }]
+    });
+  }, [form.faq.entries, updateForm]);
 
   // Form validation
-  const validateForm = () => {
-    const { metadata, bannerData, overviewData, typesData, benefitsData, faq } =
-      form;
+  const validateForm = useCallback(() => {
+    const { metadata, bannerData, overviewData, typesData, benefitsData, faq } = form;
 
     if (!metadata.title || !metadata.description || !metadata.pageurl) {
       return "Please fill in all metadata fields";
@@ -156,11 +334,11 @@ export default function CreateServicePage() {
     }
 
     return null;
-  };
+  }, [form]);
 
   // Reset form after successful submission
-  const resetForm = () => {
-    setForm({
+  const resetForm = useCallback(() => {
+    const initialForm = {
       metadata: { title: "", description: "", pageurl: "" },
       bannerData: { title: "", description: "", imageurl: "" },
       overviewData: "",
@@ -168,7 +346,9 @@ export default function CreateServicePage() {
       benefitsData: { details: "", image: "" },
       faq: { entries: [{ question: "", answer: "" }] },
       extraFields: { detail1: "", detail2: "" },
-    });
+    };
+    
+    setForm(initialForm);
 
     // Reset editors with proper error handling
     setTimeout(() => {
@@ -188,10 +368,10 @@ export default function CreateServicePage() {
         }
       });
     }, 100);
-  };
+  }, []);
 
   // Form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     setLoading(true);
     setServerMsg("");
@@ -225,163 +405,22 @@ export default function CreateServicePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [form, validateForm, resetForm]);
 
-  // Fixed Editor configuration - Minimal setup to avoid iframe issues
-  const sunEditorOptions = {
-    height: 300,
-    buttonList: [
-      [
-        "undo",
-        "redo",
-        "formatBlock",
-        "bold",
-        "underline",
-        "italic",
-        "fontColor",
-        "hiliteColor",
-        "align",
-        "list",
-        "link",
-        "image",
-        "codeView",
-      ],
-    ],
-   
-  };
-
-  // Input field component
-  const InputField = ({
-    label,
-    value,
-    onChange,
-    placeholder,
-    required = false,
-    type = "text",
-  }) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label}
-      </label>
-      <input
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        required={required}
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+  // Memoized FAQ items to prevent unnecessary re-renders
+  const faqItems = useMemo(() => {
+    return form.faq.entries.map((entry, index) => (
+      <FAQItem
+        key={index}
+        entry={entry}
+        index={index}
+        onQuestionChange={updateFAQItem(index, "question")}
+        onAnswerChange={updateFAQItem(index, "answer")}
+        onRemove={removeFAQItem(index)}
+        canRemove={form.faq.entries.length > 1}
       />
-    </div>
-  );
-
-  // Enhanced Editor component with comprehensive error handling
-  const EditorField = ({ label, editorRef, onChange, defaultValue }) => {
-    const [editorKey, setEditorKey] = useState(0);
-    const [editorError, setEditorError] = useState(null);
-
-    const handleEditorError = useCallback((error) => {
-      console.warn("SunEditor error caught:", error);
-      setEditorError(error);
-
-      // Try to recover by reinitializing the editor
-      setTimeout(() => {
-        setEditorKey((prev) => prev + 1);
-        setEditorError(null);
-      }, 1000);
-    }, []);
-
-    const getSunEditorInstance = useCallback(
-      (sunEditor) => {
-        if (sunEditor) {
-          try {
-            editorRef.current = sunEditor;
-
-            // Comprehensive iframe auto-height fix
-
-            // Additional safety checks
-
-            // Disable any auto-height functionality
-            if (sunEditor.options) {
-              sunEditor.options.enableAutoSize = false;
-            }
-          } catch (error) {
-            console.warn("Error setting up editor instance:", error);
-            handleEditorError(error);
-          }
-        }
-      },
-      [editorRef, handleEditorError]
-    );
-
-    const handleLoad = useCallback(() => {
-      try {
-        if (editorRef.current && defaultValue) {
-          editorRef.current.setContents(defaultValue);
-        }
-      } catch (error) {
-        console.warn("Error loading editor content:", error);
-        handleEditorError(error);
-      }
-    }, [editorRef, defaultValue, handleEditorError]);
-
-    if (editorError) {
-      return (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            {label}
-          </label>
-          <div className="w-full p-4 border border-red-300 rounded-lg bg-red-50">
-            <p className="text-red-700 text-sm mb-2">
-              Editor temporarily unavailable. Attempting to recover...
-            </p>
-            <textarea
-              value={defaultValue || ""}
-              onChange={(e) => onChange(e.target.value)}
-              rows={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              placeholder="Enter content here..."
-            />
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {label}
-        </label>
-        <div className="sun-editor-wrapper">
-          <SunEditor
-            key={editorKey}
-            getSunEditorInstance={getSunEditorInstance}
-            onChange={onChange}
-            defaultValue={defaultValue || ""}
-            setOptions={sunEditorOptions}
-            onLoad={handleLoad}
-            onError={handleEditorError}
-            // Add these props for better error handling
-            disable={false}
-            readOnly={false}
-            placeholder="Enter content here..."
-            autoFocus={false}
-            lang="en"
-          />
-        </div>
-      </div>
-    );
-  };
-
-  // Section wrapper component
-  const Section = ({ title, description, children }) => (
-    <div className="bg-white rounded-xl border border-gray-200 p-8">
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">{title}</h2>
-        <p className="text-gray-600">{description}</p>
-      </div>
-      {children}
-    </div>
-  );
+    ));
+  }, [form.faq.entries, updateFAQItem, removeFAQItem]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -408,30 +447,24 @@ export default function CreateServicePage() {
               <InputField
                 label="Service Title"
                 value={form.metadata.title}
-                onChange={(e) =>
-                  updateForm(["metadata", "title"], e.target.value)
-                }
+                onChange={handleMetadataChange("title")}
                 placeholder="Enter service title"
-                required
+                required={true}
               />
               <InputField
                 label="Description"
                 value={form.metadata.description}
-                onChange={(e) =>
-                  updateForm(["metadata", "description"], e.target.value)
-                }
+                onChange={handleMetadataChange("description")}
                 placeholder="Brief description"
-                required
+                required={true}
               />
               <div className="lg:col-span-2">
                 <InputField
                   label="Page URL"
                   value={form.metadata.pageurl}
-                  onChange={(e) =>
-                    updateForm(["metadata", "pageurl"], e.target.value)
-                  }
+                  onChange={handleMetadataChange("pageurl")}
                   placeholder="https://example.com/service-page"
-                  required
+                  required={true}
                 />
               </div>
             </div>
@@ -446,20 +479,16 @@ export default function CreateServicePage() {
               <InputField
                 label="Banner Title"
                 value={form.bannerData.title}
-                onChange={(e) =>
-                  updateForm(["bannerData", "title"], e.target.value)
-                }
+                onChange={handleBannerDataChange("title")}
                 placeholder="Main banner title"
-                required
+                required={true}
               />
               <InputField
                 label="Banner Description"
                 value={form.bannerData.description}
-                onChange={(e) =>
-                  updateForm(["bannerData", "description"], e.target.value)
-                }
+                onChange={handleBannerDataChange("description")}
                 placeholder="Banner subtitle or description"
-                required
+                required={true}
               />
               <div className="lg:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -470,7 +499,8 @@ export default function CreateServicePage() {
                   {form.bannerData.imageurl && (
                     <a
                       className="text-xs text-blue-500 cursor-pointer"
-                      target="blank"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       href={form.bannerData.imageurl}
                     >
                       {" "}
@@ -492,6 +522,7 @@ export default function CreateServicePage() {
               editorRef={overviewEditorRef}
               onChange={handleOverviewChange}
               defaultValue={form.overviewData}
+              editorId="overview-editor"
             />
           </Section>
 
@@ -506,6 +537,7 @@ export default function CreateServicePage() {
                 editorRef={typesEditorRef}
                 onChange={handleTypesChange}
                 defaultValue={form.typesData.details}
+                editorId="types-editor"
               />
 
               <div>
@@ -524,8 +556,9 @@ export default function CreateServicePage() {
                         />
                         {imageUrl && (
                           <a
-                            className="text-xs text-blue-500 cursor-pointer "
-                            target="blank"
+                            className="text-xs text-blue-500 cursor-pointer"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             href={imageUrl}
                           >
                             {imageUrl}
@@ -550,6 +583,7 @@ export default function CreateServicePage() {
                 editorRef={benefitsEditorRef}
                 onChange={handleBenefitsChange}
                 defaultValue={form.benefitsData.details}
+                editorId="benefits-editor"
               />
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -560,7 +594,8 @@ export default function CreateServicePage() {
                   {form.benefitsData.image && (
                     <a
                       className="text-xs text-blue-500 cursor-pointer"
-                      target="blank"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       href={form.benefitsData.image}
                     >
                       {" "}
@@ -592,47 +627,7 @@ export default function CreateServicePage() {
                 </button>
               </div>
               <div className="space-y-6">
-                {form.faq.entries.map((entry, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-50 rounded-lg p-4 space-y-4"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-700">
-                        FAQ {index + 1}
-                      </span>
-                      {form.faq.entries.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={removeFAQItem(index)}
-                          className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
-                        >
-                          <Trash className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-                    <InputField
-                      label="Question"
-                      value={entry.question}
-                      onChange={updateFAQItem(index, "question")}
-                      placeholder="Enter FAQ question"
-                      required
-                    />
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Answer
-                      </label>
-                      <textarea
-                        value={entry.answer}
-                        onChange={updateFAQItem(index, "answer")}
-                        rows={3}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
-                        placeholder="Enter FAQ answer"
-                        required
-                      />
-                    </div>
-                  </div>
-                ))}
+                {faqItems}
               </div>
             </div>
           </Section>
@@ -648,12 +643,14 @@ export default function CreateServicePage() {
                 editorRef={additionalDetail1EditorRef}
                 onChange={handleAdditionalDetail1Change}
                 defaultValue={form.extraFields.detail1}
+                editorId="detail1-editor"
               />
               <EditorField
                 label="Additional Detail 2"
                 editorRef={additionalDetail2EditorRef}
                 onChange={handleAdditionalDetail2Change}
                 defaultValue={form.extraFields.detail2}
+                editorId="detail2-editor"
               />
             </div>
           </Section>
