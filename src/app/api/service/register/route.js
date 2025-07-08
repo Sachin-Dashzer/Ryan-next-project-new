@@ -1,6 +1,6 @@
 // app/api/register/route.js (for App Router)
 
-import Service from '@/models/service'; 
+import Service from '@/models/services'; 
 import { withDB } from '@/lib/withDB'; 
 
 async function registerHandler(request) {

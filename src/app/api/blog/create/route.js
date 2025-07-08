@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { withDB } from "@/lib/withDB";
-import Services from "@/models/service";
+import Services from "@/models/services";
 
 const handler = async (req) => {
   const body = await req.json();
