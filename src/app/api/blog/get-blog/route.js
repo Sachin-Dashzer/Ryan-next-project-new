@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
 import { withDB } from "@/lib/withDB";
-import Services from "@/models/services";
+import Blog from "@/models/blog";
 
 
 
 const handler = async (req) => {
   
 
-    const fulldata = await Services.find({})
+    const fulldata = await Blog.find({})
+
+    if(!fulldata){
+        return NextResponse.json(
+            { success: false, message: "No data found" },
+            { status: 400 }
+          );
+    }
 
     
 
