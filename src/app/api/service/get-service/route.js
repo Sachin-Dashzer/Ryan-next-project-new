@@ -17,4 +17,4 @@ const handler = async () => {
 
 
 
-export const GET = withDB(handler)
+export const GET = withDB(handler);
