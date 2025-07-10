@@ -44,7 +44,7 @@ function LayoutWrapper({ children }) {
       icon: NotebookTabs,
       children: [
         { name: "Create Blog", icon: FilePlus, href: "/admin/blogs/create" },
-        { name: "View Blogs", icon: Eye, href: "/admin/blogs/view/edit" },
+        { name: "View Blogs", icon: Eye, href: "/admin/blogs/view" },
       ],
     },
   ];
