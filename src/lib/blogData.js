@@ -34,6 +34,7 @@ export const getBlogBySlug = async (slug) => {
     });
 
     const result = await res.json();
+
     const blogs = result.data || [];
 
     return blogs.find((blog) => blog.pageUrl === slug) || null;

@@ -5,13 +5,18 @@ import AdminHeader from "@/components/admin/adminHeader";
 import dynamic from "next/dynamic";
 import ImageUploader from "@/components/admin/ImageUploader";
 
-const SunEditor = dynamic(() => import("suneditor-react"), { ssr: false });
+const SunEditor = dynamic(() => import("suneditor-react"), {
+  ssr: false,
+  loading: () => <p className="py-4">Loading editor...</p>,
+});
 import "suneditor/dist/css/suneditor.min.css";
 
-const EditBlog = ({ blogSlug, initialData }) => {
+const EditBlog = ({ initialData }) => {
   const editorRef = useRef(null);
+  const [editorReady, setEditorReady] = useState(false);
 
   const [formData, setFormData] = useState({
+    _id: "",
     metaTitle: "",
     metaDiscription: "",
     pageTitle: "",
@@ -24,10 +29,10 @@ const EditBlog = ({ blogSlug, initialData }) => {
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load blog data from initialData
   useEffect(() => {
     if (initialData) {
       setFormData({
+        _id: initialData._id || "",
         metaTitle: initialData.metaTitle || "",
         metaDiscription: initialData.metaDiscription || "",
         pageTitle: initialData.pageTitle || "",
@@ -40,12 +45,20 @@ const EditBlog = ({ blogSlug, initialData }) => {
     }
   }, [initialData]);
 
-  // Set editor content
+  const handleEditorLoad = (sunEditor) => {
+    editorRef.current = sunEditor;
+    setEditorReady(true);
+  };
+
   useEffect(() => {
-    if (dataLoaded && editorRef.current && formData.blogContent) {
-      editorRef.current.setContents(formData.blogContent);
+    if (editorReady && dataLoaded && formData.blogContent) {
+      try {
+        editorRef.current.setContents(formData.blogContent);
+      } catch (error) {
+        console.error("Error setting editor contents:", error);
+      }
     }
-  }, [dataLoaded, formData.blogContent]);
+  }, [editorReady, dataLoaded, formData.blogContent]);
 
   const handleChange = (e) => {
     setFormData({
@@ -73,7 +86,8 @@ const EditBlog = ({ blogSlug, initialData }) => {
 
     try {
       setLoading(true);
-      const res = await fetch(`/api/blog/update/${blogSlug}`, {
+
+      const res = await fetch(`/api/blog/edit/${formData.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -83,20 +97,25 @@ const EditBlog = ({ blogSlug, initialData }) => {
 
       const data = await res.json();
 
-      if (data.status === 200) {
-        alert("Blog updated successfully");
-      } else {
-        alert("Failed to update blog");
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update blog");
       }
+
+      if (!data.success) {
+        throw new Error(data.message || "Blog update failed");
+      }
+
+      alert("Blog updated successfully!");
+
     } catch (error) {
-      console.error("Error updating blog:", error);
-      alert("Error updating blog");
+      console.error("Update error:", error);
+      alert(error.message || "Error updating blog. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading && !dataLoaded) {
+  if (!dataLoaded) {
     return (
       <section className="p-4">
         <AdminHeader title="/ Edit Blog" />
@@ -111,12 +130,15 @@ const EditBlog = ({ blogSlug, initialData }) => {
     <section className="p-4">
       <AdminHeader title="/ Edit Blog" />
 
-      <form onSubmit={handleSubmit} className="space-y-6 px-6 mx-auto">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6 px-6 mx-auto max-w-6xl"
+      >
         <h3 className="text-2xl font-bold underline mb-5">Meta Details</h3>
 
         <div className="flex gap-6 flex-col md:flex-row">
           <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Meta Title
             </label>
             <input
@@ -124,24 +146,32 @@ const EditBlog = ({ blogSlug, initialData }) => {
               name="metaTitle"
               value={formData.metaTitle}
               onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
+              className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter meta title"
+              maxLength="60"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Recommended: 50-60 characters
+            </p>
           </div>
 
           <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Meta Description
             </label>
             <input
-              type="text"
               name="metaDiscription"
               value={formData.metaDiscription}
               onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
+              className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter meta description"
+              // rows="3"
+              maxLength="60"
               required
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Recommended: 150-160 characters
+            </p>
           </div>
         </div>
 
@@ -149,7 +179,7 @@ const EditBlog = ({ blogSlug, initialData }) => {
 
         <div className="flex gap-6 flex-col md:flex-row">
           <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Page URL
             </label>
             <input
@@ -157,13 +187,16 @@ const EditBlog = ({ blogSlug, initialData }) => {
               name="pageUrl"
               value={formData.pageUrl}
               onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
+              className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="https://your-page-url.com"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Must start with http:// or https://
+            </p>
           </div>
 
           <div className="w-full">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
               Banner Title
             </label>
             <input
@@ -171,29 +204,32 @@ const EditBlog = ({ blogSlug, initialData }) => {
               name="pageTitle"
               value={formData.pageTitle}
               onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
+              className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter page title"
               required
             />
           </div>
         </div>
 
-        <div>
+        <div className="mt-4">
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Banner Image URL
+            Banner Image
           </label>
           <ImageUploader
             onUpload={handleImageUpload}
             initialImage={formData.pageImageUrl}
           />
+          <p className="text-xs text-gray-500 mt-1">
+            Recommended size: 1200x630 pixels
+          </p>
         </div>
 
         <h3 className="text-2xl font-bold underline mt-10 mb-5">
           Blog Body Content
         </h3>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700">
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
             Blog Title
           </label>
           <input
@@ -201,7 +237,7 @@ const EditBlog = ({ blogSlug, initialData }) => {
             name="blogTitle"
             value={formData.blogTitle}
             onChange={handleChange}
-            className="w-full mt-2 p-2 border rounded-md"
+            className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Enter blog title"
             required
           />
@@ -209,44 +245,71 @@ const EditBlog = ({ blogSlug, initialData }) => {
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Blog Content (HTML)
+            Blog Content
           </label>
           <SunEditor
-            getSunEditorInstance={(sunEditor) => {
-              editorRef.current = sunEditor;
-            }}
+            getSunEditorInstance={handleEditorLoad}
             onChange={handleEditorChange}
-            defaultValue={formData.blogContent}
+            setContents={formData.blogContent}
             setOptions={{
-              height: 300,
+              height: "400px",
               buttonList: [
+                ["undo", "redo"],
+                ["font", "fontSize", "formatBlock"],
                 [
-                  "undo",
-                  "redo",
-                  "formatBlock",
                   "bold",
                   "underline",
                   "italic",
-                  "fontColor",
-                  "hiliteColor",
-                  "align",
-                  "list",
-                  "link",
-                  "image",
-                  "codeView",
+                  "strike",
+                  "subscript",
+                  "superscript",
                 ],
+                ["fontColor", "hiliteColor"],
+                ["align", "horizontalRule", "list", "table"],
+                ["link", "image", "video"],
+                ["fullScreen", "showBlocks", "codeView"],
+                ["preview", "print"],
               ],
+              defaultStyle:
+                "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 16px;",
+              imageUploadUrl: "/api/upload", // Your image upload endpoint
             }}
           />
         </div>
 
-        <div className="pt-4">
+        <div className="pt-6 pb-10">
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed"
+            className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition duration-200 disabled:bg-blue-400 disabled:cursor-not-allowed text-lg font-medium"
           >
-            {loading ? "Updating..." : "Update Blog"}
+            {loading ? (
+              <span className="flex items-center justify-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Updating...
+              </span>
+            ) : (
+              "Update Blog"
+            )}
           </button>
         </div>
       </form>

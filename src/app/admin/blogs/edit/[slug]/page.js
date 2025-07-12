@@ -1,8 +1,11 @@
+
 import { getBlogBySlug } from "@/lib/blogData";
 import EditBlog from "./EditBlog";
 
 export default async function EditBlogPage({ params }) {
-  const slug = params?.slug; // ✅ safer destructuring
+
+  const { slug } = await params;
+  
   const blog = await getBlogBySlug(slug);
 
   if (!blog) {

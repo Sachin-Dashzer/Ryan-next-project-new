@@ -181,24 +181,26 @@ const Blog = () => {
             onChange={handleEditorChange}
             defaultValue=""
             setOptions={{
-              height: 300,
+              height: "400px",
               buttonList: [
+                ["undo", "redo"],
+                ["font", "fontSize", "formatBlock"],
                 [
-                  "undo",
-                  "redo",
-                  "formatBlock",
                   "bold",
                   "underline",
                   "italic",
-                  "fontColor",
-                  "hiliteColor",
-                  "align",
-                  "list",
-                  "link",
-                  "image",
-                  "codeView",
+                  "strike",
+                  "subscript",
+                  "superscript",
                 ],
+                ["fontColor", "hiliteColor"],
+                ["align", "horizontalRule", "list", "table"],
+                ["link", "image", "video"],
+                ["fullScreen", "showBlocks", "codeView"],
+                ["preview", "print"],
               ],
+              defaultStyle:
+                "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 16px;",
             }}
           />
         </div>
