@@ -1,10 +1,6 @@
-// lib/ServiceData.js
 
-const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/service/get-services`;
+const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/service/get-service`;
 
-/**
- * Get all Service posts
- */
 export const getAllServices = async () => {
   try {
     const res = await fetch(API_URL, {

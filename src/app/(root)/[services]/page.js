@@ -1,8 +1,21 @@
 import PageBanner from "@/components/layouts/pageBanner";
 import ContactForm from "@/components/pages/contactForm";
 import FAQSection from "./FAQSection";
+import PleoFeatures from "./PleoFeatures";
 
-export default function services() {
+import { getAllServices } from "@/lib/serviceData";
+import { getAllBlogs } from "@/lib/blogData";
+
+export default function services({params}) {
+
+  const {slug} = params;
+
+
+  const service = getAllBlogs(slug)
+
+  console.log(service);
+
+
   return (
     <>
       <PageBanner
@@ -175,6 +188,22 @@ export default function services() {
               <p>
                 <a href="https://api.whatsapp.com/send?phone=+919911111247&amp;text=Hi"></a>
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <PleoFeatures />
+
+      <section className="">
+        <div className="containerFull">
+          <div className="flex">
+            <div className="w-1/2 px-12 border-r-[1px]">
+                    <h2>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia quam molestias aut fugiat voluptatibus? Blanditiis itaque eveniet non quae dolores aliquid ipsa nisi.</h2>
+            </div>
+            <div className="w-1/2 px-12">
+                    <h2>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia quam molestias aut fugiat voluptatibus? Blanditiis itaque eveniet non quae dolores aliquid ipsa nisi.</h2>
+            
             </div>
           </div>
         </div>

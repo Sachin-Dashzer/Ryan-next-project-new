@@ -1,16 +1,24 @@
 import { getAllServices } from "@/lib/serviceData";
 import AdminHeader from "@/components/admin/adminHeader";
-import { Search, Filter, Plus, MoreHorizontal, Download } from "lucide-react";
+import { Search, Filter, SquarePen , Trash } from "lucide-react";
 
 const ServicePage = async () => {
   const Services = await getAllServices();
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6 p-6">
-                <AdminHeader title="Our Services" />
+          <AdminHeader title="Our Services" />
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -46,27 +54,48 @@ const ServicePage = async () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="text-left p-4 font-medium text-gray-700">Page URL</th>
-                  <th className="text-left p-4 font-medium text-gray-700">Page Title</th>
-                  <th className="text-left p-4 font-medium text-gray-700">Created At</th>
-                  <th className="w-12 p-4"></th>
+                  <th className="text-left p-4 font-medium text-gray-700">
+                    S.No
+                  </th>
+                  <th className="text-left p-4 font-medium text-gray-700">
+                    Page URL
+                  </th>
+                  <th className="text-left p-4 font-medium text-gray-700">
+                    Page Title
+                  </th>
+                  <th className="text-left p-4 font-medium text-gray-700">
+                    Created At
+                  </th>
+                  <th className="w-32 p-4">Menu</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {Services.map((Service) => (
-                  <tr key={Service._id} className="hover:bg-gray-50 transition-colors">
+                {Services.map((Service , index) => (
+                  <tr
+                    key={Service._id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="p-4 text-gray-600">{index + 1}</td>
+
                     <td className="p-4">
                       <div className="text-blue-600 hover:text-blue-800 font-medium">
-                        {Service.pageUrl}
+                        {Service.metadata?.pageurl}
                       </div>
                     </td>
                     <td className="p-4">
-                      <div className="font-medium text-gray-900">{Service.pageTitle}</div>
+                      <div className="font-medium text-gray-900">
+                        {Service.metadata?.title}
+                      </div>
                     </td>
-                    <td className="p-4 text-gray-600">{Service.createdAt}</td>
-                    <td className="p-4">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                        <MoreHorizontal className="w-4 h-4 text-gray-500" />
+                    <td className="p-4 text-gray-600">
+                      {formatDate(Service.createdAt)}
+                    </td>
+                     <td className="p-4 text-center  flex gap-2 justify-center items-center align-middle">
+                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
+                      </button>
+                        <SquarePen className="w-4 h-4 text-blue-600" />
+                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
+                        <Trash className="w-4 h-4 text-blue-600" />
                       </button>
                     </td>
                   </tr>

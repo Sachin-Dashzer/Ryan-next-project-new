@@ -92,7 +92,7 @@ section {
   background-color: #4a778b;
 }
 .bg-light {
-  background-color: #f2f2f2d0 !important;
+  background-color: rgb(250, 252, 255) !important;
 }
 
 .swiper-button-prev:after,
