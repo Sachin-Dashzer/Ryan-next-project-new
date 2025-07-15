@@ -185,11 +185,55 @@ const FAQItem = memo(
   )
 );
 
+// Memoized Benefit Component Component
+const BenefitComponent = memo(
+  ({ component, index, onChange, onRemove, canRemove }) => (
+    <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-gray-700">
+          Benefit {index + 1}
+        </span>
+        {canRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+          >
+            <Trash className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      <InputField
+        label="Title"
+        value={component.title}
+        onChange={(e) => onChange(index, "title", e.target.value)}
+        placeholder="Enter benefit title"
+        required={true}
+      />
+      <InputField
+        label="Description"
+        value={component.description}
+        onChange={(e) => onChange(index, "description", e.target.value)}
+        placeholder="Enter benefit description"
+        required={true}
+      />
+      <InputField
+        label="Icon URL"
+        value={component.icon}
+        onChange={(e) => onChange(index, "icon", e.target.value)}
+        placeholder="Enter icon URL"
+        required={true}
+      />
+    </div>
+  )
+);
+
 // Set display names for better debugging
 InputField.displayName = "InputField";
 EditorField.displayName = "EditorField";
 Section.displayName = "Section";
 FAQItem.displayName = "FAQItem";
+BenefitComponent.displayName = "BenefitComponent";
 
 export default function CreateServicePage() {
   // Editor refs
@@ -201,13 +245,40 @@ export default function CreateServicePage() {
 
   // Form state
   const [form, setForm] = useState({
-    metadata: { title: "", description: "", pageurl: "" },
-    bannerData: { title: "", description: "", imageurl: "" },
-    overviewData: "",
-    typesData: { images: ["", "", ""], details: "" },
-    benefitsData: { details: "", image: "" },
-    faq: { entries: [{ question: "", answer: "" }] },
-    extraFields: { detail1: "", detail2: "" },
+    bannerData: {
+      description: "",
+      imageurl: "",
+      title: ""
+    },
+    benefitsData: {
+      title: "",
+      description: "",
+      component: [{
+        title: "",
+        description: "",
+        icon: ""
+      }]
+    },
+    extraFields: {
+      detail1: "",
+      detail2: ""
+    },
+    faq: [{
+      question: "",
+      answer: ""
+    }],
+    metadata: {
+      pageName: "",
+      pageType: "transplant",
+      description: "",
+      pageurl: "",
+      title: "",
+      overviewData: ""
+    },
+    typesData: {
+      details: "",
+      images: ["", "", ""]
+    }
   });
   const [serverMsg, setServerMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -254,10 +325,17 @@ export default function CreateServicePage() {
     [updateForm]
   );
 
+  const handleBenefitsDataChange = useCallback(
+    (field) => (e) => {
+      updateForm({ path: ["benefitsData", field], value: e.target.value });
+    },
+    [updateForm]
+  );
+
   // Editor change handlers
   const handleOverviewChange = useCallback(
     (content) => {
-      updateForm({ path: ["overviewData"], value: content });
+      updateForm({ path: ["metadata", "overviewData"], value: content });
     },
     [updateForm]
   );
@@ -265,13 +343,6 @@ export default function CreateServicePage() {
   const handleTypesChange = useCallback(
     (content) => {
       updateForm({ path: ["typesData", "details"], value: content });
-    },
-    [updateForm]
-  );
-
-  const handleBenefitsChange = useCallback(
-    (content) => {
-      updateForm({ path: ["benefitsData", "details"], value: content });
     },
     [updateForm]
   );
@@ -307,52 +378,77 @@ export default function CreateServicePage() {
     [form.typesData.images, updateForm]
   );
 
-  const handleBenefitsImageUpload = useCallback(
-    (url) => {
-      updateForm({ path: ["benefitsData", "image"], value: url });
-    },
-    [updateForm]
-  );
-
-  // FAQ management with memoized handlers
+  // FAQ management
   const addFAQItem = useCallback(() => {
-    const newEntries = [...form.faq.entries, { question: "", answer: "" }];
-    updateForm({ path: ["faq", "entries"], value: newEntries });
-  }, [form.faq.entries, updateForm]);
+    const newFaqs = [...form.faq, { question: "", answer: "" }];
+    updateForm({ path: ["faq"], value: newFaqs });
+  }, [form.faq, updateForm]);
 
   const updateFAQItem = useCallback(
     (index, field) => (e) => {
-      const newEntries = [...form.faq.entries];
-      newEntries[index][field] = e.target.value;
-      updateForm({ path: ["faq", "entries"], value: newEntries });
+      const newFaqs = [...form.faq];
+      newFaqs[index][field] = e.target.value;
+      updateForm({ path: ["faq"], value: newFaqs });
     },
-    [form.faq.entries, updateForm]
+    [form.faq, updateForm]
   );
 
   const removeFAQItem = useCallback(
     (index) => () => {
-      const newEntries = form.faq.entries.filter((_, idx) => idx !== index);
+      const newFaqs = form.faq.filter((_, idx) => idx !== index);
       updateForm({
-        path: ["faq", "entries"],
-        value: newEntries.length ? newEntries : [{ question: "", answer: "" }],
+        path: ["faq"],
+        value: newFaqs.length ? newFaqs : [{ question: "", answer: "" }],
       });
     },
-    [form.faq.entries, updateForm]
+    [form.faq, updateForm]
+  );
+
+  // Benefit components management
+  const addBenefitComponent = useCallback(() => {
+    const newComponents = [...form.benefitsData.component, { 
+      title: "", 
+      description: "", 
+      icon: "" 
+    }];
+    updateForm({ path: ["benefitsData", "component"], value: newComponents });
+  }, [form.benefitsData.component, updateForm]);
+
+  const updateBenefitComponent = useCallback(
+    (index, field, value) => {
+      const newComponents = [...form.benefitsData.component];
+      newComponents[index][field] = value;
+      updateForm({ path: ["benefitsData", "component"], value: newComponents });
+    },
+    [form.benefitsData.component, updateForm]
+  );
+
+  const removeBenefitComponent = useCallback(
+    (index) => () => {
+      const newComponents = form.benefitsData.component.filter((_, idx) => idx !== index);
+      updateForm({
+        path: ["benefitsData", "component"],
+        value: newComponents.length ? newComponents : [{ title: "", description: "", icon: "" }],
+      });
+    },
+    [form.benefitsData.component, updateForm]
   );
 
   // Form validation
   const validateForm = useCallback(() => {
-    const { metadata, bannerData, overviewData, typesData, benefitsData, faq } =
-      form;
+    const { metadata, bannerData, benefitsData, typesData, faq } = form;
 
-    if (!metadata.title || !metadata.description || !metadata.pageurl) {
+    if (!metadata.title || !metadata.description || !metadata.pageurl || !metadata.pageName) {
       return "Please fill in all metadata fields";
     }
     if (!bannerData.title || !bannerData.description || !bannerData.imageurl) {
       return "Please fill in all banner fields";
     }
-    if (!overviewData) {
-      return "Please provide an overview description";
+    if (!benefitsData.title || !benefitsData.description) {
+      return "Please fill in benefits title and description";
+    }
+    if (benefitsData.component.some(comp => !comp.title || !comp.description || !comp.icon)) {
+      return "Please fill in all benefit components";
     }
     if (!typesData.details) {
       return "Please provide type description";
@@ -360,10 +456,7 @@ export default function CreateServicePage() {
     if (typesData.images.some((img) => !img)) {
       return "Please provide all 3 service images";
     }
-    if (!benefitsData.details || !benefitsData.image) {
-      return "Please fill in all benefits fields";
-    }
-    if (faq.entries.some((entry) => !entry.question || !entry.answer)) {
+    if (faq.some((entry) => !entry.question || !entry.answer)) {
       return "Please fill in all FAQ questions and answers";
     }
 
@@ -373,13 +466,40 @@ export default function CreateServicePage() {
   // Reset form after successful submission
   const resetForm = useCallback(() => {
     const initialForm = {
-      metadata: { title: "", description: "", pageurl: "" },
-      bannerData: { title: "", description: "", imageurl: "" },
-      overviewData: "",
-      typesData: { images: ["", "", ""], details: "" },
-      benefitsData: { details: "", image: "" },
-      faq: { entries: [{ question: "", answer: "" }] },
-      extraFields: { detail1: "", detail2: "" },
+      bannerData: {
+        description: "",
+        imageurl: "",
+        title: ""
+      },
+      benefitsData: {
+        title: "",
+        description: "",
+        component: [{
+          title: "",
+          description: "",
+          icon: ""
+        }]
+      },
+      extraFields: {
+        detail1: "",
+        detail2: ""
+      },
+      faq: [{
+        question: "",
+        answer: ""
+      }],
+      metadata: {
+        pageName: "",
+        pageType: "transplant",
+        description: "",
+        pageurl: "",
+        title: "",
+        overviewData: ""
+      },
+      typesData: {
+        details: "",
+        images: ["", "", ""]
+      }
     };
 
     setForm(initialForm);
@@ -389,7 +509,6 @@ export default function CreateServicePage() {
       [
         overviewEditorRef,
         typesEditorRef,
-        benefitsEditorRef,
         additionalDetail1EditorRef,
         additionalDetail2EditorRef,
       ].forEach((ref) => {
@@ -418,8 +537,6 @@ export default function CreateServicePage() {
         return;
       }
 
-      console.log(form);
-
       try {
         const res = await fetch("/api/service/register", {
           method: "POST",
@@ -446,7 +563,7 @@ export default function CreateServicePage() {
 
   // Memoized FAQ items to prevent unnecessary re-renders
   const faqItems = useMemo(() => {
-    return form.faq.entries.map((entry, index) => (
+    return form.faq.map((entry, index) => (
       <FAQItem
         key={index}
         entry={entry}
@@ -454,10 +571,24 @@ export default function CreateServicePage() {
         onQuestionChange={updateFAQItem(index, "question")}
         onAnswerChange={updateFAQItem(index, "answer")}
         onRemove={removeFAQItem(index)}
-        canRemove={form.faq.entries.length > 1}
+        canRemove={form.faq.length > 1}
       />
     ));
-  }, [form.faq.entries, updateFAQItem, removeFAQItem]);
+  }, [form.faq, updateFAQItem, removeFAQItem]);
+
+  // Memoized benefit components
+  const benefitComponents = useMemo(() => {
+    return form.benefitsData.component.map((component, index) => (
+      <BenefitComponent
+        key={index}
+        component={component}
+        index={index}
+        onChange={updateBenefitComponent}
+        onRemove={removeBenefitComponent(index)}
+        canRemove={form.benefitsData.component.length > 1}
+      />
+    ));
+  }, [form.benefitsData.component, updateBenefitComponent, removeBenefitComponent]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -481,6 +612,27 @@ export default function CreateServicePage() {
             description="Basic information about your service"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <InputField
+                label="Page Name"
+                value={form.metadata.pageName}
+                onChange={handleMetadataChange("pageName")}
+                placeholder="Enter page name"
+                required={true}
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Page Type
+                </label>
+                <select
+                  value={form.metadata.pageType}
+                  onChange={(e) => updateForm({ path: ["metadata", "pageType"], value: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                >
+                  <option value="transplant">Transplant</option>
+                  <option value="surgery">Surgery</option>
+                  <option value="treatment">Treatment</option>
+                </select>
+              </div>
               <InputField
                 label="Service Title"
                 value={form.metadata.title}
@@ -540,7 +692,6 @@ export default function CreateServicePage() {
                       rel="noopener noreferrer"
                       href={form.bannerData.imageurl}
                     >
-                      {" "}
                       {form.bannerData.imageurl}
                     </a>
                   )}
@@ -558,7 +709,7 @@ export default function CreateServicePage() {
               label="Overview Content"
               editorRef={overviewEditorRef}
               onChange={handleOverviewChange}
-              defaultValue={form.overviewData}
+              defaultValue={form.metadata.overviewData}
               editorId="overview-editor"
             />
           </Section>
@@ -615,31 +766,36 @@ export default function CreateServicePage() {
             description="Highlight the key benefits of your service"
           >
             <div className="space-y-6">
-              <EditorField
-                label="Benefits Description"
-                editorRef={benefitsEditorRef}
-                onChange={handleBenefitsChange}
-                defaultValue={form.benefitsData.details}
-                editorId="benefits-editor"
+              <InputField
+                label="Benefits Title"
+                value={form.benefitsData.title}
+                onChange={handleBenefitsDataChange("title")}
+                placeholder="Enter benefits title"
+                required={true}
               />
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Benefits Image URL
-                </label>
-                <div className="space-y-2">
-                  <ImageUploader onUpload={handleBenefitsImageUpload} />
-                  {form.benefitsData.image && (
-                    <a
-                      className="text-xs text-blue-500 cursor-pointer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={form.benefitsData.image}
-                    >
-                      {" "}
-                      {form.benefitsData.image}
-                    </a>
-                  )}
+              <InputField
+                label="Benefits Description"
+                value={form.benefitsData.description}
+                onChange={handleBenefitsDataChange("description")}
+                placeholder="Enter benefits description"
+                required={true}
+              />
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Benefit Components
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={addBenefitComponent}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 transition-colors"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Component
+                  </button>
                 </div>
+                <div className="space-y-6">{benefitComponents}</div>
               </div>
             </div>
           </Section>

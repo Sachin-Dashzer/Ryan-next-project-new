@@ -32,7 +32,7 @@ export const getServiceBySlug = async (slug) => {
     const result = await res.json();
     const Services = result.data || [];
 
-    return Services.find((Service) => Service.slug === slug) || null;
+    return Services.find((Service) => Service.metadata?.pageurl === slug) || null;
   } catch (error) {
     console.error("getServiceBySlug error:", error.message);
     return null;
