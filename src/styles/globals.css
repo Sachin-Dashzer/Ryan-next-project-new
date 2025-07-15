@@ -211,6 +211,70 @@ section {
 
 
 
+.new-pageLayout ul {
+  padding: 0 15px;
+  padding-left: 25px;
+}
+
+.new-pageLayout ul li strong{
+  color: var(--foreground) !important ;
+  margin-right: 6px;
+}
+.new-pageLayout ul li {
+  position: relative;
+  font-size: 17px;
+  line-height: 26px;
+  margin: 13px 0;
+}
+
+.new-pageLayout ul li::before {
+  content: " ";
+  width: 8px;
+  height: 8px;
+  background-color: var(--foreground);
+  border-radius: 100%;
+  position: absolute;
+  left: -21px;
+  top: 9px;
+}
+
+.new-pageLayout ul li::after {
+  content: " ";
+  width: 17px;
+  height: 17px;
+  background-color: transparent;
+  border: 1px solid var(--foreground);
+  border-bottom: none;
+  /* border-top: none; */
+  border-left: none;
+  border-radius: 100%;
+  position: absolute;
+  left: -26px;
+  animation: rotater 1s infinite ease-in-out;
+  top: 5px;
+}
+
+@keyframes rotater {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(90deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(270deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 
 
@@ -218,38 +282,40 @@ section {
 
 
 
-.pageLayout h1 { 
+
+.new-pageLayout h1 { 
   font-size: 2.3rem; 
   line-height: 1.2; 
   font-weight: 600;
 
 }
-.pageLayout h2 { 
-  font-size: 2rem; 
-  line-height: 1.25; 
-}
-.pageLayout h3 { 
+ 
+.new-pageLayout h3 , .new-pageLayout h2 { 
   font-size: 1.75rem; 
   line-height: 1.3; 
+  font-weight: bold;
+  color: var(--foreground);
+  margin-top: 28px;
+  text-decoration: underline;
 }
-.pageLayout h4 { 
+.new-pageLayout h4 { 
   font-size: 1.5rem; 
   line-height: 1.35; 
 }
-.pageLayout h5 { 
+.new-pageLayout h5 { 
   font-size: 1.25rem; 
   line-height: 1.4; 
 }
-.pageLayout h6 { 
+.new-pageLayout h6 { 
   font-size: 1rem; 
   text-transform: uppercase; 
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
 
-.pageLayout p {
+.new-pageLayout p {
   font-size: 17px;
-  margin: 0px 0 10px 0;
+  margin: 10px 0 10px 0;
   line-height: 1.6;
 }
 

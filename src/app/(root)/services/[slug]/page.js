@@ -23,7 +23,7 @@ export default async function services({ params }) {
 
         <section className="bg-light">
           <div className="containerFull">
-            <div className="pageLayout">
+            <div className="new-pageLayout pageLayout">
               <div
                 dangerouslySetInnerHTML={{
                   __html: service?.metadata?.overviewData || "",
@@ -67,12 +67,14 @@ export default async function services({ params }) {
                   </div>
                 </div>
               </div>
-              <div className="col-span-6">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: service?.typesData?.details || "",
-                  }}
-                ></div>
+              <div className="col-span-6 ">
+                <div className="new-pageLayout">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: service?.typesData?.details || "",
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
@@ -87,11 +89,9 @@ export default async function services({ params }) {
         {service?.extraFieldsData?.length > 0 && (
           <section className="py-8">
             {" "}
-            
             <div className="containerFull">
               <div className="flex flex-col md:flex-row">
                 {" "}
-                
                 <div className="w-full md:w-1/2 px-4 md:px-12 border-r-0 md:border-r-[1px] border-gray-200">
                   {service?.extraFieldsData?.detail1 && (
                     <div
@@ -105,7 +105,6 @@ export default async function services({ params }) {
                 </div>
                 <div className="w-full md:w-1/2 px-4 md:px-12 mt-6 md:mt-0">
                   {" "}
-                  
                   {service?.extraFieldsData?.detail2 && (
                     <div
                       dangerouslySetInnerHTML={{
@@ -120,7 +119,6 @@ export default async function services({ params }) {
             </div>
           </section>
         )}
-
 
         <FAQSection faqs={service?.faq} />
       </div>
