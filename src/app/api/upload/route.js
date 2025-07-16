@@ -24,7 +24,6 @@ export async function POST(req) {
 
   await writeFile(filePath, buffer);
 
-  // Return the public URL
   const imageUrl = `/uploads/${fileName}`;
 
   return NextResponse.json({
