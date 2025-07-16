@@ -8,9 +8,6 @@ import { Navigation, Pagination } from "swiper/modules";
 import ContactForm from "@/components/pages/contactForm";
 import { Button } from "@/components/ui/button";
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 // Example data for each clinic card
 const clinicCards = [

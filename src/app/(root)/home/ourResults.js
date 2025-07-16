@@ -3,7 +3,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 
 const images = [
   'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121390/result-3_pg8vxt.jpg',
