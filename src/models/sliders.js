@@ -27,7 +27,7 @@ const sliderSchema = new mongoose.Schema({
     {
       imageUrl: { type: String },
       alt: { type: String },
-      discription: { type: String }, // Consider renaming to 'description'
+      discription: { type: String }, 
     },
   ],
 });
