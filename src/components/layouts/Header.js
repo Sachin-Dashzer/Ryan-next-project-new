@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,37 +8,33 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (key) => {
-    setOpenDropdown(openDropdown === key ? null : key);
-  };
+  const [closeTimeout, setCloseTimeout] = useState(null);
 
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About us", href: "/about" },
     {
       name: "Hair Transplant",
-      href: "/hair-transplant",
+      href: "/fue-hair-transplant",
       hasDropdown: true,
       key: "hairTransplant",
       dropdownItems: [
-        { name: "Turkey's DHI", href: "/hair-transplant/dhi" },
-        { name: "Sapphire FUE", href: "/hair-transplant/sapphire" },
-        { name: "Hairline Transplant", href: "/hair-transplant/hairline" },
-        { name: "Beard Transplant", href: "/hair-transplant/beard" },
-        { name: "Female Hair Transplant", href: "/hair-transplant/female" },
-        { name: "Eyebrow Transplant", href: "/hair-transplant/eyebrow" },
+        { name: "Sapphire FUE", href: "/fue-hair-transplant" },
+        { name: "Hairline Transplant", href: "/hairline-transplant" },
+        { name: "Beard Transplant", href: "/beard-transplant" },
+        { name: "Female Hair Transplant", href: "/female-hair-transplant" },
+        { name: "Eyebrow Transplant", href: "/eyebrow-transplant" },
       ],
     },
     {
       name: "Treatments",
-      href: "/treatments",
+      href: "/prp-treatment",
       hasDropdown: true,
       key: "treatments",
       dropdownItems: [
-        { name: "PRP Treatment", href: "/treatments/prp" },
-        { name: "Chemical Skin Peels", href: "/treatments/skin-peel" },
-        { name: "Alopecia Treatment", href: "/treatments/alopecia" },
+        { name: "PRP Treatment", href: "/prp-treatment" },
+        { name: "Chemical Skin Peels", href: "/chemical-skin-peels" },
+        { name: "Alopecia Treatment", href: "/alopecia-treatments" },
       ],
     },
     {
@@ -65,6 +61,21 @@ const Header = () => {
     { name: "Contact us", href: "/contact" },
   ];
 
+  const handleMouseEnter = (key) => {
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+      setCloseTimeout(null);
+    }
+    setOpenDropdown(key);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 200); // 200ms delay before closing
+    setCloseTimeout(timeout);
+  };
+
   return (
     <header className="w-full bg-primary text-white">
       <div className="w-full mx-auto px-2 xl:px-8 flex items-center justify-between h-12 md:h-22">
@@ -78,7 +89,7 @@ const Header = () => {
                 width={200}
                 height={200}
                 className="w-28 h-auto md:w-44 object-contain"
-                unoptimized 
+                unoptimized
               />
             </div>
           </Link>
@@ -89,37 +100,47 @@ const Header = () => {
           <nav className="hidden lg:flex">
             <ul className="flex space-x-1">
               {navItems.map((item) => (
-                <li className="font-semibold relative text" key={item.key || item.name} >
+                <li 
+                  className="font-semibold relative group" 
+                  key={item.key || item.name}
+                  onMouseEnter={() => item.hasDropdown && handleMouseEnter(item.key)}
+                  onMouseLeave={handleMouseLeave}
+                >
                   {item.hasDropdown ? (
-                    <div
-                      onMouseEnter={() => toggleDropdown(item.key)} 
-                      onMouseLeave={() => toggleDropdown(null)} 
-                      className="relative"
-                    >
-                      <button className="flex items-center cursor-pointer px-4 py-2 focus:outline-none">
+                    <div className="relative">
+                      <button className="flex items-center cursor-pointer px-4 py-2  rounded-md">
                         {item.name}
                         <ChevronDown className="ml-1 h-4 w-4" />
                       </button>
 
-                      {openDropdown === item.key && (
-                          <div className="absolute z-10  left-0 w-56 rounded-sm bg-primary ">
-                          <ul className="py-1">
-                            {item.dropdownItems.map((dropdownItem) => (
-                              <li key={dropdownItem.href}>
-                                <Link
-                                  href={dropdownItem.href}
-                                  className="block px-4 py-2 text font-semibold text-white hover:bg-gray-700"
-                                >
-                                  {dropdownItem.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <div
+                        className={`absolute  top-9 left-0 z-100 w-52 mt-2 bg-primary rounded-sm shadow-lg transition-all duration-200 ease-in-out ${
+                          openDropdown === item.key 
+                            ? "opacity-100 visible translate-y-0" 
+                            : "opacity-0 invisible translate-y-1"
+                        }`}
+                        onMouseEnter={() => handleMouseEnter(item.key)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <ul className="py-1">
+                          {item.dropdownItems.map((dropdownItem) => (
+                            <li key={dropdownItem.href}>
+                              <Link
+                                href={dropdownItem.href}
+                                className="block px-4 py-2 text-md font-semibold text-white hover:bg-gray-700"
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   ) : (
-                    <Link href={item.href} className="block px-4 py-2">
+                    <Link 
+                      href={item.href} 
+                      className="block px-4 py-2 hover:text-amber-300"
+                    >
                       {item.name}
                     </Link>
                   )}
@@ -133,15 +154,13 @@ const Header = () => {
             <div className="flex items-center gap-2">
               <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
                 <Phone className="h-4 w-4" />
-                <span className="">Call us</span>
+                <span>Call us</span>
               </Button>
             </div>
             <div className="flex items-center gap-2">
               <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
                 <Calendar className="h-4 w-4" />
-                <span className=" hidden 2xl:block">
-                  Book appointment
-                </span>
+                <span className="hidden 2xl:block">Book appointment</span>
               </Button>
             </div>
           </div>

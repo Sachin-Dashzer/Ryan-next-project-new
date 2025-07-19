@@ -2,7 +2,7 @@ import PageBanner from "@/components/layouts/pageBanner";
 import ContactForm from "@/components/pages/contactForm";
 import FAQSection from "./FAQSection";
 import PleoFeatures from "./PleoFeatures";
-import OurResults from "../../home/ourResults";
+import OurResults from "../home/ourResults";
 import { getServiceBySlug } from "@/lib/serviceData";
 
 export default async function services({ params }) {
@@ -37,8 +37,8 @@ export default async function services({ params }) {
           <div className="containerFull">
             <div className="grid grid-cols-11 gap-20">
               <div className="col-span-5">
-                <div className="grid grid-cols-1 md:grid-cols-[45%_55%] gap-6">
-                  <div className="rounded-xl overflow-hidden shadow-md">
+                <div className=" h-144 grid grid-cols-1 md:grid-cols-[45%_55%] gap-6 stickyItem ">
+                  <div className="rounded-xl h-full overflow-hidden shadow-md">
                     <img
                       src={service?.typesData?.images[0]}
                       alt="Person"
@@ -53,7 +53,7 @@ export default async function services({ params }) {
                       <img
                         src={service?.typesData?.images[1]}
                         alt="Tool on scalp"
-                        className="w-full h-auto object-cover"
+                        className="w-full h-full object-cover"
                         width="100%"
                         height="auto"
                       />
@@ -62,7 +62,7 @@ export default async function services({ params }) {
                       <img
                         src={service?.typesData?.images[2]}
                         alt="Implant tool"
-                        className="w-full h-auto object-cover"
+                        className="w-full h-full object-cover"
                         width="100%"
                         height="auto"
                       />

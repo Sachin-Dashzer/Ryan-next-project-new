@@ -1,6 +1,6 @@
 import { getAllServices } from "@/lib/serviceData";
 import AdminHeader from "@/components/admin/adminHeader";
-import { Search, Filter, SquarePen , Trash } from "lucide-react";
+import { Search, Filter, SquarePen, Trash } from "lucide-react";
 
 const ServicePage = async () => {
   const Services = await getAllServices();
@@ -70,7 +70,7 @@ const ServicePage = async () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {Services.map((Service , index) => (
+                {Services.map((Service, index) => (
                   <tr
                     key={Service._id}
                     className="hover:bg-gray-50 transition-colors"
@@ -79,7 +79,9 @@ const ServicePage = async () => {
 
                     <td className="p-4">
                       <div className="text-blue-600 hover:text-blue-800 font-medium">
-                        {Service.metadata?.pageurl}
+                        <a href={`/${Service.metadata?.pageurl}`}>
+                          {Service.metadata?.pageurl}
+                        </a>{" "}
                       </div>
                     </td>
                     <td className="p-4">
@@ -90,10 +92,9 @@ const ServicePage = async () => {
                     <td className="p-4 text-gray-600">
                       {formatDate(Service.createdAt)}
                     </td>
-                     <td className="p-4 text-center  flex gap-2 justify-center items-center align-middle">
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
-                      </button>
-                        <SquarePen className="w-4 h-4 text-blue-600" />
+                    <td className="p-4 text-center  flex gap-2 justify-center items-center align-middle">
+                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors"></button>
+                      <SquarePen className="w-4 h-4 text-blue-600" />
                       <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
                         <Trash className="w-4 h-4 text-blue-600" />
                       </button>
