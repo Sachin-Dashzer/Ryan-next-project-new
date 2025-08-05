@@ -2,13 +2,13 @@ import Sliders from "@/models/sliders";
 import { NextResponse } from "next/server";
 import { withDB } from "@/lib/withDB";
 
-// Helper function to validate slider type
+
 const isValidType = (type) => {
   const validTypes = ['results', 'service', 'branch', 'testimonial'];
   return validTypes.includes(type);
 };
 
-// GET all sliders
+
 const getAllSliders = async () => {
   try {
     const sliders = await Sliders.findOne({});
@@ -18,13 +18,13 @@ const getAllSliders = async () => {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: error.message }, 
+      { success: false, error: error.message },  
       { status: 500 }
     );
   }
 };
 
-// POST - Create new slider item
+
 const createSlider = async (req) => {
   try {
     const { type, data } = await req.json();
@@ -61,7 +61,7 @@ const createSlider = async (req) => {
   }
 };
 
-// PUT - Update slider item
+
 const updateSlider = async (req) => {
   try {
     const { searchParams } = new URL(req.url);
@@ -101,7 +101,7 @@ const updateSlider = async (req) => {
   }
 };
 
-// DELETE - Remove slider item
+
 const deleteSlider = async (req) => {
   try {
     const { searchParams } = new URL(req.url);
@@ -140,7 +140,7 @@ const deleteSlider = async (req) => {
   }
 };
 
-// Main handler function
+
 const handler = async (req) => {
   switch (req.method) {
     case 'GET':

@@ -794,7 +794,7 @@ export default function CreateServicePage() {
                     <Plus className="h-4 w-4" />
                     Add Component
                   </button>
-                </div>
+                </div>  
                 <div className="space-y-6">{benefitComponents}</div>
               </div>
             </div>

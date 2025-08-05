@@ -6,11 +6,14 @@ export default async function EditBlogPage({ params }) {
 
   const { slug } = await params;
   
+
+  console.log(slug);
+  
   const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     return <div className="p-4 text-red-500">Blog post not found</div>;
   }
 
-  return <EditBlog blogSlug={slug} initialData={blog} />;
+  return <EditBlog initialData={blog} />;
 }

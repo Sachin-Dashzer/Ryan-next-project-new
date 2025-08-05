@@ -54,47 +54,46 @@ const ServicePage = async () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    S.No
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Page URL
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Page Title
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Created At
-                  </th>
+                  <th className="text-left p-4 font-medium text-gray-700">S.No</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Page URL</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Page Title</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Created At</th>
                   <th className="w-32 p-4">Menu</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {Services.map((Service, index) => (
-                  <tr
-                    key={Service._id}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
+                  <tr key={Service._id} className="hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-gray-600">{index + 1}</td>
 
                     <td className="p-4">
-                      <div className="text-blue-600 hover:text-blue-800 font-medium">
-                        <a href={`/${Service.metadata?.pageurl}`}>
-                          {Service.metadata?.pageurl}
-                        </a>{" "}
-                      </div>
+                      {Service.metadata?.pageurl ? (
+                        <div className="text-blue-600 hover:text-blue-800 font-medium">
+                          <a href={`/${Service.metadata.pageurl}`}>
+                            {Service.metadata.pageurl}
+                          </a>
+                        </div>
+                      ) : (
+                        <span className="text-gray-400 italic">No URL</span>
+                      )}
                     </td>
+
                     <td className="p-4">
                       <div className="font-medium text-gray-900">
-                        {Service.metadata?.title}
+                        {Service.metadata?.title || (
+                          <span className="text-gray-400 italic">No Title</span>
+                        )}
                       </div>
                     </td>
+
                     <td className="p-4 text-gray-600">
-                      {formatDate(Service.createdAt)}
+                      {Service.createdAt ? formatDate(Service.createdAt) : "—"}
                     </td>
-                    <td className="p-4 text-center  flex gap-2 justify-center items-center align-middle">
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors"></button>
-                      <SquarePen className="w-4 h-4 text-blue-600" />
+
+                    <td className="p-4 text-center flex gap-2 justify-center items-center align-middle">
+                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
+                        <SquarePen className="w-4 h-4 text-blue-600" />
+                      </button>
                       <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
                         <Trash className="w-4 h-4 text-blue-600" />
                       </button>

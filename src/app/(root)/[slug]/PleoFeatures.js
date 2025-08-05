@@ -1,9 +1,10 @@
+"use client";
 import React from "react";
 
-const PleoFeatures = ({ features, title, description }) => {
+const PleoFeatures = ({ features = [], title, description }) => {
   return (
     <section className="bg-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             {title}
@@ -23,7 +24,7 @@ const PleoFeatures = ({ features, title, description }) => {
               <div className="absolute top-0 left-6 w-12 h-0.5 bg-blue-500 group-hover:w-16 transition-all duration-300"></div>
               <div className="flex items-start space-x-4">
                 <div className="text-2xl p-2 bg-blue-50 rounded-lg text-blue-600">
-                  {feature.icon}
+                  {feature.icon && feature.icon}
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">

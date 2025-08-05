@@ -19,7 +19,7 @@ export const getAllServices = async () => {
   }
 };
 
-export const getServiceBySlug = async (slug) => {
+export const getServiceBySlug = async (id) => {
   try {
     const res = await fetch(API_URL, {
       method: "GET",
@@ -32,7 +32,7 @@ export const getServiceBySlug = async (slug) => {
     const result = await res.json();
     const Services = result.data || [];
 
-    return Services.find((Service) => Service.metadata?.pageurl === slug) || null;
+    return Services.find((Service) => Service.metadata?.pageurl === id) || null;
   } catch (error) {
     console.error("getServiceBySlug error:", error.message);
     return null;
