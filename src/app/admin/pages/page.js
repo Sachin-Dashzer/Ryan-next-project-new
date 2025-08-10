@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getAllServices } from "@/lib/serviceData";
 import AdminHeader from "@/components/admin/adminHeader";
 import { Search, Filter, SquarePen, Trash } from "lucide-react";

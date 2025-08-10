@@ -1,37 +1,38 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { Plus, Trash, Save } from "lucide-react";
 
 // Dynamic imports with loading states
-const Editor = dynamic(() => import('@/components/textEditor'), {
+const Editor = dynamic(() => import("@/components/textEditor"), {
   ssr: false,
-  loading: () => <div className="h-40 bg-gray-100 animate-pulse rounded" />
+  loading: () => <div className="h-40 bg-gray-100 animate-pulse rounded-lg" />,
 });
 
-const FileUpload = dynamic(() => import('@/components/admin/ImageUploader'), {
+const FileUpload = dynamic(() => import("@/components/admin/ImageUploader"), {
   ssr: false,
-  loading: () => <div className="h-32 bg-gray-100 animate-pulse rounded" />
+  loading: () => <div className="h-32 bg-gray-100 animate-pulse rounded-lg" />,
 });
 
 const initialFormState = {
-  pageName: '',
-  pageType: '',
-  serviceTitle: '',
-  description: '',
-  pageUrl: '',
-  bannerTitle: '',
-  bannerDescription: '',
-  bannerImage: '',
-  overviewContent: '',
-  typesDetails: '',
-  typeImages: ['', '', ''],
-  benefitsTitle: '',
-  benefitsDescription: '',
+  pageName: "",
+  pageType: "",
+  serviceTitle: "",
+  description: "",
+  pageUrl: "",
+  bannerTitle: "",
+  bannerDescription: "",
+  bannerImage: "",
+  overviewContent: "",
+  typesDetails: "",
+  typeImages: ["", "", ""],
+  benefitsTitle: "",
+  benefitsDescription: "",
   benefitComponents: [],
   faqs: [],
-  extraDetail1: '',
-  extraDetail2: ''
+  extraDetail1: "",
+  extraDetail2: "",
 };
 
 export default function EditService({ initialData }) {
@@ -39,460 +40,638 @@ export default function EditService({ initialData }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [isMounted, setIsMounted] = useState(false);
+  const [serverMsg, setServerMsg] = useState("");
 
   // Initialize form with initialData
   useEffect(() => {
     setIsMounted(true);
     if (initialData) {
       setFormData({
-        pageName: initialData.metadata?.pageName || '',
-        pageType: initialData.metadata?.pageType || '',
-        serviceTitle: initialData.metadata?.title || '',
-        description: initialData.metadata?.description || '',
-        pageUrl: initialData.metadata?.pageurl || '',
-        bannerTitle: initialData.bannerData?.title || '',
-        bannerDescription: initialData.bannerData?.description || '',
-        bannerImage: initialData.bannerData?.imageurl || '',
-        overviewContent: initialData.metadata?.overviewData || '',
-        typesDetails: initialData.typesData?.details || '',
-        typeImages: initialData.typesData?.images || ['', '', ''],
-        benefitsTitle: initialData.benefitsData?.title || '',
-        benefitsDescription: initialData.benefitsData?.description || '',
+        pageName: initialData.metadata?.pageName || "",
+        pageType: initialData.metadata?.pageType || "",
+        serviceTitle: initialData.metadata?.title || "",
+        description: initialData.metadata?.description || "",
+        pageUrl: initialData.metadata?.pageurl || "",
+        bannerTitle: initialData.bannerData?.title || "",
+        bannerDescription: initialData.bannerData?.description || "",
+        bannerImage: initialData.bannerData?.imageurl || "",
+        overviewContent: initialData.metadata?.overviewData || "",
+        typesDetails: initialData.typesData?.details || "",
+        typeImages: initialData.typesData?.images || ["", "", ""],
+        benefitsTitle: initialData.benefitsData?.title || "",
+        benefitsDescription: initialData.benefitsData?.description || "",
         benefitComponents: initialData.benefitsData?.component || [],
         faqs: initialData.faq || [],
-        extraDetail1: initialData.extraFields?.detail1 || '',
-        extraDetail2: initialData.extraFields?.detail2 || ''
+        extraDetail1: initialData.extraFields?.detail1 || "",
+        extraDetail2: initialData.extraFields?.detail2 || "",
       });
     }
   }, [initialData]);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.pageName.trim()) newErrors.pageName = 'Page name is required';
-    if (!formData.serviceTitle.trim()) newErrors.serviceTitle = 'Service title is required';
-    if (!formData.pageUrl.trim()) newErrors.pageUrl = 'Page URL is required';
+    if (!formData.pageName.trim()) newErrors.pageName = "Page name is required";
+    if (!formData.serviceTitle.trim())
+      newErrors.serviceTitle = "Service title is required";
+    if (!formData.pageUrl.trim()) newErrors.pageUrl = "Page URL is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const handleEditorChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileUpload = (index, url) => {
     const updatedImages = [...formData.typeImages];
     updatedImages[index] = url;
-    setFormData(prev => ({ ...prev, typeImages: updatedImages }));
+    setFormData((prev) => ({ ...prev, typeImages: updatedImages }));
   };
 
   const handleBenefitChange = (index, field, value) => {
     const updated = [...formData.benefitComponents];
     updated[index][field] = value;
-    setFormData(prev => ({ ...prev, benefitComponents: updated }));
+    setFormData((prev) => ({ ...prev, benefitComponents: updated }));
   };
 
   const addBenefit = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      benefitComponents: [...prev.benefitComponents, { title: '', description: '', icon: '' }]
+      benefitComponents: [
+        ...prev.benefitComponents,
+        { title: "", description: "", icon: "" },
+      ],
     }));
   };
 
   const removeBenefit = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      benefitComponents: prev.benefitComponents.filter((_, i) => i !== index)
+      benefitComponents: prev.benefitComponents.filter((_, i) => i !== index),
     }));
   };
 
   const handleFaqChange = (index, field, value) => {
     const updated = [...formData.faqs];
     updated[index][field] = value;
-    setFormData(prev => ({ ...prev, faqs: updated }));
+    setFormData((prev) => ({ ...prev, faqs: updated }));
   };
 
   const addFaq = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      faqs: [...prev.faqs, { question: '', answer: '' }]
+      faqs: [...prev.faqs, { question: "", answer: "" }],
     }));
   };
 
   const removeFaq = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      faqs: prev.faqs.filter((_, i) => i !== index)
+      faqs: prev.faqs.filter((_, i) => i !== index),
     }));
   };
 
   const handleImageUpload = (url) => {
-    setFormData(prev => ({ ...prev, bannerImage: url }));
+    setFormData((prev) => ({ ...prev, bannerImage: url }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-    
+    if (!validateForm()) {
+      setServerMsg("Please fix the validation errors before submitting.");
+      return;
+    }
+
     setIsSubmitting(true);
+    setServerMsg("");
     try {
-      const response = await fetch('/api/services/update', {
-        method: 'POST',
+      const response = await fetch("/api/services/update", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to update service');
+        throw new Error("Failed to update service");
       }
-      
+
       const result = await response.json();
-      alert('Service updated successfully!');
+      setServerMsg("Service updated successfully!");
     } catch (error) {
-      console.error('Error updating service:', error);
-      alert('Error updating service. Please try again.');
+      console.error("Error updating service:", error);
+      setServerMsg("Error updating service. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   if (!isMounted) {
-    return <div className="max-w-5xl mx-auto p-6">Loading form...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-5xl mx-auto">Loading form...</div>
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-5xl mx-auto space-y-6 p-4 md:p-6">
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Edit Service</h1>
-
-      {/* Service Metadata */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Service Metadata
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="pageName" className="block text-sm font-medium text-gray-700 mb-1">Page Name*</label>
-            <input
-              id="pageName"
-              name="pageName"
-              value={formData.pageName}
-              onChange={handleChange}
-              placeholder="Page Name"
-              className={`w-full px-3 py-2 border rounded-md ${errors.pageName ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            {errors.pageName && <p className="mt-1 text-sm text-red-600">{errors.pageName}</p>}
-          </div>
-          
-          <div>
-            <label htmlFor="pageType" className="block text-sm font-medium text-gray-700 mb-1">Page Type</label>
-            <input
-              id="pageType"
-              name="pageType"
-              value={formData.pageType}
-              onChange={handleChange}
-              placeholder="Page Type"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="serviceTitle" className="block text-sm font-medium text-gray-700 mb-1">Service Title*</label>
-            <input
-              id="serviceTitle"
-              name="serviceTitle"
-              value={formData.serviceTitle}
-              onChange={handleChange}
-              placeholder="Service Title"
-              className={`w-full px-3 py-2 border rounded-md ${errors.serviceTitle ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            {errors.serviceTitle && <p className="mt-1 text-sm text-red-600">{errors.serviceTitle}</p>}
-          </div>
-          
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <input
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Description"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          
-          <div className="md:col-span-2">
-            <label htmlFor="pageUrl" className="block text-sm font-medium text-gray-700 mb-1">Page URL*</label>
-            <input
-              id="pageUrl"
-              name="pageUrl"
-              value={formData.pageUrl}
-              onChange={handleChange}
-              placeholder="Page URL"
-              className={`w-full px-3 py-2 border rounded-md ${errors.pageUrl ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            {errors.pageUrl && <p className="mt-1 text-sm text-red-600">{errors.pageUrl}</p>}
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-8">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
+          <p className="mt-2 text-gray-600">
+            Update the service details below.
+          </p>
         </div>
       </div>
 
-      {/* Banner */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Banner Configuration
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="bannerTitle" className="block text-sm font-medium text-gray-700 mb-1">Banner Title</label>
-            <input
-              id="bannerTitle"
-              name="bannerTitle"
-              value={formData.bannerTitle}
-              onChange={handleChange}
-              placeholder="Banner Title"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label htmlFor="bannerDescription" className="block text-sm font-medium text-gray-700 mb-1">Banner Description</label>
-            <input
-              id="bannerDescription"
-              name="bannerDescription"
-              value={formData.bannerDescription}
-              onChange={handleChange}
-              placeholder="Banner Description"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Banner Image</label>
-          <FileUpload 
-            onUpload={handleImageUpload} 
-            initialImage={formData.bannerImage} 
-            accept="image/*"
-            maxSize={5 * 1024 * 1024}
-          />
-        </div>
-      </div>
-
-      {/* Overview */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Service Overview
-        </h2>
-        <div className="min-h-[200px]">
-          <Editor 
-            key={`overview-${isMounted}`}
-            value={formData.overviewContent || ''}
-            onChange={(val) => handleEditorChange('overviewContent', val)} 
-            placeholder="Enter service overview content..."
-          />
-        </div>
-      </div>
-
-      {/* Types */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Service Types
-        </h2>
-        <div className="min-h-[200px]">
-          <Editor 
-            key={`types-${isMounted}`}
-            value={formData.typesDetails || ''}
-            onChange={(val) => handleEditorChange('typesDetails', val)} 
-            placeholder="Enter service types details..."
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {formData.typeImages.map((img, idx) => (
-            <div key={idx}>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Type Image {idx + 1}</label>
-              <FileUpload 
-                onUpload={(url) => handleFileUpload(idx, url)} 
-                initialImage={img} 
-                accept="image/*"
-                maxSize={5 * 1024 * 1024}
-              />
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Service Metadata */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Service Metadata
+              </h2>
+              <p className="text-gray-600">
+                Basic information about your service
+              </p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Benefits */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Service Benefits
-        </h2>
-        <div>
-          <label htmlFor="benefitsTitle" className="block text-sm font-medium text-gray-700 mb-1">Benefits Title</label>
-          <input
-            id="benefitsTitle"
-            name="benefitsTitle"
-            value={formData.benefitsTitle}
-            onChange={handleChange}
-            placeholder="Benefits Title"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        <div>
-          <label htmlFor="benefitsDescription" className="block text-sm font-medium text-gray-700 mb-1">Benefits Description</label>
-          <input
-            id="benefitsDescription"
-            name="benefitsDescription"
-            value={formData.benefitsDescription}
-            onChange={handleChange}
-            placeholder="Benefits Description"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        
-        {formData.benefitComponents.map((b, index) => (
-          <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border-b border-gray-100 pb-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-              <input
-                value={b.title}
-                onChange={(e) => handleBenefitChange(index, 'title', e.target.value)}
-                placeholder="Title"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-              <input
-                value={b.description}
-                onChange={(e) => handleBenefitChange(index, 'description', e.target.value)}
-                placeholder="Description"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="flex space-x-2">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Page Name*
+                </label>
                 <input
-                  value={b.icon}
-                  onChange={(e) => handleBenefitChange(index, 'icon', e.target.value)}
-                  placeholder="Icon URL"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  name="pageName"
+                  value={formData.pageName}
+                  onChange={handleChange}
+                  placeholder="Page Name"
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors ${
+                    errors.pageName ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.pageName && (
+                  <p className="mt-1 text-sm text-red-600">{errors.pageName}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Page Type
+                </label>
+                <select
+                  name="pageType"
+                  value={formData.pageType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                >
+                  <option value="transplant">Transplant</option>
+                  <option value="surgery">Surgery</option>
+                  <option value="treatment">Treatment</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Service Title*
+                </label>
+                <input
+                  name="serviceTitle"
+                  value={formData.serviceTitle}
+                  onChange={handleChange}
+                  placeholder="Service Title"
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors ${
+                    errors.serviceTitle ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.serviceTitle && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.serviceTitle}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description
+                </label>
+                <input
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Description"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => removeBenefit(index)}
-                className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-                aria-label="Remove benefit"
-              >
-                ×
-              </button>
+
+              <div className="lg:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Page URL*
+                </label>
+                <input
+                  name="pageUrl"
+                  value={formData.pageUrl}
+                  onChange={handleChange}
+                  placeholder="Page URL"
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors ${
+                    errors.pageUrl ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.pageUrl && (
+                  <p className="mt-1 text-sm text-red-600">{errors.pageUrl}</p>
+                )}
+              </div>
             </div>
           </div>
-        ))}
-        
-        <button 
-          type="button" 
-          onClick={addBenefit} 
-          className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
-        >
-          + Add Benefit Component
-        </button>
-      </div>
 
-      {/* FAQs */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          FAQs
-        </h2>
-        {formData.faqs.map((faq, index) => (
-          <div key={index} className="space-y-2 border-b border-gray-100 pb-4 mb-4">
-            <div className="flex justify-between items-center">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Question {index + 1}</label>
-              <button
-                type="button"
-                onClick={() => removeFaq(index)}
-                className="text-red-600 hover:text-red-800 text-sm font-medium"
-                aria-label="Remove FAQ"
-              >
-                Remove
-              </button>
+          {/* Banner Configuration */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Banner Configuration
+              </h2>
+              <p className="text-gray-600">
+                Set up the main banner for your service page
+              </p>
             </div>
-            <input
-              value={faq.question}
-              onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-              placeholder="FAQ Question"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-            <label className="block text-sm font-medium text-gray-700 mb-1 mt-3">Answer</label>
-            <div className="min-h-[150px]">
-              <Editor 
-                key={`faq-${index}-${isMounted}`}
-                value={faq.answer || ''}
-                onChange={(val) => handleFaqChange(index, 'answer', val)} 
-                placeholder="Enter FAQ answer..."
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Banner Title
+                </label>
+                <input
+                  name="bannerTitle"
+                  value={formData.bannerTitle}
+                  onChange={handleChange}
+                  placeholder="Banner Title"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Banner Description
+                </label>
+                <input
+                  name="bannerDescription"
+                  value={formData.bannerDescription}
+                  onChange={handleChange}
+                  placeholder="Banner Description"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                />
+              </div>
+              <div className="lg:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Banner Image
+                </label>
+                <FileUpload
+                  onUpload={handleImageUpload}
+                  initialImage={formData.bannerImage}
+                  accept="image/*"
+                  maxSize={5 * 1024 * 1024}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Service Overview */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Service Overview
+              </h2>
+              <p className="text-gray-600">
+                Detailed overview of your service
+              </p>
+            </div>
+            <div className="min-h-[200px]">
+              <Editor
+                key={`overview-${isMounted}`}
+                value={formData.overviewContent || ""}
+                onChange={(val) => handleEditorChange("overviewContent", val)}
+                placeholder="Enter service overview content..."
               />
             </div>
           </div>
-        ))}
-        <button 
-          type="button" 
-          onClick={addFaq} 
-          className="mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium"
-        >
-          + Add FAQ
-        </button>
-      </div>
 
-      {/* Additional Info */}
-      <div className="space-y-4 bg-white p-4 md:p-6 rounded-lg shadow border border-gray-100">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-700 pb-2 border-b border-gray-200">
-          Additional Information
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Extra Detail 1</label>
-            <Editor 
-              value={formData.extraDetail1 || ''}
-              onChange={(val) => handleEditorChange('extraDetail1', val)} 
-              placeholder="Enter additional information..."
-            />
+          {/* Service Types */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Service Types
+              </h2>
+              <p className="text-gray-600">
+                Define your service type and add representative images
+              </p>
+            </div>
+            <div className="space-y-8">
+              <div className="min-h-[200px]">
+                <Editor
+                  key={`types-${isMounted}`}
+                  value={formData.typesDetails || ""}
+                  onChange={(val) => handleEditorChange("typesDetails", val)}
+                  placeholder="Enter service types details..."
+                />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-5">
+                  Service Images (3 required)
+                </h3>
+                <div className=" gap-4">
+                  {formData.typeImages.map((img, idx) => (
+                    <div key={idx} className="my-3">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Type Image {idx + 1}
+                      </label>
+                      <FileUpload
+                        onUpload={(url) => handleFileUpload(idx, url)}
+                        initialImage={img}
+                        accept="image/*"
+                        maxSize={5 * 1024 * 1024}
+                      />
+                      <p className="text-xs text-blue-500">{img}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Extra Detail 2</label>
-            <Editor 
-              value={formData.extraDetail2 || ''}
-              onChange={(val) => handleEditorChange('extraDetail2', val)} 
-              placeholder="Enter additional information..."
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Submit */}
-      <div className="flex justify-end pt-4">
-        <button 
-          type="submit" 
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 text-base font-medium disabled:opacity-70 transition-colors flex items-center"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Saving...
-            </>
-          ) : 'Save Changes'}
-        </button>
+          {/* Service Benefits */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Service Benefits
+              </h2>
+              <p className="text-gray-600">
+                Highlight the key benefits of your service
+              </p>
+            </div>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Benefits Title
+                </label>
+                <input
+                  name="benefitsTitle"
+                  value={formData.benefitsTitle}
+                  onChange={handleChange}
+                  placeholder="Benefits Title"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Benefits Description
+                </label>
+                <input
+                  name="benefitsDescription"
+                  value={formData.benefitsDescription}
+                  onChange={handleChange}
+                  placeholder="Benefits Description"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                />
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Benefit Components
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={addBenefit}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 transition-colors"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Component
+                  </button>
+                </div>
+                
+                <div className="space-y-6">
+                  {formData.benefitComponents.map((b, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 rounded-lg p-4 space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">
+                          Benefit {index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeBenefit(index)}
+                          className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Title
+                        </label>
+                        <input
+                          value={b.title}
+                          onChange={(e) =>
+                            handleBenefitChange(index, "title", e.target.value)
+                          }
+                          placeholder="Title"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Description
+                        </label>
+                        <input
+                          value={b.description}
+                          onChange={(e) =>
+                            handleBenefitChange(index, "description", e.target.value)
+                          }
+                          placeholder="Description"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Icon URL
+                        </label>
+                        <input
+                          value={b.icon}
+                          onChange={(e) =>
+                            handleBenefitChange(index, "icon", e.target.value)
+                          }
+                          placeholder="Icon URL"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQs */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-gray-600">
+                Add common questions and answers about your service
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium text-gray-900">
+                  FAQ Entries
+                </h3>
+                <button
+                  type="button"
+                  onClick={addFaq}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 transition-colors"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add FAQ
+                </button>
+              </div>
+              
+              <div className="space-y-6">
+                {formData.faqs.map((faq, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">
+                        FAQ {index + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeFaq(index)}
+                        className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+                      >
+                        <Trash className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Question
+                      </label>
+                      <input
+                        value={faq.question}
+                        onChange={(e) =>
+                          handleFaqChange(index, "question", e.target.value)
+                        }
+                        placeholder="FAQ Question"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Answer
+                      </label>
+                      <textarea
+                        value={faq.answer}
+                        onChange={(e) => handleFaqChange(index, "answer", e.target.value)}
+                        rows={3}
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                        placeholder="Enter FAQ answer"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Additional Information
+              </h2>
+              <p className="text-gray-600">
+                Any additional details or custom fields
+              </p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Extra Detail 1
+                </label>
+                <Editor
+                  value={formData.extraDetail1 || ""}
+                  onChange={(val) => handleEditorChange("extraDetail1", val)}
+                  placeholder="Enter additional information..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Extra Detail 2
+                </label>
+                <Editor
+                  value={formData.extraDetail2 || ""}
+                  onChange={(val) => handleEditorChange("extraDetail2", val)}
+                  placeholder="Enter additional information..."
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Section */}
+          <div className="bg-white rounded-xl border border-gray-200 p-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Ready to Update Service?
+              </h2>
+              <p className="text-gray-600">
+                Review all information before submitting
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Updating...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    Update Service
+                  </>
+                )}
+              </button>
+            </div>
+
+            {serverMsg && (
+              <div
+                className={`mt-4 p-4 rounded-lg ${
+                  serverMsg.includes("Error") || serverMsg.includes("failed")
+                    ? "bg-red-50 text-red-700 border border-red-200"
+                    : "bg-green-50 text-green-700 border border-green-200"
+                }`}
+              >
+                {serverMsg}
+              </div>
+            )}
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }

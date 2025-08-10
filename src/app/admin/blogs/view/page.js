@@ -1,11 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import { getAllBlogs } from "@/lib/blogData";
 import AdminHeader from "@/components/admin/adminHeader";
-import { Search, Filter, SquarePen , Trash } from "lucide-react";
+import { Search, Filter, SquarePen, Trash } from "lucide-react";
 
 const BlogPage = async () => {
   const blogs = await getAllBlogs();
-
-  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -56,27 +56,16 @@ const BlogPage = async () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    S.no
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Page Title
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Page URL
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-700">
-                    Created At
-                  </th>
-                  <th className="w-40  p-4">Menu</th>
+                  <th className="text-left p-4 font-medium text-gray-700">S.no</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Page Title</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Page URL</th>
+                  <th className="text-left p-4 font-medium text-gray-700">Created At</th>
+                  <th className="w-40 p-4">Menu</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {blogs.map((blog, index) => (
-                  <tr
-                    key={blog._id}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
+                  <tr key={blog._id} className="hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-gray-600">{index + 1}</td>
                     <td className="p-4">
                       <div className="font-medium text-gray-900">
@@ -91,10 +80,10 @@ const BlogPage = async () => {
                     <td className="p-4 text-gray-600">
                       {formatDate(blog.createdAt)}
                     </td>
-                    <td className="p-4 text-center  flex gap-2 justify-center items-center align-middle">
+                    <td className="p-4 text-center flex gap-2 justify-center items-center align-middle">
                       <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
-                      </button>
                         <SquarePen className="w-4 h-4 text-blue-600" />
+                      </button>
                       <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
                         <Trash className="w-4 h-4 text-blue-600" />
                       </button>
