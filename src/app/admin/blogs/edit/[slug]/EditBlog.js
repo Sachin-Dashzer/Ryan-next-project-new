@@ -14,6 +14,7 @@ import "suneditor/dist/css/suneditor.min.css";
 const EditBlog = ({ initialData }) => {
   const editorRef = useRef(null);
   const [editorReady, setEditorReady] = useState(false);
+  const injectedOnceRef = useRef(false); // ensure we set initial HTML only once per record
 
   const [formData, setFormData] = useState({
     _id: "",
@@ -29,6 +30,7 @@ const EditBlog = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  // Hydrate from initialData
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -42,6 +44,7 @@ const EditBlog = ({ initialData }) => {
         blogContent: initialData.blogContent || "",
       });
       setDataLoaded(true);
+      injectedOnceRef.current = false; // reset injection when record changes
     }
   }, [initialData]);
 
@@ -50,10 +53,12 @@ const EditBlog = ({ initialData }) => {
     setEditorReady(true);
   };
 
+  // Inject initial content once after editor is ready + data loaded
   useEffect(() => {
-    if (editorReady && dataLoaded && formData.blogContent) {
+    if (editorReady && dataLoaded && !injectedOnceRef.current) {
       try {
-        editorRef.current.setContents(formData.blogContent);
+        editorRef.current?.setContents?.(formData.blogContent || "");
+        injectedOnceRef.current = true;
       } catch (error) {
         console.error("Error setting editor contents:", error);
       }
@@ -61,10 +66,10 @@ const EditBlog = ({ initialData }) => {
   }, [editorReady, dataLoaded, formData.blogContent]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleEditorChange = (content) => {
@@ -87,26 +92,20 @@ const EditBlog = ({ initialData }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`/api/blog/edit/${formData.id}`, {
+      // FIX: use _id, not id
+      const res = await fetch(`/api/blog/edit/${formData._id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to update blog");
-      }
-
-      if (!data.success) {
-        throw new Error(data.message || "Blog update failed");
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Failed to update blog");
       }
 
       alert("Blog updated successfully!");
-
     } catch (error) {
       console.error("Update error:", error);
       alert(error.message || "Error updating blog. Please try again.");
@@ -130,10 +129,7 @@ const EditBlog = ({ initialData }) => {
     <section className="p-4">
       <AdminHeader title="/ Edit Blog" />
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6 px-6 mx-auto max-w-6xl"
-      >
+      <form onSubmit={handleSubmit} className="space-y-6 px-6 mx-auto max-w-6xl">
         <h3 className="text-2xl font-bold underline mb-5">Meta Details</h3>
 
         <div className="flex gap-6 flex-col md:flex-row">
@@ -148,11 +144,9 @@ const EditBlog = ({ initialData }) => {
               onChange={handleChange}
               className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter meta title"
-              maxLength="60"
+              maxLength={60}
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Recommended: 50-60 characters
-            </p>
+            <p className="text-xs text-gray-500 mt-1">Recommended: 50-60 characters</p>
           </div>
 
           <div className="w-full">
@@ -165,13 +159,10 @@ const EditBlog = ({ initialData }) => {
               onChange={handleChange}
               className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter meta description"
-              // rows="3"
-              maxLength="60"
+              maxLength={160}
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Recommended: 150-160 characters
-            </p>
+            <p className="text-xs text-gray-500 mt-1">Recommended: 150-160 characters</p>
           </div>
         </div>
 
@@ -190,9 +181,7 @@ const EditBlog = ({ initialData }) => {
               className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="https://your-page-url.com"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Must start with http:// or https://
-            </p>
+            <p className="text-xs text-gray-500 mt-1">Must start with http:// or https://</p>
           </div>
 
           <div className="w-full">
@@ -215,18 +204,11 @@ const EditBlog = ({ initialData }) => {
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Banner Image
           </label>
-          <ImageUploader
-            onUpload={handleImageUpload}
-            initialImage={formData.pageImageUrl}
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Recommended size: 1200x630 pixels
-          </p>
+          <ImageUploader onUpload={handleImageUpload} initialImage={formData.pageImageUrl} />
+          <p className="text-xs text-gray-500 mt-1">Recommended size: 1200x630 pixels</p>
         </div>
 
-        <h3 className="text-2xl font-bold underline mt-10 mb-5">
-          Blog Body Content
-        </h3>
+        <h3 className="text-2xl font-bold underline mt-10 mb-5">Blog Body Content</h3>
 
         <div className="mb-6">
           <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -250,20 +232,13 @@ const EditBlog = ({ initialData }) => {
           <SunEditor
             getSunEditorInstance={handleEditorLoad}
             onChange={handleEditorChange}
-            setContents={formData.blogContent}
+            // NOTE: don't pass `setContents` prop; we set via instance in useEffect
             setOptions={{
               height: "400px",
               buttonList: [
                 ["undo", "redo"],
                 ["font", "fontSize", "formatBlock"],
-                [
-                  "bold",
-                  "underline",
-                  "italic",
-                  "strike",
-                  "subscript",
-                  "superscript",
-                ],
+                ["bold", "underline", "italic", "strike", "subscript", "superscript"],
                 ["fontColor", "hiliteColor"],
                 ["align", "horizontalRule", "list", "table"],
                 ["link", "image", "video"],
@@ -272,7 +247,7 @@ const EditBlog = ({ initialData }) => {
               ],
               defaultStyle:
                 "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 16px;",
-              imageUploadUrl: "/api/upload", // Your image upload endpoint
+              imageUploadUrl: "/api/upload",
             }}
           />
         </div>
