@@ -25,7 +25,6 @@ export default function Home() {
         </div>
       </div>
 
-      <h1 className="text-8xl">Every thing is fantastic</h1>
 
       <HairTransplantPage />
       <WhyChooseRyanClinic />
