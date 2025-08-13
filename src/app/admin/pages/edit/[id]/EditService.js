@@ -77,6 +77,7 @@ export default function EditService({ initialData }) {
     setIsMounted(true);
     if (initialData) {
       setFormData({
+        id: initialData._id || "",
         pageName: initialData.metadata?.pageName || "",
         pageType: initialData.metadata?.pageType || "",
         serviceTitle: initialData.metadata?.title || "",
@@ -199,8 +200,8 @@ export default function EditService({ initialData }) {
     setIsSubmitting(true);
     setServerMsg("");
     try {
-      const response = await fetch("/api/services/update", {
-        method: "POST",
+      const response = await fetch("/api/service/edit", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
@@ -625,3 +626,4 @@ export default function EditService({ initialData }) {
     </div>
   );
 }
+
