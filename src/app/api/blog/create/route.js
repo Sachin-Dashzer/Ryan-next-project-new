@@ -1,29 +1,28 @@
 import { NextResponse } from "next/server";
 import { withDB } from "@/lib/withDB";
-import Services from "@/models/services";
+import Blog from "@/models/blog";
 
 const handler = async (req) => {
   const body = await req.json();
+
   const {
-    metadata,
-    bannerData,
-    overviewData,
-    typesData,
-    benefitsData,
-    faq,
-    extraFields,
+    metaTitle,
+    metaDiscription,
+    pageTitle,
+    pageUrl,
+    pageImageUrl,
+    blogTitle,
+    blogContent,
   } = body;
 
+  // ===== VALIDATION =====
   if (
-    !metadata?.title ||
-    !metadata?.description ||
-    !metadata?.pageurl ||
-    !bannerData?.title ||
-    !bannerData?.description ||
-    !bannerData?.url ||
-    !overviewData ||
-    !benefitsData?.details ||
-    !benefitsData?.image
+    !metaTitle?.trim() ||
+    !metaDiscription?.trim() ||
+    !pageTitle?.trim() ||
+    !pageUrl?.trim() ||
+    !blogTitle?.trim() ||
+    !blogContent?.trim()
   ) {
     return NextResponse.json(
       { message: "Please fill all the required fields", data: body },
@@ -31,31 +30,52 @@ const handler = async (req) => {
     );
   }
 
-  const existedService = await Services.findOne({
-    "metadata.pageurl": metadata.pageurl,
-  });
-
-  if (existedService) {
+  if (pageTitle.length < 3) {
     return NextResponse.json(
-      { message: "Service already exists", data: body },
+      { message: "Page title must be at least 3 characters long" },
+      { status: 400 }
+    );
+  }
+
+  if (blogTitle.length < 3) {
+    return NextResponse.json(
+      { message: "Blog title must be at least 3 characters long" },
+      { status: 400 }
+    );
+  }
+
+  if (blogContent.length < 20) {
+    return NextResponse.json(
+      { message: "Blog content must be at least 20 characters long" },
+      { status: 400 }
+    );
+  }
+
+  // ===== CHECK IF BLOG ALREADY EXISTS =====
+  const existedBlog = await Blog.findOne({ pageUrl });
+
+  if (existedBlog) {
+    return NextResponse.json(
+      { message: "Blog already exists with this page URL", data: body },
       { status: 409 }
     );
   }
 
-  const newService = new Services({
-    metadata,
-    bannerData,
-    overviewData,
-    typesData,
-    benefitsData,
-    faq,
-    extraFields,
+  // ===== CREATE NEW BLOG =====
+  const newBlog = new Blog({
+    metaTitle,
+    metaDiscription,
+    pageTitle,
+    pageUrl,
+    pageImageUrl,
+    blogTitle,
+    blogContent,
   });
 
-  await newService.save();
+  await newBlog.save();
 
   return NextResponse.json(
-    { message: "Service registered successfully!", data: newService },
+    { message: "Blog created successfully!", data: newBlog },
     { status: 201 }
   );
 };

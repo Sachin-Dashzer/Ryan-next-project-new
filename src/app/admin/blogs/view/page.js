@@ -74,19 +74,17 @@ const BlogPage = async () => {
                     </td>
                     <td className="p-4">
                       <div className="text-blue-600 hover:text-blue-800 font-medium">
-                        <a href={blog.pageUrl}>Link</a>
+                        <a href={`/blog/${blog.pageUrl}`}>Link</a>
                       </div>
                     </td>
                     <td className="p-4 text-gray-600">
                       {formatDate(blog.createdAt)}
                     </td>
                     <td className="p-4 text-center flex gap-2 justify-center items-center align-middle">
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
-                        <SquarePen className="w-4 h-4 text-blue-600" />
-                      </button>
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
+                        <a href={`/admin/blogs/edit/${blog.pageUrl}`} className="flex justify-center p-2 gap-2 align-baseline"><SquarePen className="w-4 h-4 text-blue-600" /><span>Edit</span> </a>  
+                      {/* <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
                         <Trash className="w-4 h-4 text-blue-600" />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown, Phone, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Logo from '../../../public/uploads/logo-2.png'
 
 const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -84,7 +85,7 @@ const Header = () => {
           <Link href="/" className="flex items-center">
             <div className="relative">
               <Image
-                src="https://res.cloudinary.com/dha2ecdnn/image/upload/v1740393300/logo_tl4ww5.png"
+                src={Logo}
                 alt="Ryan Clinic"
                 width={200}
                 height={200}

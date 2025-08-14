@@ -93,12 +93,10 @@ const ServicePage = async () => {
                     </td>
 
                     <td className="p-4 text-center flex gap-2 justify-center items-center align-middle">
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
-                        <SquarePen className="w-4 h-4 text-blue-600" />
-                      </button>
-                      <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
+                        <a href={`/admin/pages/edit/${Service.metadata.pageurl}`} className="flex justify-center p-2 gap-2 align-baseline"><SquarePen className="w-4 h-4 text-blue-600" /><span>Edit</span> </a>  
+                      {/* <button className="p-2 text-center hover:bg-gray-100 rounded-lg transition-colors">
                         <Trash className="w-4 h-4 text-blue-600" />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}

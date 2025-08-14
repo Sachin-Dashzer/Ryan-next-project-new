@@ -43,7 +43,11 @@ const Blog = () => {
   };
 
   const handleSubmit = async (e) => {
+
+
     e.preventDefault();
+
+    console.log(formData)
 
     const res = await fetch("/api/blog/create", {
       method: "POST",
