@@ -1,4 +1,6 @@
 import Image from "next/image";
+import ChooseImg from "../../../../public/uploads/one.jpg"
+
 import {
   Phone,
   CalendarDays,
@@ -79,7 +81,7 @@ export default function ChooseSection() {
           </p>
           <div className="w-full">
             <Image
-              src="https://res.cloudinary.com/dq1tzl5ir/image/upload/v1751454194/uploads/m6b8awmxtvefmp3mbgjm.webp"
+              src={ChooseImg}
               alt="Clinic Procedure"
               width={800}
               height={500}

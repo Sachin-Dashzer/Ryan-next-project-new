@@ -7,25 +7,24 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import ContactForm from "@/components/pages/contactForm";
 import { Button } from "@/components/ui/button";
-
+import Service1 from "../../../../public/uploads/service-one.jpg";
+import Service2 from "../../../../public/uploads/service-two.jpg";
+import Service3 from "../../../../public/uploads/service-three.jpg";
 
 // Example data for each clinic card
 const clinicCards = [
   {
-    image:
-      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742117190/service-3_fpwbh8.jpg",
+    image: Service1,
     title: "Natural Results Guaranteed in 10 Days",
     buttonText: "Know More About Ryan Treatment",
   },
   {
-    image:
-      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742117191/service-1_k3l2gu.jpg",
+    image: Service3,
     title: "Meet Our Turkey's Top Specialists",
     buttonText: "Know More About Ryan Treatment",
   },
   {
-    image:
-      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742117191/service-2_t9jf7i.jpg",
+    image: Service2,
     title: "Most Trusted Hair Clinic in India",
     buttonText: "Know More About Ryan Treatment",
   },
@@ -34,7 +33,7 @@ const clinicCards = [
 export default function HairTransplantPage() {
   return (
     <section>
-      <div className="containerFull ">
+      <div className="containerFull">
         <h1 className="text-3xl md:text-3xl text-center mb-10 font-hind">
           Top Hair Transplant Clinics in Delhi, and Across India: Best Deals &
           Results
@@ -44,9 +43,9 @@ export default function HairTransplantPage() {
           {/* Full Card Slider */}
           <div className="pr-6">
             <Swiper
-              modules={[Navigation]}
+              modules={[Navigation, Pagination]}
               navigation
-              pagination={{ clickable: false }}
+              pagination={{ clickable: true }}
               loop
               spaceBetween={10}
               breakpoints={{
@@ -58,7 +57,7 @@ export default function HairTransplantPage() {
               {clinicCards.map((card, index) => (
                 <SwiperSlide key={index} className="px-2 pb-3">
                   <div className="bg-white rounded-lg shadow-new overflow-hidden">
-                    <div className="">
+                    <div>
                       <div className="relative w-full h-88">
                         <Image
                           src={card.image}
@@ -73,7 +72,10 @@ export default function HairTransplantPage() {
                         {card.title}
                       </h2>
                       <div className="flex justify-center mt-2">
-                        <Button variant="outline" className="mb-4 text-xs py-[7px] bg-white text-black border-2 hover:bg-black hover:text-white hover:border-black">
+                        <Button
+                          variant="outline"
+                          className="mb-4 text-xs py-[7px] bg-white text-black border-2 hover:bg-black hover:text-white hover:border-black"
+                        >
                           {card.buttonText}
                         </Button>
                       </div>

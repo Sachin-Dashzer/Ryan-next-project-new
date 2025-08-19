@@ -1,17 +1,19 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import AboutImg from "../../../../public/uploads/about-one.jpg"
+
 export default function aboutSection() {
   return (
     <section>
       <div className="w-full bg-white containerFull">
-        <div className=" mx-auto px-4 pt-12 gap-16 flex ">
-          <div className="">
+        <div className=" mx-auto px-6 pt-12 gap-16 flex ">
+          <div className="h-160">
             <Image
-              src="https://res.cloudinary.com/dq1tzl5ir/image/upload/v1751449899/uploads/n3rdozijogkmj697vkvx.webp"
+              src={AboutImg} 
               alt="Turkey Team Process"
               width={570}
-              height={500}
-              className="rounded-xl object-cover drop-shadow-lg"
+              height={450}
+              className="rounded-xl object-cover drop-shadow-lg w-full h-full"
             />
           </div>
           <div className="w-3/5">
@@ -19,7 +21,7 @@ export default function aboutSection() {
               Ryan Clinic: Leading Hair Transplant Specialists From Turkey –
               World‑Class Turkey’s Technique Hair Transplant Services
             </h2>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-700 text-lg mb-4">
               At Ryan Clinic, we are proud to be among Turkey’s top hair
               transplant specialists, offering world‑class hair restoration
               services. Our expert team specializes in Turkey’s Technique, using
@@ -28,7 +30,7 @@ export default function aboutSection() {
               fuller hairline, we provide tailored solutions that restore not
               just your hair, but your confidence.
             </p>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-700 text-lg mb-4">
               What sets Ryan Clinic apart is our use of the original Choi Pen, a
               precision tool exclusive to our clinic in Turkey, offering
               superior results compared to standard methods available in India.
@@ -38,7 +40,7 @@ export default function aboutSection() {
               procedure that delivers natural‑looking outcomes with high‑quality
               results.
             </p>
-            <p className="text-gray-700 mb-6">
+            <p className="text-gray-700 text-lg mb-6">
               From the initial consultation to post‑procedure care, we
               prioritize your comfort and desired outcome. Join Ryan Clinic for
               a life‑changing hair transplant experience, led by some of the
@@ -46,7 +48,6 @@ export default function aboutSection() {
               clients who have achieved their hair restoration goals with our
               expert services.
             </p>
-            <Button />
             <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
               Book Your Appointment
             </button>

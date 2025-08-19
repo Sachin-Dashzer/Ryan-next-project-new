@@ -1,6 +1,7 @@
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import Logo from '../../../public/uploads/logo-2.png'
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
           <div className="space-y-4 text-center mt-4 md:text-left">
             <div>
               <Image
-                src="https://res.cloudinary.com/dha2ecdnn/image/upload/v1740393300/logo_tl4ww5.png"
+                src={Logo}
                 alt="Ryan Clinic"
                 width={300}
                 height={300}
@@ -19,7 +20,7 @@ export default function Footer() {
                 unoptimized
               />
             </div>
-            <p className="text-md title text-gray-300">
+            <p className="text-md title text-gray-300 mt-2">
               Ryan Clinic is one of the most trusted and reputable hair
               transplant centers in Delhi, known for delivering exceptional hair
               restoration solutions. Whether you're facing hair loss due to

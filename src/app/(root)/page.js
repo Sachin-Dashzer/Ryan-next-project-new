@@ -28,7 +28,7 @@ export default function Home() {
 
       <HairTransplantPage />
       <WhyChooseRyanClinic />
-      <OurTechnique />
+      {/* <OurTechnique /> */}
       <OurResults />
       <TurkeySpecialists />
       <OurBranches />
@@ -37,3 +37,5 @@ export default function Home() {
     </>
   );
 }
+
+
