@@ -79,7 +79,7 @@ const Header = () => {
 
   return (
     <header className="w-full bg-primary text-white">
-      <div className="w-full mx-auto px-2 xl:px-8 flex items-center justify-between h-12 md:h-22">
+      <div className="w-full mx-auto px-2 xl:px-8 flex items-center justify-between h-16 md:h-22">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center">
@@ -151,15 +151,15 @@ const Header = () => {
           </nav>
 
           {/* Nav Buttons */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
-                <Phone className="h-4 w-4" />
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex items-center md:gap-2">
+              <Button className="md:h-9 h-8 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
+                <Phone className="md:h-4 h-3 w-4" />
                 <span>Call us</span>
               </Button>
             </div>
             <div className="flex items-center gap-2">
-              <Button className="h-9 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
+              <Button className="md:h-9 h-8 bg-white text-black cursor-pointer hover:bg-black hover:text-white">
                 <Calendar className="h-4 w-4" />
                 <span className="hidden 2xl:block">Book appointment</span>
               </Button>

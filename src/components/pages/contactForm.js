@@ -37,12 +37,12 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-new stickyItem">
-      <div className="p-6 py-8">
-        <h2 className="text-3xl font-semibold mb-4 text-center">
+    <div className="md:bg-white md:rounded-lg shadow-new stickyItem">
+      <div className="md:p-6 p-3 md:py-8">
+        <h2 className="md:text-[24px] text-xl font-semibold underline mb-5 text-center">
           Book Your Free consult Now !
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-5">
           <div className="grid grid-flow-col gap-4">
             <Input
               placeholder="Your Name*"
@@ -116,3 +116,6 @@ export default function ContactForm() {
     </div>
   );
 }
+
+
+

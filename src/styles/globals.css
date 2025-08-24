@@ -9,13 +9,6 @@
   --secondary-foreground: oklch(0.205 0 0);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: #0a0a0a;
@@ -54,7 +47,6 @@ h4 {
   font-size: 16px;
 }
 
-
 section {
   padding: 60px 0 60px;
 }
@@ -88,7 +80,7 @@ section {
 .shadow-new {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.137);
 }
-.bg-foreground{
+.bg-foreground {
   background-color: #4a778b;
 }
 .bg-light {
@@ -162,7 +154,6 @@ section {
 .newBackground {
   background: linear-gradient(60deg, #46bad133 2%, #46bad135),
     url("https://res.cloudinary.com/dq1tzl5ir/image/upload/v1751445188/video-background_gkuate_b7xmrc.jpg");
-  /* background-size: cover; */
 }
 
 .bannerImg {
@@ -186,37 +177,31 @@ section {
   clip-path: ellipse(100% 85% at 100% 50%);
 }
 
-
-
 .stickyItem {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 100px;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 100px;
 }
-.sidebarsection{
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* Internet Explorer 10+ */
-  
+.sidebarsection {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.sidebarsection p{
+.sidebarsection p {
   font-size: 15px;
 }
 
-.pageLayout{
+.pageLayout {
   display: grid;
   grid-template-columns: 60% 40%;
   column-gap: 20px;
 }
-
-
-
 
 .new-pageLayout ul {
   padding: 0 15px;
   padding-left: 25px;
 }
 
-.new-pageLayout ul li strong{
+.new-pageLayout ul li strong {
   color: var(--foreground) !important ;
   margin-right: 6px;
 }
@@ -245,7 +230,6 @@ section {
   background-color: transparent;
   border: 1px solid var(--foreground);
   border-bottom: none;
-  /* border-top: none; */
   border-left: none;
   border-radius: 100%;
   position: absolute;
@@ -258,58 +242,47 @@ section {
   0% {
     transform: rotate(0deg);
   }
-
   25% {
     transform: rotate(90deg);
   }
-
   50% {
     transform: rotate(180deg);
   }
-
   75% {
     transform: rotate(270deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
 
-
-
-
-
-
-
-
-.new-pageLayout h1 { 
-  font-size: 2.3rem; 
-  line-height: 1.2; 
+.new-pageLayout h1 {
+  font-size: 2.3rem;
+  line-height: 1.2;
   font-weight: 600;
-
 }
- 
-.new-pageLayout h3 , .new-pageLayout h2 { 
-  font-size: 1.75rem; 
-  line-height: 1.3; 
+
+.new-pageLayout h3,
+.new-pageLayout h2 {
+  font-size: 1.75rem;
+  line-height: 1.3;
   font-weight: bold;
   color: var(--foreground);
   margin-top: 28px;
   text-decoration: underline;
 }
-.new-pageLayout h4 { 
-  font-size: 1.5rem; 
-  line-height: 1.35; 
+.new-pageLayout h4 {
+  font-size: 1.5rem;
+  line-height: 1.35;
   margin-top: 25px;
 }
-.new-pageLayout h5 { 
-  font-size: 1.25rem; 
-  line-height: 1.4; 
+.new-pageLayout h5 {
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
-.new-pageLayout h6 { 
-  font-size: 1rem; 
-  text-transform: uppercase; 
+.new-pageLayout h6 {
+  font-size: 1rem;
+  text-transform: uppercase;
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
@@ -320,17 +293,31 @@ section {
   line-height: 1.6;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+.swiper-button-next,
+.swiper-button-prev {
+  color: #3b82f6;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px;
+  font-weight: bold;
+}
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #cbd5e1;
+  opacity: 0.7;
+}
+.swiper-pagination-bullet-active {
+  background: #3b82f6;
+  opacity: 1;
+}
 
 @media only screen and (max-width: 767px) {
   p {
@@ -375,6 +362,19 @@ section {
 
   .text {
     font-size: 15px;
+  }
+  .servicesGrid {
+    display: flex;
+    flex-direction: column;
+  }
+  .shadow-new {
+    box-shadow: none;
+  }
+  .whyChooseGrid {
+    display: block;
+  }
+  .swiper-button-prev, .swiper-button-next {
+    display: none !important;
   }
 }
 
@@ -431,10 +431,6 @@ section {
   .containerFull {
     padding: 0 30px;
   }
-
-  /* .popup-offerForm-box{
-    width: 65%;
-  } */
 }
 
 @media (min-width: 1280px) {
@@ -456,10 +452,3 @@ section {
     max-width: 1320px;
   }
 }
-
-
-
-
-
-
-

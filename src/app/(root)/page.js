@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <div className="homeBanner w-full ">
-        <div className="bannerImage w-full h-160 ">
+        <div className="bannerImage w-full h-60 md:h-160 ">
           <Image
             src={Banner}
             alt="Ryan Clinic"

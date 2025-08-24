@@ -4,16 +4,11 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
 import {
   ChevronDown,
-  Calendar,
-  Hospital,
-  Globe,
-  Users,
-  ScrollText,
 } from "lucide-react";
 
+// -------------------- Animated Number --------------------
 function AnimatedNumber({ end, suffix, start }) {
   const [count, setCount] = useState(0);
 
@@ -38,10 +33,21 @@ function AnimatedNumber({ end, suffix, start }) {
   );
 }
 
+// -------------------- Main Component --------------------
 export default function WhyChooseRyanClinic() {
   const [startCount, setStartCount] = useState(false);
   const { ref, inView } = useInView({ threshold: 0.3 });
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size (mobile or desktop)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (inView) {
@@ -49,6 +55,15 @@ export default function WhyChooseRyanClinic() {
     }
   }, [inView]);
 
+  const handleClick = (index) => {
+    if (openIndex === index) {
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  };
+
+  // -------------------- Stats Data --------------------
   const stats = [
     {
       image:
@@ -87,6 +102,7 @@ export default function WhyChooseRyanClinic() {
     },
   ];
 
+  // -------------------- Choose Data --------------------
   const chooseData = [
     {
       name: "Completely Safe",
@@ -151,6 +167,7 @@ export default function WhyChooseRyanClinic() {
       <div className="containerFull">
         <div className="mt-4 mx-auto">
           <div className="whyChooseGrid">
+            {/* -------- Left Section -------- */}
             <div>
               <h2 className="text-3xl font-bold mb-4">
                 Why Choose Ryan Clinic?
@@ -175,15 +192,22 @@ export default function WhyChooseRyanClinic() {
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 h-fit mt-4">
+            {/* -------- Right Section (Dropdown Cards) -------- */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-fit mt-4">
               {chooseData.map((item, index) => {
+                const isOpen = isMobile
+                  ? openIndex === index // Mobile: click
+                  : hoveredIndex === index; // Desktop: hover
+
                 return (
                   <div
-                    className="choosecard border-[1px] border-white rounded-lg p-3 px-4 min-h-16 my-1"
                     key={index}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
+                    className="choosecard border border-white rounded-lg p-3 px-4 min-h-16 my-1 cursor-pointer"
+                    onMouseEnter={() => !isMobile && setHoveredIndex(index)}
+                    onMouseLeave={() => !isMobile && setHoveredIndex(null)}
+                    onClick={() => isMobile && handleClick(index)}
                   >
+                    {/* Header */}
                     <div className="flex justify-between items-center">
                       <h3 className="title font-bold gap-3 flex items-center">
                         <span>
@@ -196,12 +220,19 @@ export default function WhyChooseRyanClinic() {
                         </span>
                         {item?.name}
                       </h3>
-                      <ChevronDown />
+                      <ChevronDown
+                        className={`transition-transform duration-300 ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </div>
 
+                    {/* Dropdown Text */}
                     <p
-                      className={`text-sm transition-all ease-in-out duration-800 overflow-hidden pt-2 ${
-                        hoveredIndex === index ? " h-32 " : "h-0"
+                      className={`text-sm transition-all duration-500 ease-in-out overflow-hidden ${
+                        isOpen
+                          ? "max-h-32 opacity-100 pt-2"
+                          : "max-h-0 opacity-0 pt-0"
                       }`}
                     >
                       {item.discription}
@@ -212,16 +243,17 @@ export default function WhyChooseRyanClinic() {
             </div>
           </div>
 
+          {/* -------- Stats Section -------- */}
           <div
             ref={ref}
-            className="grid items-stretch w-full mx-auto max-w-[95%] md:grid-cols-3 lg:grid-cols-5  mt-12 bg-white rounded-2xl p-7 px-6 text-[#4B768E]"
+            className="grid items-stretch w-full mx-auto max-w-[95%] md:grid-cols-3 lg:grid-cols-5 mt-12 bg-white rounded-2xl p-7 px-6 text-[#4B768E]"
           >
             {stats.map((item, index) => (
               <div
                 key={index}
-                className="flex gap-5  justify-center items-center"
+                className="flex gap-5 justify-center items-center"
               >
-                <div className="">
+                <div>
                   <Image
                     src={item.image}
                     alt={item.label}
@@ -230,7 +262,6 @@ export default function WhyChooseRyanClinic() {
                   />
                 </div>
                 <div>
-                  {" "}
                   <p className="font-bold text-black small_heading mt-2">
                     <AnimatedNumber
                       end={item.end}

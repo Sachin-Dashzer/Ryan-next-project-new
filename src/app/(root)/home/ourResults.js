@@ -1,65 +1,110 @@
-'use client';
+"use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import Image from 'next/image';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+// Import all results
+import ResultOne from "../../../../public/uploads/results/1.jpg";
+import ResultTwo from "../../../../public/uploads/results/2.jpg";
+import ResultThree from "../../../../public/uploads/results/3.jpg";
+import ResultFour from "../../../../public/uploads/results/4.jpg";
+import ResultFive from "../../../../public/uploads/results/5.jpg";
+import ResultSix from "../../../../public/uploads/results/6.jpg";
+import ResultSeven from "../../../../public/uploads/results/7.jpg";
+import ResultEight from "../../../../public/uploads/results/8.jpg";
+import ResultNine from "../../../../public/uploads/results/9.jpg";
+import ResultTen from "../../../../public/uploads/results/10.jpg";
+import ResultEleven from "../../../../public/uploads/results/11.jpg";
+import ResultTwelve from "../../../../public/uploads/results/12.jpg";
+import ResultThirteen from "../../../../public/uploads/results/13.jpg";
+import ResultFourteen from "../../../../public/uploads/results/14.jpg";
+import ResultFifteen from "../../../../public/uploads/results/15.jpg";
+import ResultSixteen from "../../../../public/uploads/results/16.jpg";
+import ResultSeventeen from "../../../../public/uploads/results/17.jpg";
 
 const images = [
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121390/result-3_pg8vxt.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121386/result-2_bqpxee.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121382/result-1_ezklcb.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121381/result-4_po8ofu.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121390/result-3_pg8vxt.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121386/result-2_bqpxee.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121382/result-1_ezklcb.jpg',
-  'https://res.cloudinary.com/dha2ecdnn/image/upload/v1742121381/result-4_po8ofu.jpg',
- 
+  ResultOne,
+  ResultTwo,
+  ResultThree,
+  ResultFour,
+  ResultFive,
+  ResultSix,
+  ResultSeven,
+  ResultEight,
+  ResultNine,
+  ResultTen,
+  ResultEleven,
+  ResultTwelve,
+  ResultThirteen,
+  ResultFourteen,
+  ResultFifteen,
+  ResultSixteen,
+  ResultSeventeen,
 ];
 
 export default function OurResults() {
   return (
-    <section className="py-12 text-center">
-      <h2 className="text-3xl font-bold mb-2">Ryan&apos;s Results</h2>
-      <p className="max-w-2xl mx-auto text-gray-600 mb-8">
-        Our results aren&apos;t just great, they&apos;re <strong>outstanding</strong>!
-        <a href="#" className="text-blue-600 underline ml-1">
-          Click here
-        </a>{' '}
-        to explore our impressive <span className="text-blue-500">outcomes</span> and read feedback from our satisfied customers.
-      </p>
+    <section className="py-8 md:py-20 lg:py-24 text-center bg-gray-50">
+      <div className="container mx-auto px-4 ">
+        {/* Heading */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
+          Ryan&apos;s Results
+        </h2>
+        <p className="max-w-2xl mx-auto text-gray-600 mb-6 md:mb-8 text-sm md:text-base">
+          Our results aren&apos;t just great, they&apos;re{" "}
+          <strong>outstanding</strong>!
+          <a
+            href="#"
+            className="text-blue-600 hover:text-blue-800 underline ml-1 transition-colors"
+          >
+            Click here
+          </a>{" "}
+          to explore our impressive{" "}
+          <span className="text-blue-500">outcomes</span> and read feedback from
+          our satisfied customers.
+        </p>
 
-    
-      <Swiper
-        modules={[Navigation]}
-        spaceBetween={20}
-        slidesPerView={1}
-        navigation
-        loop
-        pagination={{ clickable: true }}
-        breakpoints={{
-          640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 3 },
-        }}
-        className="w-full max-w-7xl mx-auto"
-      >
-        {images.map((src, index) => (
-          <SwiperSlide key={index} className="rounded-lg overflow-hidden">
-            <Image
-              src={src}
-              alt={`Result ${index + 1}`}
-              width={300}
-              height={400}
-              className="w-full h-auto object-cover rounded-xl"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        {/* Swiper Slider */}
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={16}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          loop={true}
+          breakpoints={{
+            480: { slidesPerView: 1.5, spaceBetween: 16 },
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            768: { slidesPerView: 2.5, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
+            1280: { slidesPerView: 4, spaceBetween: 24 },
+          }}
+          className="w-full pb-10 md:pb-12"
+        >
+          {images.map((src, index) => (
+            <SwiperSlide
+              key={index}
+              className="rounded-lg overflow-hidden cursor-pointer"
+            >
+              <div className="md:h-96  relative md:aspect-[3/4] aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Image
+                  src={src}
+                  alt={`Result ${index + 1}`}
+                  fill
+                  className="object-cover opacity-95 "
+                  placeholder="blur"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </section>
   );
 }

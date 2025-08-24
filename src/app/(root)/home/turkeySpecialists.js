@@ -1,36 +1,37 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import TurkeyDoctor from "../../../../public/uploads/turkey-doctor.jpg";
 
 export default function TurkeySpecialists() {
   return (
-    <section className="bg-light">
-      <div className="py-10">
+    <section className=" overflow-hidden">
+      <div className="md:py-8">
         <div className="containerFull grid grid-cols-1 md:grid-cols-2 gap-10 items-center ">
           {/* Image Box */}
-          <div className="relative w-full h-[600px]">
+          <div className="relative w-full h-60 md:h-[600px]">
             {/* Background Shadow Square */}
 
-            <div className="imagebox w-[600px] h-[600px] p-10 absolute z-10">
+            <div className="imagebox md:w-[600px] md:h-[600px]  md:p-10 absolute z-10">
               <Image
-                src="https://res.cloudinary.com/dha2ecdnn/image/upload/v1742122125/turkey-doctor_h9riso.jpg"
+                src={TurkeyDoctor}
                 alt="Turkey Specialists"
                 width={800}
                 height={800}
                 // fill
-                className=" object-cover z-10 h-130 relative"
+                className=" object-cover z-10 md:h-130 relative rounded-md"
               />
-            <div className="absolute top-2 left-2 w-[200px] h-[200px] bg-gray-700  -z-0 "></div>
-              <div className="absolute bottom-2 right-2 w-[200px] h-[200px] bg-gray-700  -z-0 "></div>
+              <div className="absolute md:block hidden top-2 left-2 md:w-[200px] md:h-[200px] w-20 h-20 bg-gray-700  -z-0 "></div>
+              <div className="absolute md:block hidden bottom-2 right-2 md:w-[200px] md:h-[200px] w-20 h-20 bg-gray-700  -z-0 "></div>
             </div>
           </div>
 
           {/* Text Content */}
           <div>
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="md:text-3xl text-2xl font-bold mb-4">
               Turkey&apos;s Specialists in India with 12+ Years of Ryan
               Expertise
             </h2>
-            <p className="text-xs text-gray-700 mb-4">
+            <p className="text-xs md:text-base text-gray-700 mb-4">
               We bring you the best of both worlds — the advanced techniques of
               Turkey&apos;s leading hair transplant specialists combined with
               over 12 years of expertise and excellence in India. Our
@@ -38,7 +39,7 @@ export default function TurkeySpecialists() {
               restoration methods, offer the highest standard of care, ensuring
               natural and long-lasting results.
             </p>
-            <p className="text-xs text-gray-700 mb-4">
+            <p className="text-xs md:text-base text-gray-700 mb-4">
               We understand that hair restoration is a personal journey, which
               is why our team of experts takes a personalized approach to every
               procedure. From the initial consultation to post-operative care,
@@ -46,7 +47,7 @@ export default function TurkeySpecialists() {
               cutting-edge technology and a focus on precision, we provide
               results that are not only effective but also safe and comfortable.
             </p>
-            <p className="text-xs text-gray-700 mb-4">
+            <p className="text-xs md:text-base text-gray-700 mb-4">
               With over 12 years of experience in India, Ryan Clinic has earned
               a reputation for delivering exceptional outcomes. We use the
               latest techniques like FUE, DHI, and PRP, ensuring the best
@@ -62,7 +63,7 @@ export default function TurkeySpecialists() {
 
             <Button
               variant="outline"
-              className="bg-transparent text-black border-1 border-black  text-2xl"
+              className="bg-transparent mt-2 mt-md-0 text-black border-1 border-black  text-sm"
             >
               Book Your Appointment
             </Button>

@@ -34,14 +34,20 @@ export default function HairTransplantPage() {
   return (
     <section>
       <div className="containerFull">
-        <h1 className="text-3xl md:text-3xl text-center mb-10 font-hind">
+        <h1 className="hidden md:block text-xl md:text-3xl text-center mb-4 md:mb-10 font-hind">
           Top Hair Transplant Clinics in Delhi, and Across India: Best Deals &
           Results
         </h1>
 
         <div className="servicesGrid">
           {/* Full Card Slider */}
-          <div className="pr-6">
+         
+          <div className="md:pr-6">
+             <h1 className=" md:hidden text-xl md:text-3xl text-center mb-4 md:mb-10 font-hind">
+          Top Hair Transplant Clinics in Delhi, and Across India: Best Deals &
+          Results
+        </h1>
+
             <Swiper
               modules={[Navigation, Pagination]}
               navigation
@@ -55,10 +61,10 @@ export default function HairTransplantPage() {
               }}
             >
               {clinicCards.map((card, index) => (
-                <SwiperSlide key={index} className="px-2 pb-3">
+                <SwiperSlide key={index} className="md:px-2 pb-3">
                   <div className="bg-white rounded-lg shadow-new overflow-hidden">
                     <div>
-                      <div className="relative w-full h-88">
+                      <div className="relative w-full h-60 md:h-88">
                         <Image
                           src={card.image}
                           alt={`Clinic ${index + 1}`}
@@ -68,13 +74,13 @@ export default function HairTransplantPage() {
                           priority={index === 0}
                         />
                       </div>
-                      <h2 className="text-xl font-semibold mt-3 text-center">
+                      <h2 className="md:text-xl text-md font-semibold mt-3 text-center">
                         {card.title}
                       </h2>
                       <div className="flex justify-center mt-2">
                         <Button
                           variant="outline"
-                          className="mb-4 text-xs py-[7px] bg-white text-black border-2 hover:bg-black hover:text-white hover:border-black"
+                          className="mb-4 text-xs py-[8px] bg-white text-black hover:bg-black hover:text-white hover:border-black"
                         >
                           {card.buttonText}
                         </Button>
