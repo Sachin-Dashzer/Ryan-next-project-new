@@ -58,7 +58,7 @@ const steps = [
     label: "Step 6",
     subtitle: "PRP",
     description:
-      "On the 21st day after the surgery, the patient undergoes a PRP treatment. We take 15–20 ml blood from patient’s own body. Separate Plasma Layer is then injected into the scalp to boost hair growth strengthening hair make hair thicker and improve density.",
+      "On the 21st day after the surgery, the patient undergoes a PRP treatment. We take 15–20 ml blood from patient's own body. Separate Plasma Layer is then injected into the scalp to boost hair growth strengthening hair make hair thicker and improve density.",
     icon: Syringe,
     dark: false,
   },
@@ -67,45 +67,46 @@ const steps = [
 const stepsSection = () => {
   return (
     <section>
-      <div className="relative w-full py-20 newBackground">
-        {/* <div className="absolute inset-0 bg-[url('/images/medical-pattern.svg')] bg-cover opacity-20" /> */}
-        <div className="relative  mx-auto px-4 flex flex-wrap gap-12 justify-center">
-          {steps.map(
-            ({ id, label, subtitle, description, icon: Icon, dark }) => (
-              <div
-                key={id}
-                className={`${
-                  dark
-                    ? "bg-foreground text-white"
-                    : "bg-white text-gray-700 border border-gray-200"
-                } rounded-xl p-6 shadow-md w-104`}
-              >
-                <h3
-                  className={`font-bold small_heading underline mb-2 text-center ${
-                    dark ? "text-white" : "text-gray-900"
-                  }`}
+      <div className="relative w-full py-12 md:py-16 lg:py-20 newBackground">
+        <div className="relative mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 justify-center">
+            {steps.map(
+              ({ id, label, subtitle, description, icon: Icon, dark }) => (
+                <div
+                  key={id}
+                  className={`${
+                    dark
+                      ? "bg-foreground text-white"
+                      : "bg-white text-gray-700 border border-gray-200"
+                  } rounded-xl p-5 md:p-6 shadow-md w-full`}
                 >
-                  {label}
-                </h3>
-                <Icon
-                  size={44}
-                  className={`mx-auto mb-3 ${
-                    dark ? "text-white" : "text-[#2e667e]"
-                  }`}
-                />
-                <h4
-                  className={`title font-semibold text-center mb-1  ${
-                    dark ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  {subtitle}
-                </h4>
-                <p className="text whitespace-pre-line text-center">
-                  {description}
-                </p>
-              </div>
-            )
-          )}
+                  <h3
+                    className={`font-bold small_heading underline mb-2 text-center ${
+                      dark ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    {label}
+                  </h3>
+                  <Icon
+                    size={40}
+                    className={`mx-auto mb-3 ${
+                      dark ? "text-white" : "text-[#2e667e]"
+                    }`}
+                  />
+                  <h4
+                    className={`title font-semibold text-center mb-1 text-lg md:text-xl ${
+                      dark ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    {subtitle}
+                  </h4>
+                  <p className="text whitespace-pre-line text-center text-sm md:text-base">
+                    {description}
+                  </p>
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
     </section>

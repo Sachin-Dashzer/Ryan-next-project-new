@@ -10,11 +10,11 @@ export default function FAQSection({ faqs = [] }) {
   };
 
   return (
-    <section className="bg-light py-12">
-      <div className="containerFull">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-8 items-center">
+    <section className="bg-light py-8 md:py-12">
+      <div className="containerFull px-4 md:px-6">
+        <div className="flex flex-col lg:flex-row w-full md:gap-8 lg:gap-12 items-start">
           {/* FAQ Content */}
-          <div className="px-6 md:px-12">
+          <div className="w-full lg:w-1/2 px-0 md:px-4 lg:px-8">
             <h2 className="text-2xl md:text-3xl font-bold mb-6 underline underline-offset-4">
               Frequently Asked Questions
             </h2>
@@ -24,17 +24,17 @@ export default function FAQSection({ faqs = [] }) {
                 faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className="bg-white p-4 rounded-xl shadow-sm cursor-pointer"
+                    className="bg-white p-4 md:p-6 rounded-lg md:rounded-xl shadow-sm cursor-pointer"
                     onClick={() => toggle(index)}
                   >
                     <div className="flex justify-between items-center">
-                      <h3 className="font-semibold">{faq.question}</h3>
-                      <span className="text-xl">
+                      <h3 className="font-semibold text-sm md:text-base">{faq.question}</h3>
+                      <span className="text-lg md:text-xl">
                         {openIndex === index ? "▾" : "▸"}
                       </span>
                     </div>
                     {openIndex === index && (
-                      <p className="text-gray-600 mt-2">{faq.answer}</p>
+                      <p className="text-gray-600 mt-2 text-sm md:text-base">{faq.answer}</p>
                     )}
                   </div>
                 ))
@@ -45,11 +45,11 @@ export default function FAQSection({ faqs = [] }) {
           </div>
 
           {/* Illustration */}
-          <div className="w-full flex justify-center">
+          <div className="w-full lg:w-1/2 flex justify-center order-first lg:order-last">
             <img
               src="/faq-illustration.png"
               alt="FAQ Illustration"
-              className="w-full max-w-md"
+              className="w-full max-w-xs md:max-w-md"
               onError={(e) => (e.target.style.display = "none")}
             />
           </div>

@@ -42,7 +42,7 @@ export default function ContactForm() {
         <h2 className="md:text-[24px] text-xl font-semibold underline mb-5 text-center">
           Book Your Free consult Now !
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-[16px]">
           <div className="grid grid-flow-col gap-4">
             <Input
               placeholder="Your Name*"
