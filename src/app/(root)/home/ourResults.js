@@ -85,21 +85,41 @@ export default function OurResults() {
             1024: { slidesPerView: 3, spaceBetween: 24 },
             1280: { slidesPerView: 4, spaceBetween: 24 },
           }}
-          className="w-full pb-10 md:pb-12"
+          className="w-full pb-10 md:pb-12 resultSliders"
         >
           {images.map((src, index) => (
             <SwiperSlide
               key={index}
-              className="rounded-lg overflow-hidden cursor-pointer"
+              className=" cursor-pointer"
             >
-              <div className="md:h-96  relative md:aspect-[3/4] aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                <Image
-                  src={src}
-                  alt={`Result ${index + 1}`}
-                  fill
-                  className="object-cover opacity-95 "
-                  placeholder="blur"
-                />
+              {/* Image Section */}
+              <div className="result-card ">
+                <div className="result-image">
+                  <Image
+                    src={src}
+                    alt={`Result ${index + 1}`}
+                    fill
+                    className=" "
+                    placeholder="blur"
+                  />
+                </div>
+                {/* Before / After Tags */}
+                <div className="before-after-tags">
+                  <span className="bg-black text-white text-xs px-3 py-2 font-semibold rounded-md">
+                    Before
+                  </span>
+                  <span className="bg-white text-black text-xs px-3 py-2 font-semibold rounded-md">
+                    After
+                  </span>
+                </div>
+
+                {/* Result Info */}
+                <div className="result-info">
+                  <strong className="block text-sm font-semibold">
+                    HAIR TRANSPLANT
+                  </strong>
+                  <small className="text-gray-600 text-xs">3500 GRAFTS</small>
+                </div>
               </div>
             </SwiperSlide>
           ))}

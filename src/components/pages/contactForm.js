@@ -31,9 +31,33 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, serviceType: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("✅ Form submitted successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          serviceType: "",
+          message: "",
+        });
+      } else {
+        alert("⚠️ " + data.message); // shows "Phone number already exists"
+      }
+    } catch (error) {
+      console.error(error);
+      alert("❌ Server error.");
+    }
   };
 
   return (
@@ -67,14 +91,17 @@ export default function ContactForm() {
             onChange={handleChange}
             required
           />
-         
+
           {/* <Input
             placeholder="Your Address"
             name="address"
             value={formData.address}
             onChange={handleChange}
           /> */}
-          <Select value={formData.serviceType} onValueChange={handleSelectChange}>
+          <Select
+            value={formData.serviceType}
+            onValueChange={handleSelectChange}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="What do you want" />
             </SelectTrigger>
@@ -92,7 +119,10 @@ export default function ContactForm() {
             onChange={handleChange}
             className="h-24"
           />
-          <Button type="submit" className="w-full h-12 text-white bg-gray-800 hover:bg-gray-900">
+          <Button
+            type="submit"
+            className="w-full h-12 text-white bg-gray-800 hover:bg-gray-900"
+          >
             Get a Free Consult
           </Button>
         </form>
@@ -116,6 +146,3 @@ export default function ContactForm() {
     </div>
   );
 }
-
-
-
