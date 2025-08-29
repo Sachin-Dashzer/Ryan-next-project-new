@@ -319,53 +319,144 @@ section {
   opacity: 1;
 }
 
-
 .result-card {
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.178);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.178);
   background-color: white;
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .result-image {
-    height: 350px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+  height: 320px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
-.resultSliders .swiper-pagination-horizontal{
+.resultSliders .swiper-pagination-horizontal {
   display: none;
 }
 
-
 .before-after-tags {
-    position: absolute;
-    bottom: 100px;
-    left: 48%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 100px;
-    cursor: pointer;
+  position: absolute;
+  bottom: 100px;
+  left: 48%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 100px;
+  cursor: pointer;
 }
 .result-info {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
 }
 
+.pageLayoutBox h1,
+.pageLayoutBox h2,
+.pageLayoutBox h3,
+.pageLayoutBox h4,
+.pageLayoutBox h5,
+.pageLayoutBox h6 {
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  line-height: 1.3;
+  color: #111827;
+}
+.pageLayoutBox p {
 
+  font-size: 1rem;
+}
+.pageLayoutBox h1 {
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 700;
+}
 
+.pageLayoutBox h2 {
+  font-size: 2.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.6rem;
 
+}
 
+.pageLayoutBox h3 {
+  text-decoration: underline;
+  font-size: 1.75rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--foreground);
+}
 
+.pageLayoutBox h4 {
+  text-decoration: underline;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--foreground);
+}
 
+.pageLayoutBox h5 {
+  text-decoration: underline;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--foreground);
+}
 
+.pageLayoutBox h6 {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
 
+@media (max-width: 1024px) {
+  .pageLayoutBox h1 {
+    font-size: 2.2rem;
+  }
+  .pageLayoutBox h2 {
+    font-size: 1.8rem;
+  }
+  .pageLayoutBox h3 {
+    font-size: 1.6rem;
+  }
+  .pageLayoutBox h4 {
+    font-size: 1.4rem;
+  }
+  .pageLayoutBox h5 {
+    font-size: 1.2rem;
+  }
+  .pageLayoutBox h6 {
+    font-size: 1rem;
+  }
+}
 
-
+/* Mobile screens */
+@media (max-width: 640px) {
+  .pageLayoutBox h1 {
+    font-size: 1.75rem;
+  }
+  .pageLayoutBox h2 {
+    font-size: 1.5rem;
+  }
+  .pageLayoutBox h3 {
+    font-size: 1.3rem;
+  }
+  .pageLayoutBox h4 {
+    font-size: 1.15rem;
+  }
+  .pageLayoutBox h5 {
+    font-size: 1rem;
+  }
+  .pageLayoutBox h6 {
+    font-size: 0.9rem;
+  }
+}
 
 @media only screen and (max-width: 767px) {
   p {
@@ -521,5 +612,3 @@ section {
     max-width: 1320px;
   }
 }
-
-

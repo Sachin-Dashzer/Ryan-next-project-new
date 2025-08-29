@@ -22,7 +22,7 @@ export default async function services({ params }) {
           <div className="containerFull px-4 md:px-6">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               <div 
-                className="w-full lg:w-2/3 prose max-w-none"
+                className="w-full lg:w-2/3 prose max-w-none pageLayoutBox"
                 dangerouslySetInnerHTML={{
                   __html: service?.metadata?.overviewData || "",
                 }}
@@ -72,7 +72,7 @@ export default async function services({ params }) {
                 </div>
               </div>
               <div className="w-full lg:w-7/12">
-                <div className="prose max-w-none"
+                <div className="prose max-w-none pageLayoutBox"
                   dangerouslySetInnerHTML={{
                     __html: service?.typesData?.details || "",
                   }}

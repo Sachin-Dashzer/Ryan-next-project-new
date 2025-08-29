@@ -47,8 +47,6 @@ const Blog = () => {
 
     e.preventDefault();
 
-    console.log(formData)
-
     const res = await fetch("/api/blog/create", {
       method: "POST",
       headers: {

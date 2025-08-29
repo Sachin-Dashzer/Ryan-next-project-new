@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import {
-  ChevronDown,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 // -------------------- Animated Number --------------------
 function AnimatedNumber({ end, suffix, start }) {
@@ -246,31 +244,30 @@ export default function WhyChooseRyanClinic() {
           {/* -------- Stats Section -------- */}
           <div
             ref={ref}
-            className="grid items-stretch w-full mx-auto max-w-[95%] md:grid-cols-3 lg:grid-cols-5 mt-12 bg-white rounded-2xl p-7 px-6 text-[#4B768E]"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-[95%] mx-auto mt-12 md:bg-white rounded-2xl p-6 text-[#4B768E]"
           >
             {stats.map((item, index) => (
               <div
                 key={index}
-                className="flex gap-5 justify-center items-center"
+                className="flex flex-col items-center justify-center gap-3 text-center bg-gray-50 p-4 rounded-xl shadow-sm hover:shadow-md transition"
               >
-                <div>
-                  <Image
-                    src={item.image}
-                    alt={item.label}
-                    width={65}
-                    height={65}
+                <Image
+                  src={item.image}
+                  alt={item.label}
+                  width={55}
+                  height={55}
+                  className="w-[50px] h-[50px] sm:w-[55px] sm:h-[55px] md:w-[65px] md:h-[65px]"
+                />
+                <p className="font-bold text-black text-xl sm:text-2xl md:text-3xl">
+                  <AnimatedNumber
+                    end={item.end}
+                    suffix={item.suffix}
+                    start={startCount}
                   />
-                </div>
-                <div>
-                  <p className="font-bold text-black small_heading mt-2">
-                    <AnimatedNumber
-                      end={item.end}
-                      suffix={item.suffix}
-                      start={startCount}
-                    />
-                  </p>
-                  <p className="text-sm text-black">{item.label}</p>
-                </div>
+                </p>
+                <p className="text-sm sm:text-base text-gray-700">
+                  {item.label}
+                </p>
               </div>
             ))}
           </div>
