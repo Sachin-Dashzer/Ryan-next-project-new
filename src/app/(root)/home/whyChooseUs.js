@@ -244,21 +244,21 @@ export default function WhyChooseRyanClinic() {
           {/* -------- Stats Section -------- */}
           <div
             ref={ref}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-[95%] mx-auto mt-12 md:bg-white rounded-2xl p-6 text-[#4B768E]"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full max-w-[95%] mx-auto  rounded-2xl p-6 text-[#4B768E]"
           >
             {stats.map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center justify-center gap-3 text-center bg-gray-50 p-4 rounded-xl shadow-sm hover:shadow-md transition"
+                className="flex flex-col items-center justify-center text-center bg-gray-50 p-7 rounded-xl shadow-sm hover:shadow-md transition"
               >
                 <Image
                   src={item.image}
                   alt={item.label}
                   width={55}
                   height={55}
-                  className="w-[50px] h-[50px] sm:w-[55px] sm:h-[55px] md:w-[65px] md:h-[65px]"
+                  className="w-[50px] h-[50px] sm:w-[55px] sm:h-[55px] md:w-fit md:h-fit my-4 md:scale-150"
                 />
-                <p className="font-bold text-black text-xl sm:text-2xl md:text-3xl">
+                <p className="font-bold text-black text-xl sm:text-2xl md:text-2xl my-1">
                   <AnimatedNumber
                     end={item.end}
                     suffix={item.suffix}

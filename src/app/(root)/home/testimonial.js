@@ -5,26 +5,34 @@ import { Navigation } from 'swiper/modules';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import Modi from '../../../../public/uploads/modi.jpg'
+import Paneer from '../../../../public/uploads/paneer.jpg'
+import Shyam from '../../../../public/uploads/shyam.jpg'
+import Mahesh from '../../../../public/uploads/mahesh.jpg'
 
 const testimonials = [
   {
-    name: 'Manish Jain - JJ Communication',
-    image: '/testimonials/manish.jpg',
+    name: 'Modi ji - Instragram Influencer',
+    image: Modi,
   },
   {
-    name: 'Deepak Sharma - Jailer',
-    image: '/testimonials/deepak.jpg',
+    name: 'Dil Se Paneer - Instragram Influencer',
+    image: Paneer,
   },
   {
-    name: 'Lord Puneet Kumar Superstar - Instagram Influencer',
-    image: '/testimonials/puneet.jpg',
+    name: 'Shyam Mashalkar - Actor',
+    image: Shyam,
+  },
+  {
+    name: 'Mahesh Thakur - Actor',
+    image: Mahesh,
   },
 ];
 
 export default function Testimonials() {
   return (
     <section className="py-16 bg-white text-center overflow-hidden  ">
-      <h3 className="text-lg text-gray-600 mb-2">Reviews</h3>
+      <h3 className="text-lg text-gray-600 mb-2 underline">Reviews</h3>
       <h2 className="text-4xl font-bold text-black mb-10">Testimonials</h2>
 
       <div className="max-w-6xl mx-auto px-4">
@@ -45,7 +53,7 @@ export default function Testimonials() {
         >
           {testimonials.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="rounded-xl overflow-hidden relative h-[400px] shadow-md">
+              <div className="rounded-xl overflow-hidden relative h-[350px] shadow-md">
                 <Image
                   src={item.image}
                   alt={item.name}

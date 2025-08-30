@@ -120,6 +120,7 @@ export default function OurResults() {
                   </strong>
                   <small className="text-gray-600 text-xs">3500 GRAFTS</small>
                 </div>
+                 
               </div>
             </SwiperSlide>
           ))}
