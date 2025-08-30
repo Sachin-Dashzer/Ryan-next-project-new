@@ -72,7 +72,7 @@ export default async function services({ params }) {
                 </div>
               </div>
               <div className="w-full lg:w-7/12">
-                <div className="prose max-w-none pageLayoutBox"
+                <div className="prose max-w-none pageLayoutBox md:pl-[30px]"
                   dangerouslySetInnerHTML={{
                     __html: service?.typesData?.details || "",
                   }}

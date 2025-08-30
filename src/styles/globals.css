@@ -368,7 +368,7 @@ section {
 }
 .pageLayoutBox p {
 
-  font-size: 1rem;
+  font-size: 1.02rem;
 }
 .pageLayoutBox h1 {
   font-size: 2.5rem;
@@ -402,18 +402,34 @@ section {
 }
 
 .pageLayoutBox h5 {
-  text-decoration: underline;
   font-size: 1.25rem;
   line-height: 1.4;
-  color: var(--foreground);
 }
 
 .pageLayoutBox h6 {
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.45;
-  font-weight: 500;
 }
+
+.pageLayoutBox ul li{
+  position: relative;
+  margin-top: 10px;
+}
+.pageLayoutBox ul li::after{
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 2px ;
+  height: 2px;
+  border-radius: 100%;
+  background: #000;
+
+}
+
+
+
+
 
 @media (max-width: 1024px) {
   .pageLayoutBox h1 {
