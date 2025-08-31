@@ -429,6 +429,13 @@ section {
 
 
 
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+    display: none;
+    width: 0%;
+    left: 0;
+}
+
+
 
 
 @media (max-width: 1024px) {

@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image"; 
+import Faq from "../../../../public/uploads/faq.jpg";
 
 export default function FAQSection({ faqs = [] }) {
   const [openIndex, setOpenIndex] = useState(0);
+  const [imgError, setImgError] = useState(false); 
 
   const toggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -28,13 +31,17 @@ export default function FAQSection({ faqs = [] }) {
                     onClick={() => toggle(index)}
                   >
                     <div className="flex justify-between items-center">
-                      <h3 className="font-semibold text-sm md:text-base">{faq.question}</h3>
+                      <h3 className="font-semibold text-sm md:text-base">
+                        {faq.question}
+                      </h3>
                       <span className="text-lg md:text-xl">
                         {openIndex === index ? "▾" : "▸"}
                       </span>
                     </div>
                     {openIndex === index && (
-                      <p className="text-gray-600 mt-2 text-sm md:text-base">{faq.answer}</p>
+                      <p className="text-gray-600 mt-2 text-sm md:text-base">
+                        {faq.answer}
+                      </p>
                     )}
                   </div>
                 ))
@@ -46,12 +53,16 @@ export default function FAQSection({ faqs = [] }) {
 
           {/* Illustration */}
           <div className="w-full lg:w-1/2 flex justify-center order-first lg:order-last">
-            <img
-              src="/faq-illustration.png"
-              alt="FAQ Illustration"
-              className="w-full max-w-xs md:max-w-md"
-              onError={(e) => (e.target.style.display = "none")}
-            />
+            {!imgError && (
+              <Image
+                src={Faq}
+                width={400} 
+                height={400}
+                alt="FAQ Illustration"
+                className="w-full h-full rounded-2xl shadow-lg object-cover"
+                onError={() => setImgError(true)} 
+              />
+            )}
           </div>
         </div>
       </div>
