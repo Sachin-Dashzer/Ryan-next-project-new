@@ -12,7 +12,7 @@ import Mahesh from '../../../../public/uploads/mahesh.jpg'
 
 const testimonials = [
   {
-    name: 'Modi ji - Instragram Influencer',
+    name: 'Instragram Influencer',
     image: Modi,
   },
   {
