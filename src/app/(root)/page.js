@@ -4,27 +4,26 @@ import WhyChooseRyanClinic from "./home/whyChooseUs";
 
 import OurTechnique from "./home/ourTechniques";
 import OurResults from "./home/ourResults";
-import TurkeySpecialists from "./home/turkeySpecialists"
+import TurkeySpecialists from "./home/turkeySpecialists";
 import OurBranches from "./home/ourBranches";
 import Testimonials from "./home/testimonial";
-import Banner from "../../../public/uploads/banner.jpg"
+import Banner from "../../../public/uploads/banner.jpg";
 
 export default function Home() {
   return (
     <>
-      <div className="homeBanner w-full ">
-        <div className="bannerImage w-full h-60 md:h-160 ">
+      <div className="homeBanner w-full">
+        <div className="bannerImage w-full">
           <Image
             src={Banner}
             alt="Ryan Clinic"
-            width={100}
-            height={100}
-            className="w-full h-full"
+            width={1920} // Large width for scaling
+            height={600} // Approx banner height
+            className="w-full h-auto object-cover aspect-[16/9] md:aspect-[21/9] rounded-lg"
             unoptimized
           />
         </div>
       </div>
-
 
       <HairTransplantPage />
       <WhyChooseRyanClinic />
@@ -33,9 +32,6 @@ export default function Home() {
       <TurkeySpecialists />
       <OurBranches />
       <Testimonials />
-      
     </>
   );
 }
-
-

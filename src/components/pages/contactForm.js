@@ -127,21 +127,7 @@ export default function ContactForm() {
           </Button>
         </form>
 
-        {/* Floating action buttons */}
-        <div className="fixed right-6 bottom-6 flex flex-col gap-4">
-          <Button
-            size="icon"
-            className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
-          >
-            <Phone className="h-6 w-6" />
-          </Button>
-          <Button
-            size="icon"
-            className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
-          >
-            <MessageCircle className="h-6 w-6" />
-          </Button>
-        </div>
+      
       </div>
     </div>
   );

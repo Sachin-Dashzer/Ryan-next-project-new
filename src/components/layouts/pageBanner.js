@@ -15,7 +15,7 @@ export default function pageBanner({title , description , url}) {
         </p>
 
         <a
-          href="https://wa.me/your-number"
+          href="https://api.whatsapp.com/send?phone=+919899055393&text=Hi, I visited your website. Please guide me with the best treatment."
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center text-xs md:text-lg md:px-5 px-3 md:py-3 py-2   border border-gray-400 rounded-md bg-white shadow-md hover:shadow-lg transition"
