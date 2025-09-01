@@ -27,7 +27,7 @@ export default function TurkeySpecialists() {
 
           {/* Text Content */}
           <div>
-            <h2 className="md:text-3xl text-2xl mt-4 md:mt-0 font-bold mb-4">
+            <h2 className="md:text-3xl text-2xl mt-12 md:mt-0 font-bold mb-4">
               Turkey&apos;s Specialists in India with 12+ Years of Ryan
               Expertise
             </h2>
