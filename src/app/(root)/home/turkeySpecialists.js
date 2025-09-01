@@ -27,7 +27,7 @@ export default function TurkeySpecialists() {
 
           {/* Text Content */}
           <div>
-            <h2 className="md:text-3xl text-2xl mt-12 md:mt-0 font-bold mb-4">
+            <h2 className="md:text-3xl text-2xl mt-14 md:mt-0 font-bold mb-2 md:mb-4">
               Turkey&apos;s Specialists in India with 12+ Years of Ryan
               Expertise
             </h2>
@@ -50,7 +50,7 @@ export default function TurkeySpecialists() {
             <p className="text-xs md:text-base text-gray-700 mb-4">
               With over 12 years of experience in India, Ryan Clinic has earned
               a reputation for delivering exceptional outcomes. We use the
-              latest techniques like FUE, DHI, and PRP, ensuring the best
+              latest techniques like FUE, Turkey Specialist Technique, and PRP, ensuring the best
               results for hair restoration. Our clinic is committed to providing
               quality care with affordable pricing, allowing you to achieve the
               look you desire without compromising on safety or results.

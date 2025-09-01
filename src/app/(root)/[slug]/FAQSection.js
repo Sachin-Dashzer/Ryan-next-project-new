@@ -18,13 +18,13 @@ export default function FAQSection({ faqs = [] }) {
         <div className="flex flex-col lg:flex-row w-full md:gap-8 lg:gap-12 items-start">
           {/* FAQ Content */}
           <div className="w-full lg:w-1/2 px-0 md:px-4 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 underline underline-offset-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-6 mt:md-0 underline underline-offset-4">
               Frequently Asked Questions
             </h2>
 
             <div className="space-y-4">
               {faqs.length > 0 ? (
-                faqs.map((faq, index) => (
+                faqs.map((faq, index) => (  
                   <div
                     key={index}
                     className="bg-white p-4 md:p-6 rounded-lg md:rounded-xl shadow-sm cursor-pointer"

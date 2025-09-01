@@ -113,7 +113,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left border-y border-gray-600 py-8 md:py-10">
           <ul className="md:border-r md:border-gray-600 md:pr-4 lg:pr-6">
             <li className="text-base md:text-lg my-3 md:pl-6 hover:text-blue-300 transition">
-              <Link href="/contact">DHI In India</Link>
+              <Link href="/contact">Turkey Specialist Technique In India</Link>
             </li>
             <li className="text-base md:text-lg my-3 md:pl-6 hover:text-blue-300 transition">
               <Link href="/contact">Beard transplant</Link>

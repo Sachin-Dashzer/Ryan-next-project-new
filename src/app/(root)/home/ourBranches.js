@@ -36,7 +36,7 @@ export default function OurBranches() {
             <p className="text-gray-200 mb-6 md:mb-6 leading-relaxed text-base md:text-lg">
               Ryan Healthcare is one of the leaders in offering hair transplant
               services because it has many branches that are well-staffed to
-              undertake various procedures. FUE and DHI procedures are performed
+              undertake various procedures. FUE and Turkey Specialist Technique procedures are performed
               at clinics with modern equipment and skilled surgeons at a
               relatively low cost. The needs of the patient take priority, and
               we ensure that each one of them walks away with results that are

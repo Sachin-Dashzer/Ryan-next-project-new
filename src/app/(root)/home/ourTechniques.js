@@ -16,7 +16,7 @@ const procedures = [
     ],
   },
   {
-    title: "Turkey Experts DHI",
+    title: "Turkey Experts Turkey Specialist Technique",
     image:
       "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742122125/turkey-doctor_yhwmt3.webp",
     features: [
@@ -28,9 +28,9 @@ const procedures = [
     highlight: true,
   },
   {
-    title: "DHI Technique",
+    title: "Turkey Specialist Technique Technique",
     image:
-      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742129542/dhi-banner_cfkksz.jpg",
+      "https://res.cloudinary.com/dha2ecdnn/image/upload/v1742129542/Turkey Specialist Technique-banner_cfkksz.jpg",
     features: [
       "Turkish Choi Pen",
       "3 x PRP Session.",

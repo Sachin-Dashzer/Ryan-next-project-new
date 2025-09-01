@@ -2,12 +2,12 @@ import Image from "next/image";
 import HairTransplantPage from "./home/homeServices";
 import WhyChooseRyanClinic from "./home/whyChooseUs";
 
-import OurTechnique from "./home/ourTechniques";
 import OurResults from "./home/ourResults";
 import TurkeySpecialists from "./home/turkeySpecialists";
 import OurBranches from "./home/ourBranches";
 import Testimonials from "./home/testimonial";
 import Banner from "../../../public/uploads/banner.jpg";
+import Banner2 from "../../../public/uploads/banner2.jpg";
 
 export default function Home() {
   return (
@@ -17,9 +17,17 @@ export default function Home() {
           <Image
             src={Banner}
             alt="Ryan Clinic"
-            width={1920} // Large width for scaling
-            height={600} // Approx banner height
-            className="w-full h-auto object-cover aspect-[16/9] md:aspect-[21/9] rounded-lg"
+            width={1920} 
+            height={600} 
+            className="w-full hidden md:block h-auto object-cover aspect-[16/9] md:aspect-[21/9] rounded-lg"
+            unoptimized
+          />
+          <Image
+            src={Banner2}
+            alt="Ryan Clinic"
+            width={1920} 
+            height={600} 
+            className="w-full md:hidden block object-cover aspect-[16/9] rounded-lg"
             unoptimized
           />
         </div>

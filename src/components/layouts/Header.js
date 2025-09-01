@@ -294,11 +294,11 @@ const Header = () => {
       {/* Popup Modal */}
       {showPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="rounded-lg w-full max-w-md p-6 relative">
+          <div className="rounded-lg w-full max-w-md p-6 relative bg-white md:bg-transparent">
             {/* Close Btn */}
             <button
               onClick={() => setShowPopup(false)}
-              className="absolute top-2 right-2 rounded-4xl p-4 z-10  bg-white text-black hover:text-red-600"
+              className="absolute top-0 right-0 md:top-2 md:right-2 rounded-4xl p-4 z-10 bg-transparent  md:bg-white text-black hover:text-red-600"
             >
               <X className="h-5 w-5" />
             </button>
