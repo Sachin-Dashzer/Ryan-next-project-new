@@ -36,11 +36,11 @@ export default function OurBranches() {
             <p className="text-gray-200 mb-6 md:mb-6 leading-relaxed text-base md:text-lg">
               Ryan Healthcare is one of the leaders in offering hair transplant
               services because it has many branches that are well-staffed to
-              undertake various procedures. FUE and Turkey Specialist Technique procedures are performed
-              at clinics with modern equipment and skilled surgeons at a
-              relatively low cost. The needs of the patient take priority, and
-              we ensure that each one of them walks away with results that are
-              as close to nature as possible.
+              undertake various procedures. FUE and Turkey Specialist Technique
+              procedures are performed at clinics with modern equipment and
+              skilled surgeons at a relatively low cost. The needs of the
+              patient take priority, and we ensure that each one of them walks
+              away with results that are as close to nature as possible.
               <br />
               <br />
               The best clinics for the restoration of hair are just a branch
@@ -50,7 +50,10 @@ export default function OurBranches() {
               variant="Primary"
               className="w-full sm:w-fit px-6 py-2 text-base md:text-md  bg-white"
             >
-              <a className="font-semibold" href="/delhi">
+              <a
+                className="font-semibold"
+                href="https://api.whatsapp.com/send?phone=+919899055393&text=Hi, I visited your website. Please guide me with the best treatment."
+              >
                 Visit Branch
               </a>
             </Button>

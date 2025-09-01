@@ -172,21 +172,23 @@ export default function WhyChooseRyanClinic() {
               </h2>
               <p className="mb-4 text-lg leading-relaxed">
                 At Ryan Clinic, we are your trusted destination for premium hair
-                transplant services, offering expert treatments in Turkey Specialist Technique, PRP,
-                FUE, and beard transplant. Our renowned Turkish specialists,
-                backed by a dedicated research advisory board, ensure that we
-                deliver the most effective and innovative solutions for hair
-                restoration. With state-of-the-art facilities and a focus on
-                cutting-edge techniques, we provide natural and lasting results.
-                Whether you’re seeking Turkey Specialist Technique for precise, non-invasive hair
-                restoration, PRP (Platelet-Rich Plasma) therapy for scalp
-                rejuvenation, or FUE (Follicular Unit Extraction) for a
-                minimally invasive hair transplant, our clinic guarantees
-                exceptional outcomes.
+                transplant services, offering expert treatments in Turkey
+                Specialist Technique, PRP, FUE, and beard transplant. Our
+                renowned Turkish specialists, backed by a dedicated research
+                advisory board, ensure that we deliver the most effective and
+                innovative solutions for hair restoration. With state-of-the-art
+                facilities and a focus on cutting-edge techniques, we provide
+                natural and lasting results. Whether you’re seeking Turkey
+                Specialist Technique for precise, non-invasive hair restoration,
+                PRP (Platelet-Rich Plasma) therapy for scalp rejuvenation, or
+                FUE (Follicular Unit Extraction) for a minimally invasive hair
+                transplant, our clinic guarantees exceptional outcomes.
               </p>
 
               <Button className="mb-10 text p-3 px-4">
-                Learn More About Ryan Transplants
+                <a href="https://api.whatsapp.com/send?phone=+919899055393&text=Hi, I visited your website. Please guide me with the best treatment.">
+                  Learn More About Ryan Transplants
+                </a>
               </Button>
             </div>
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import TurkeyDoctor from "../../../../public/uploads/turkey-doctor.jpg";
+import Link from "next/link";
 
 export default function TurkeySpecialists() {
   return (
@@ -50,10 +51,11 @@ export default function TurkeySpecialists() {
             <p className="text-xs md:text-base text-gray-700 mb-4">
               With over 12 years of experience in India, Ryan Clinic has earned
               a reputation for delivering exceptional outcomes. We use the
-              latest techniques like FUE, Turkey Specialist Technique, and PRP, ensuring the best
-              results for hair restoration. Our clinic is committed to providing
-              quality care with affordable pricing, allowing you to achieve the
-              look you desire without compromising on safety or results.
+              latest techniques like FUE, Turkey Specialist Technique, and PRP,
+              ensuring the best results for hair restoration. Our clinic is
+              committed to providing quality care with affordable pricing,
+              allowing you to achieve the look you desire without compromising
+              on safety or results.
             </p>
             <p className="text-gray-700 mb-3">
               Choose Ryan Clinic for world-class hair transplant solutions with
@@ -65,7 +67,7 @@ export default function TurkeySpecialists() {
               variant="outline"
               className="bg-transparent mt-2 mt-md-0 text-black border-1 border-black  text-sm"
             >
-              Book Your Appointment
+              <Link href="/contact">Book Your Appointment</Link>
             </Button>
           </div>
         </div>

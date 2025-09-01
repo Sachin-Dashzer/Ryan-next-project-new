@@ -50,25 +50,19 @@ const Header = () => {
     },
     {
       name: "Gallery",
-      href: "/gallery",
-      hasDropdown: true,
-      key: "gallery",
-      dropdownItems: [
-        { name: "Ryan Images", href: "/gallery/images" },
-        { name: "Ryan Videos", href: "/gallery/videos" },
-      ],
+      href: "/gallery/images",
     },
-    {
-      name: "Branches",
-      href: "/branches",
-      hasDropdown: true,
-      key: "branches",
-      dropdownItems: [
-        { name: "Delhi", href: "/branches/delhi" },
-        { name: "Mumbai", href: "/branches/mumbai" },
-        { name: "Hyderabad", href: "/branches/hyderabad" },
-      ],
-    },
+    // {
+    //   name: "Branches",
+    //   href: "/branches",
+    //   hasDropdown: true,
+    //   key: "branches",
+    //   dropdownItems: [
+    //     { name: "Delhi", href: "/branches/delhi" },
+    //     { name: "Mumbai", href: "/branches/mumbai" },
+    //     { name: "Hyderabad", href: "/branches/hyderabad" },
+    //   ],
+    // },
     { name: "Contact us", href: "/contact" },
   ];
 
@@ -163,7 +157,7 @@ const Header = () => {
                 asChild
                 className="md:h-9 h-8 bg-white text-black hover:bg-black hover:text-white"
               >
-                <Link href="tel:+9911111247">
+                <Link href="tel:+919911111247">
                   <Phone className="h-4 w-4" />
                   <span>Call us</span>
                 </Link>
@@ -272,7 +266,7 @@ const Header = () => {
               asChild
               className="bg-white text-black hover:bg-black hover:text-white"
             >
-              <Link href="tel:+9911111247">
+              <Link href="tel:+919911111247">
                 <Phone className="h-4 w-4" />
                 <span>Call us</span>
               </Link>
@@ -314,7 +308,7 @@ const Header = () => {
           size="icon"
           className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
         >
-          <Link href="tel:+9911111247">
+          <Link href="tel:+919911111247">
             <Phone className="h-6 w-6" />
           </Link>
         </Button>
@@ -323,7 +317,7 @@ const Header = () => {
           size="icon"
           className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
         >
-          <Link href="tel:+9911111247">
+          <Link href="tel:+919911111247">
             <MessageCircle className="h-6 w-6" />
           </Link>
         </Button>

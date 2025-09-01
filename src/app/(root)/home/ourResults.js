@@ -99,7 +99,7 @@ export default function OurResults() {
                     src={src}
                     alt={`Result ${index + 1}`}
                     fill
-                    className=" "
+                    className=" object-cover"
                     placeholder="blur"
                   />
                 </div>

@@ -81,9 +81,12 @@ export default function HairTransplantPage() {
                       <div className="flex justify-center mt-2">
                         <Button
                           variant="outline"
+                          asChild
                           className="mb-4 text-xs py-[8px] bg-white text-black hover:bg-black hover:text-white hover:border-black"
                         >
-                          {card.buttonText}
+                          <a href="https://api.whatsapp.com/send?phone=+919899055393&text=Hi, I visited your website. Please guide me with the best treatment.">
+                            {card.buttonText}
+                          </a>
                         </Button>
                       </div>
                     </div>

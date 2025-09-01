@@ -1,10 +1,68 @@
 // pages/contact.js
+"use client";
+
 import Head from "next/head";
-import ContactForm from "@/components/pages/contactForm";
+import { MapPin, PhoneCall, Mail } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import PageBanner from "@/components/layouts/pageBanner";
-import {MapPin, PhoneCall , Mail} from "lucide-react";
 
 export default function ContactUs() {
+  // ✅ Form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    serviceType: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value) => {
+    setFormData((prev) => ({ ...prev, serviceType: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("✅ Form submitted successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          serviceType: "",
+          message: "",
+        });
+      } else {
+        alert("⚠️ " + data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("❌ Server error.");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -15,60 +73,158 @@ export default function ContactUs() {
         />
       </Head>
 
-      <main className="">
+      <main>
+        {/* ✅ Banner */}
         <PageBanner
-          title="Contact us"
-          description="Regain your confidence with world-class
-          Turkey's Technique hair restoration at Turkey's
-          top-rated Ryan Clinic!"
+          title="Contact Us"
+          description="Regain your confidence with world-class Turkey's Technique hair restoration at Turkey's top-rated Ryan Clinic!"
           url="https://res.cloudinary.com/dq1tzl5ir/image/upload/v1751372327/uploads/arkntkldmtlryycqivm4.jpg"
         />
 
-        <section className="mt-8">
-          <div className="containerFull">
-            <div className="grid grid-cols-7 gap-10">
-              <div className="p-8 col-span-4">
-                <h1 className="text-3xl border-b-2 font-bold text-gray-800 mt-4 mb-8 inline-block">
-                  Contact Us
-                </h1>
+        {/* ✅ Contact Section */}
+        <section className="py-12 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              
+              {/* Left Side - Contact Info */}
+              <div className="bg-white rounded-2xl shadow-md p-8">
+                <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
+                  Get in Touch
+                </h2>
 
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-gray-700 flex gap-3 mb-1 justify-baseline align-baseline">
-                    <span>
-                      <MapPin />
-                    </span>
-                    Address
-                  </h2>
-                  <p className="text-gray-600">
-                    CD 163, Block CD, Dakshin Pisanpura, Pisanpura, Delhi,
-                    110034
-                  </p>
+                {/* Address 1 */}
+                <div className="flex items-start gap-4 mb-6">
+                  <MapPin className="w-6 h-6 text-indigo-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Delhi Clinic
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      CD 163, Block CD, Dakshin Pisanpura, Delhi, 110034
+                    </p>
+                  </div>
                 </div>
 
-                <div className="border-t border-gray-200 my-4"></div>
-
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold text-gray-700 flex gap-3 mb-1 justify-baseline align-baseline">
-                    <span><PhoneCall /></span>
-                    Mobile No.
-                  </h3>
-                  <p className="text-gray-600">+919911111247</p>
+                {/* Address 2 */}
+                <div className="flex items-start gap-4 mb-6">
+                  <MapPin className="w-6 h-6 text-indigo-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Mumbai Clinic
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      45 Marine Drive, Churchgate, Mumbai, 400020
+                    </p>
+                  </div>
                 </div>
 
-                <div className="border-t border-gray-200 my-4"></div>
-
-                <div className="mb-8">
-                  <h4 className="text-xl font-semibold text-gray-700 flex gap-3 mb-1 justify-baseline align-baseline">
-                    <span><Mail /></span>
-                    Email
-                  </h4>
-                  <p className="text-gray-600">Clinicryanoff/cial@gmail.com</p>
+                {/* Address 3 */}
+                <div className="flex items-start gap-4 mb-6">
+                  <MapPin className="w-6 h-6 text-indigo-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Hyderabad Clinic
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      12 Banjara Hills, Road No. 3, Hyderabad, 500034
+                    </p>
+                  </div>
                 </div>
+
+                {/* Phone */}
+                <div className="flex items-start gap-4 mb-6">
+                  <PhoneCall className="w-6 h-6 text-indigo-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Mobile No.
+                    </h3>
+                    <p className="text-gray-600 text-sm">+91 9911111247</p>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex items-start gap-4 mb-6">
+                  <Mail className="w-6 h-6 text-indigo-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700">
+                      Email
+                    </h3>
+                    <p className="text-gray-600 text-sm break-all">
+                      Clinicryanofficial@gmail.com
+                    </p>
+                  </div>
+                </div>
+
+                {/* Google Map */}
+               
               </div>
-              <div className="col-span-3">
-                <div className="px-8">
-                  <ContactForm />
-                </div>
+
+              {/* Right Side - Custom Contact Form */}
+              <div className="bg-white rounded-2xl shadow-md p-8">
+                <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2 text-center">
+                  Book Your Free Consult Now!
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input
+                      placeholder="Your Name*"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                    <Input
+                      placeholder="Your Email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <Input
+                    placeholder="Contact Number*"
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Select
+                    value={formData.serviceType}
+                    onValueChange={handleSelectChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="What do you want?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="consultation">
+                        Free Consultation
+                      </SelectItem>
+                      <SelectItem value="hair-transplant">
+                        Hair Transplant
+                      </SelectItem>
+                      <SelectItem value="beard-transplant">
+                        Beard Transplant
+                      </SelectItem>
+                      <SelectItem value="pricing">
+                        Pricing Information
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Textarea
+                    placeholder="Your Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="h-24"
+                  />
+                  <Button
+                    type="submit"
+                    className="w-full h-12 text-white bg-gray-800 hover:bg-gray-900"
+                  >
+                    Get a Free Consult
+                  </Button>
+                </form>
               </div>
             </div>
           </div>
