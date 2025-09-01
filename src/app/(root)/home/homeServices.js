@@ -4,7 +4,7 @@
 
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import ContactForm from "@/components/pages/contactForm";
 import { Button } from "@/components/ui/button";
 import Service1 from "../../../../public/uploads/service-one.jpg";
@@ -41,17 +41,18 @@ export default function HairTransplantPage() {
 
         <div className="servicesGrid">
           {/* Full Card Slider */}
-         
+
           <div className="md:pr-6">
-             <h1 className=" md:hidden text-xl md:text-3xl text-center mb-4 md:mb-10 font-hind">
-          Top Hair Transplant Clinics in Delhi, and Across India: Best Deals &
-          Results
-        </h1>
+            <h1 className=" md:hidden text-xl md:text-[60px] text-center mb-4 md:mb-10 font-hind font-bold">
+              Top Hair Transplant Clinic in Delhi, and Across India: Best Deals
+              & Results
+            </h1>
 
             <Swiper
-              modules={[Navigation, Pagination]}
+              modules={[Navigation, Pagination, Autoplay]}
               navigation
               pagination={{ clickable: true }}
+              autoplay={{ delay: 2000, disableOnInteraction: false }}
               loop
               spaceBetween={10}
               breakpoints={{
@@ -64,12 +65,12 @@ export default function HairTransplantPage() {
                 <SwiperSlide key={index} className="md:px-2 pb-3">
                   <div className="bg-white rounded-lg shadow-new overflow-hidden">
                     <div>
-                      <div className="relative w-full h-60 md:h-88">
+                      <div className="relative w-full h-88 md:h-100">
                         <Image
                           src={card.image}
                           alt={`Clinic ${index + 1}`}
                           fill
-                          className="object-cover h-88"
+                          className="object-cover md:px-0 px-2"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           priority={index === 0}
                         />

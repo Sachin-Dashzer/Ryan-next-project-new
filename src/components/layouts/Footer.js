@@ -81,7 +81,7 @@ export default function Footer() {
               Google Customer Reviews
             </h5>
             <h5 className="mt-2 text-lg md:text-xl">
-              ★★★★★ ( Based on over 800 reviews )
+              ★★★★★ ( Based on over 1000+ reviews )
             </h5>
           </div>
           <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-10 text-white">

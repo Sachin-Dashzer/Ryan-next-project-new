@@ -1,0 +1,18 @@
+# robots.txt for https://clinicryan.com
+# Generated on 2025-08-31
+
+User-agent: *
+Allow: /
+# Typical admin/search/cart paths to keep out of indexes; remove if not applicable
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /*?s=
+Disallow: /*?replytocom=
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /account/
+
+# Crawl-delay can be used for very busy sites; uncomment if needed
+# Crawl-delay: 5
+
+Sitemap: https://clinicryan.com/sitemap.xml

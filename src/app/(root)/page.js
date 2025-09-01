@@ -12,8 +12,8 @@ import Banner2 from "../../../public/uploads/banner2.jpg";
 export default function Home() {
   return (
     <>
-      <div className="homeBanner w-full">
-        <div className="bannerImage w-full">
+      <div className="w-full">
+        <div className="w-full">
           <Image
             src={Banner}
             alt="Ryan Clinic"
@@ -25,9 +25,9 @@ export default function Home() {
           <Image
             src={Banner2}
             alt="Ryan Clinic"
-            width={1920} 
-            height={600} 
-            className="w-full md:hidden block object-cover aspect-[16/9] rounded-lg"
+            width={600} 
+            height={1200} 
+            className="w-full md:hidden block object-cover  rounded-lg"
             unoptimized
           />
         </div>
