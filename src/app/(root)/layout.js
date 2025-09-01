@@ -3,7 +3,6 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
 import { Hind_Siliguri } from "next/font/google";
-import Logo from "../../../public/uploads/logo-2.png";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["latin"],
@@ -56,7 +55,7 @@ export const metadata = {
       "Get natural-looking hair with advanced, affordable transplants at Ryan Clinic. Turkey-trained experts. Book your free consultation now!",
     images: [
       {
-        url: "/uploads/logo.png", // ✅ from public folder
+        url: "/uploads/logo.png", // ✅ should exist in /public/uploads/
         width: 1200,
         height: 630,
         alt: "Ryan Clinic Hair Transplant",
@@ -73,13 +72,13 @@ export const metadata = {
   },
 
   icons: {
-    icon: "/images/logo.png", // favicon inside public/images
+    icon: "/favicon.ico", // ✅ make sure this exists in /public/
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={baloo.variable}>
+    <html lang="en" className={baloo.variable} suppressHydrationWarning>
       <body className={`${hindSiliguri.className} antialiased`}>
         <Header />
         {children}
