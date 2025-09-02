@@ -34,9 +34,9 @@ export default function Home() {
       </div>
 
       <HairTransplantPage />
+      <OurResults />
       <WhyChooseRyanClinic />
       {/* <OurTechnique /> */}
-      <OurResults />
       <TurkeySpecialists />
       <OurBranches />
       <Testimonials />
