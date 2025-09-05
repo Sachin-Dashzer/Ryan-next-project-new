@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
-import { Mail, Phone, User, Calendar, Clock, MapPin, MessageSquare } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  User,
+  Calendar,
+  Clock,
+  MapPin,
+  MessageSquare,
+} from "lucide-react";
 
 export default function BookAppointment() {
   const [formData, setFormData] = useState({
@@ -142,10 +150,13 @@ export default function BookAppointment() {
                   value={formData.date}
                   onChange={handleChange}
                   required
+                  min={new Date().toISOString().split("T")[0]} // ✅ Prevent past dates
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
               </div>
             </div>
+
+            {/* Time */}
             <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Preferred Time <span className="text-red-500">*</span>
@@ -158,6 +169,8 @@ export default function BookAppointment() {
                   value={formData.time}
                   onChange={handleChange}
                   required
+                  min="09:00" // ✅ 9:00 AM
+                  max="19:00" // ✅ 7:00 PM
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
               </div>
