@@ -112,7 +112,7 @@ export default function BookAppointment() {
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Email Address <span className="text-red-500">*</span>
+                Email Address <span className="text-red-500"></span>
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -121,7 +121,6 @@ export default function BookAppointment() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                   placeholder="you@example.com"
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
