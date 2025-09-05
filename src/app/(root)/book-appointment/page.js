@@ -58,7 +58,7 @@ export default function BookAppointment() {
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 px-4 py-12">
       <div className="w-full max-w-2xl">
         {/* Header */}
-        <div className="text-center mb-10">
+        <div className="text-center md:mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             Book Your Appointment
           </h2>
@@ -70,7 +70,7 @@ export default function BookAppointment() {
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-md space-y-6"
+          className="md:bg-white rounded-2xl p-6 sm:p-8 md:border md:border-gray-200 md:shadow-md space-y-4 md:space-y-6"
         >
           {/* Name */}
           <div>
@@ -209,7 +209,7 @@ export default function BookAppointment() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-4 rounded-lg font-semibold text-white text-lg transition-all duration-300 ${
+            className={`w-full py-3 md:py-4 rounded-lg font-semibold text-white text-lg transition-all duration-300 ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
