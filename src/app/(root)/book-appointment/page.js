@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Mail, Phone, User, Calendar, Clock, MapPin, MessageSquare } from "lucide-react";
 
 export default function BookAppointment() {
   const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ export default function BookAppointment() {
       const result = await response.json();
 
       if (result.success) {
-        alert("✅ Your appointment has been booked successfully!");
+        alert("✅ Appointment booked successfully!");
         setFormData({
           name: "",
           phone: "",
@@ -54,110 +55,129 @@ export default function BookAppointment() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 py-10 px-4">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 px-4 py-12">
+      <div className="w-full max-w-2xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-6 px-4">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Book Your Hair Transplant Appointment
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            Book Your Appointment
           </h2>
-          <p className="text-sm md:text-base mt-2 opacity-90">
-            Fill in your details below & our team will contact you shortly.
+          <p className="text-gray-600 text-base md:text-lg">
+            Fill in your details and we’ll confirm your appointment shortly.
           </p>
         </div>
 
         {/* Form */}
-        <div className="p-6 md:p-10">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name */}
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2">
-                Full Name
-              </label>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-md space-y-6"
+        >
+          {/* Name */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Full Name <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="Enter your full name"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                placeholder="John Doe"
+                className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               />
             </div>
+          </div>
 
-            {/* Phone Number */}
+          {/* Phone & Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">
-                Phone Number
+              <label className="block text-gray-700 font-medium mb-1">
+                Phone Number <span className="text-red-500">*</span>
               </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                placeholder="Enter your phone number"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              />
+              <div className="relative">
+                <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="+91 98765 43210"
+                  className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+              </div>
             </div>
-
-            {/* Email Address */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">
-                Email Address
+              <label className="block text-gray-700 font-medium mb-1">
+                Email Address <span className="text-red-500">*</span>
               </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Enter your email address"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              />
+              <div className="relative">
+                <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="you@example.com"
+                  className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+              </div>
             </div>
+          </div>
 
-            {/* Date & Time */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Preferred Date
-                </label>
+          {/* Date & Time */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Preferred Date <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
                 <input
                   type="date"
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
               </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Preferred Time
-                </label>
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Preferred Time <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Clock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
                 <input
                   type="time"
                   name="time"
                   value={formData.time}
                   onChange={handleChange}
                   required
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
               </div>
             </div>
+          </div>
 
-            {/* Branch */}
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2">
-                Select Branch
-              </label>
+          {/* Branch */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Select Branch <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
               <select
                 name="branch"
                 value={formData.branch}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               >
                 <option value="">Choose a branch</option>
                 <option value="Mumbai">Mumbai</option>
@@ -165,36 +185,44 @@ export default function BookAppointment() {
                 <option value="Hyderabad">Hyderabad</option>
               </select>
             </div>
+          </div>
 
-            {/* Notes */}
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2">
-                Notes / Concerns (optional)
-              </label>
+          {/* Notes */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Notes / Concerns
+            </label>
+            <div className="relative">
+              <MessageSquare className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
               <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
-                placeholder="Enter any concerns or queries..."
+                placeholder="Any special concerns..."
                 rows="3"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              ></textarea>
+                className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              />
             </div>
+          </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-3 rounded-xl font-bold text-white text-lg shadow-md transform transition-all duration-200 ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] hover:shadow-lg"
-              }`}
-            >
-              {loading ? "Booking..." : "Book Appointment"}
-            </button>
-          </form>
-        </div>
+          {/* Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-4 rounded-lg font-semibold text-white text-lg transition-all duration-300 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
+            }`}
+          >
+            {loading ? "Processing..." : "Book Appointment"}
+          </button>
+
+          {/* Privacy Note */}
+          <p className="text-xs text-gray-500 text-center">
+            🔒 Your details are safe with us. We never share your information.
+          </p>
+        </form>
       </div>
     </section>
   );
