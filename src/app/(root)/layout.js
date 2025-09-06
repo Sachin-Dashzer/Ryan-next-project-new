@@ -55,7 +55,7 @@ export const metadata = {
       "Get natural-looking hair with advanced, affordable transplants at Ryan Clinic. Turkey-trained experts. Book your free consultation now!",
     images: [
       {
-        url: "/uploads/logo.png", // ✅ should exist in /public/uploads/
+        url: "/uploads/logo.png",
         width: 1200,
         height: 630,
         alt: "Ryan Clinic Hair Transplant",
@@ -65,6 +65,7 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
+    site: "@ryan_clinic",
     title: "Best Hair Transplant in India | Ryan Clinic Experts",
     description:
       "Get natural-looking hair with advanced, affordable transplants at Ryan Clinic. Turkey-trained experts. Book your free consultation now!",
@@ -72,7 +73,24 @@ export const metadata = {
   },
 
   icons: {
-    icon: "/favicon.ico", // ✅ make sure this exists in /public/
+    icon: "/favicon.ico",
+  },
+
+  alternates: {
+    canonical: "https://clinicryan.com/",
+  },
+
+  other: {
+    "msvalidate.01": "CODE",
+    "yandex-verification": "CODE",
+    "X-UA-Compatible": "IE=edge",
+    yahooSeeker: "index, follow",
+    msnbot: "index, follow",
+    "allow-search": "yes",
+    "revisit-after": "daily",
+    distribution: "global",
+    author: "Ryan Clinic",
+    copyright: "clinicryan.com",
   },
 };
 
