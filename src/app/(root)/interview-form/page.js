@@ -88,10 +88,11 @@ export default function InterviewForm() {
         body: JSON.stringify(formData),
       });
 
-      console.log(formData);
 
       const data = await res.json();
       if (res.ok) {
+                alert("✅ Form submitted successfully!");
+
         setMessage("✅ Form submitted successfully!");
         setFormData({
           name: "",
