@@ -82,7 +82,7 @@ export default function InterviewForm() {
     setMessage("Submitting...");
 
     try {
-      const res = await fetch("/api/submitInterviewForm", {
+      const res = await fetch("/api/submitInterviewForm/online-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
