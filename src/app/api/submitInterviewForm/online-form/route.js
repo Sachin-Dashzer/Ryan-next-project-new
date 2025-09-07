@@ -3,7 +3,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const url = "https://script.google.com/macros/s/AKfycbxPDBZ0k1PSw0GeqGkSLCTDn7-Eb4DxFCFn2aTNIj26p4-cw7VOkSAnuLGToXLzUJx6/exec"; // must be the /exec URL
+    const url = "https://script.google.com/macros/s/AKfycbxPzMolRCpjM9BzcUeasbkgQoK-FgynFrQ_ddQgvNMiYncR2UB_0gdS4zcBtOoKboNj/exec"; // must be the /exec URL
     if (!url) {
       return Response.json({ message: "Missing GAS_WEB_APP_URL" }, { status: 500 });
     }
