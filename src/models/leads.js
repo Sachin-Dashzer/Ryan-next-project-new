@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const LeadsSchema = new mongoose.Schema({
   name: String,
   email: String,
-  phone: { type: String, unique: true }, // 👈 prevent duplicates
+  phone: { type: String }, // 👈 prevent duplicates
   serviceType: String,
   message: String,
 }, { timestamps: true });
