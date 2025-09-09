@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 export default function InterviewForm() {
   const [formData, setFormData] = useState({
@@ -18,6 +18,7 @@ export default function InterviewForm() {
     previousSalary: "",
     reasonForLeaving: "",
     reference: "",
+    source: "",
   });
 
   const [message, setMessage] = useState("");
@@ -35,6 +36,15 @@ export default function InterviewForm() {
     "MIS Executive",
     "Other",
   ];
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const src = url.searchParams.get("source") || "direct";
+      setFormData((prev) => ({ ...prev, source: src }));
+    }
+  }, []);
+
 
   const experienceYears = Array.from({ length: 21 }, (_, i) => i);
 
