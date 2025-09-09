@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import AboutImg from "../../../../public/uploads/about-one.jpg"
+import AboutImg from "../../../../public/uploads/about-one.jpg";
 
 export default function aboutSection() {
   return (
@@ -9,7 +9,7 @@ export default function aboutSection() {
         <div className="flex md:flex-col flex-col-reverse lg:flex-row gap-8 lg:gap-12">
           <div className="w-full lg:w-2/5 h-fit sm:h-80 md:h-96 lg:h-160">
             <Image
-              src={AboutImg} 
+              src={AboutImg}
               alt="Turkey Team Process"
               width={570}
               height={450}
@@ -49,7 +49,9 @@ export default function aboutSection() {
               expert services.
             </p>
             <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition text-sm sm:text-base">
-              Book Your Appointment
+              <a href="https://api.whatsapp.com/send?phone=+918882356930&text=Hi">
+                Book Your Appointment
+              </a>
             </button>
           </div>
         </div>

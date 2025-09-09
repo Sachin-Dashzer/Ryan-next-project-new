@@ -11,6 +11,8 @@ import {
   MessageCircle,
   X,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+
 import { Button } from "@/components/ui/button";
 import Logo from "../../../public/uploads/logo-2.png";
 import ContactForm from "../pages/contactForm";
@@ -317,8 +319,9 @@ const Header = () => {
           size="icon"
           className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
         >
-          <Link href="tel:+919911111247">
-            <MessageCircle className="h-6 w-6" />
+          <Link href="https://api.whatsapp.com/send?phone=+918882356930&text=Hi">
+            <FaWhatsapp className="h-6 w-6" />
+
           </Link>
         </Button>
       </div>

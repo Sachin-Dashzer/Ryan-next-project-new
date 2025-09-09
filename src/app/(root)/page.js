@@ -6,8 +6,10 @@ import OurResults from "./home/ourResults";
 import TurkeySpecialists from "./home/turkeySpecialists";
 import OurBranches from "./home/ourBranches";
 import Testimonials from "./home/testimonial";
+import BlogContent from "./home/blogContent";
 import Banner from "../../../public/uploads/banner.jpg";
 import Banner2 from "../../../public/uploads/banner2.jpg";
+
 
 export default function Home() {
   return (
@@ -36,9 +38,9 @@ export default function Home() {
       <HairTransplantPage />
       <OurResults />
       <WhyChooseRyanClinic />
-      {/* <OurTechnique /> */}
       <TurkeySpecialists />
       <OurBranches />
+      <BlogContent />
       <Testimonials />
     </>
   );
