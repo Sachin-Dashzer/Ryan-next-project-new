@@ -11,7 +11,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Phone, MessageCircle } from "lucide-react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -21,6 +20,8 @@ export default function ContactForm() {
     serviceType: "",
     message: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +35,14 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ✅ Frontend phone validation
+    if (!/^\d{10}$/.test(formData.phone)) {
+      alert("⚠️ Phone number must be exactly 10 digits");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
@@ -42,6 +51,7 @@ export default function ContactForm() {
       });
 
       const data = await res.json();
+
       if (data.success) {
         alert("✅ Form submitted successfully!");
         setFormData({
@@ -52,11 +62,13 @@ export default function ContactForm() {
           message: "",
         });
       } else {
-        alert("⚠️ " + data.message); // shows "Phone number already exists"
+        alert("⚠️ " + (data.message || data.error || "Something went wrong"));
       }
     } catch (error) {
       console.error(error);
-      alert("❌ Server error.");
+      alert("❌ Server error. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,8 +76,9 @@ export default function ContactForm() {
     <div className="md:bg-white md:rounded-lg shadow-new stickyItem">
       <div className="md:p-6 p-3 md:py-8">
         <h2 className="md:text-[24px] text-xl font-semibold underline mb-5 text-center">
-          Book Your Free consult Now !
+          Book Your Free Consult Now!
         </h2>
+
         <form onSubmit={handleSubmit} className="space-y-3 md:space-y-[16px]">
           <div className="grid grid-flow-col gap-4">
             <Input
@@ -83,6 +96,7 @@ export default function ContactForm() {
               onChange={handleChange}
             />
           </div>
+
           <Input
             placeholder="Contact Number*"
             type="tel"
@@ -92,18 +106,12 @@ export default function ContactForm() {
             required
           />
 
-          {/* <Input
-            placeholder="Your Address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-          /> */}
           <Select
             value={formData.serviceType}
             onValueChange={handleSelectChange}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="What do you want" />
+              <SelectValue placeholder="What do you want?" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="consultation">Free Consultation</SelectItem>
@@ -112,6 +120,7 @@ export default function ContactForm() {
               <SelectItem value="pricing">Pricing Information</SelectItem>
             </SelectContent>
           </Select>
+
           <Textarea
             placeholder="Your Message"
             name="message"
@@ -119,15 +128,15 @@ export default function ContactForm() {
             onChange={handleChange}
             className="h-24"
           />
+
           <Button
             type="submit"
             className="w-full h-12 text-white bg-gray-800 hover:bg-gray-900"
+            disabled={loading}
           >
-            Get a Free Consult
+            {loading ? "Submitting..." : "Get a Free Consult"}
           </Button>
         </form>
-
-      
       </div>
     </div>
   );
