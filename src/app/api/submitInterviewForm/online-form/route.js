@@ -5,7 +5,7 @@ export async function POST(req) {
 
     // ✅ Separate Google Sheet endpoints
     const directUrl = "https://script.google.com/macros/s/AKfycbxPzMolRCpjM9BzcUeasbkgQoK-FgynFrQ_ddQgvNMiYncR2UB_0gdS4zcBtOoKboNj/exec";
-    const qrUrl     = "https://script.google.com/macros/s/AKfycbz0_2bv5qlEdx_dqgCFNCT1PuTFgepm2NQjHe2rVUG9iXRVQ7KkRJk_iH4nZY6OuHOP/exec";
+    const qrUrl     = "https://script.google.com/macros/s/AKfycbyppD6ze7XZyKAaYa2ZXHQTtFYLnNCnT-d5lXpR2OMkkwtLI3g5DCtI9VhnqSNki1o/exec";
 
     // ✅ Pick URL based on source
     const url = body.source === "qr" ? qrUrl : directUrl;
