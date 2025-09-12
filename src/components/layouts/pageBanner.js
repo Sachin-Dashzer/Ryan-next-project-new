@@ -7,9 +7,9 @@ export default function pageBanner({title , description , url}) {
   return (
     <div className="md:relative flex flex-col lg:flex-row md:items-center overflow-hidden h-fit md:min-h-[600px] bannerBackground">
       <div className="relative z-10 w-full lg:w-1/2  md:h-fit px-4 md:px-12 lg:px-20 py-8 md:py-16">
-        <h2 className="text-3xl underline md:text-6xl font-extrabold text-gray-800 mb-2 md:mb-4">
+        <h1 className="text-3xl underline md:text-6xl font-extrabold text-gray-800 mb-2 md:mb-4">
           {title}
-        </h2>
+        </h1>
         <p className="small_heading  font-semibold text-black leading-relaxed mb-4 md:mb-6">
           {description}
         </p>

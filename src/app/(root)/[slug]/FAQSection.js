@@ -52,12 +52,12 @@ export default function FAQSection({ faqs = [] }) {
           </div>
 
           {/* Illustration */}
-          <div className="w-full lg:w-1/2 flex justify-center order-first lg:order-last">
+          <div className="w-full lg:w-1/2 h-full flex justify-center order-first lg:order-last">
             {!imgError && (
               <Image
                 src={Faq}
                 width={400} 
-                height={400}
+                height={600}
                 alt="FAQ Illustration"
                 className="w-full h-full rounded-2xl shadow-lg object-cover"
                 onError={() => setImgError(true)} 

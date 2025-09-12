@@ -4,10 +4,64 @@ import FAQSection from "./FAQSection";
 import PleoFeatures from "./PleoFeatures";
 import OurResults from "../home/ourResults";
 import { getServiceBySlug } from "@/lib/serviceData";
+import { notFound } from "next/navigation"; // ⬅️ import this
+import Testimonials from "../home/testimonial";
+import WhyChooseRyanClinic from "../home/whyChooseUs";
 
-export default async function services({ params }) {
+// 🔹 Dynamic metadata for each service page
+export async function generateMetadata({ params }) {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
+
+  if (!service) {
+    return {
+      title: "404 | Service Not Found - Ryan Clinic",
+      description: "The requested service could not be found.",
+      robots: { index: false, follow: false }, // don’t index 404 pages
+    };
+  }
+
+
+  const meta = service.metadata || {};
+
+  return {
+    title: meta?.title || service?.bannerData?.title || "Ryan Clinic",
+    description: meta?.description || service?.bannerData?.description,
+    keywords: meta?.keywords || ["Hair Transplant", "Ryan Clinic"],
+    alternates: {
+      canonical: `https://clinicryan.com/${slug}`,
+    },
+    openGraph: {
+      title: meta?.title || service?.bannerData?.title,
+      description: meta?.description || service?.bannerData?.description,
+      url: `https://clinicryan.com/${slug}`,
+      siteName: "Ryan Clinic",
+      images: [
+        {
+          url: service?.bannerData?.imageurl || "/uploads/logo.png",
+          width: 1200,
+          height: 630,
+          alt: service?.bannerData?.title || "Ryan Clinic Service",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta?.title || service?.bannerData?.title,
+      description: meta?.description || service?.bannerData?.description,
+      images: [service?.bannerData?.imageurl || "/uploads/logo.png"],
+    },
+  };
+}
+
+export default async function ServicesPage({ params }) {
+  const { slug } = await params;
+  const service = await getServiceBySlug(slug);
+
+  // ⬅️ If no service → trigger 404
+  if (!service) {
+    notFound();
+  }
 
   return (
     <>
@@ -21,7 +75,7 @@ export default async function services({ params }) {
         <section className="bg-light py-8 md:py-12">
           <div className="containerFull px-4 md:px-6">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-              <div 
+              <div
                 className="w-full lg:w-2/3 prose max-w-none pageLayoutBox"
                 dangerouslySetInnerHTML={{
                   __html: service?.metadata?.overviewData || "",
@@ -33,6 +87,8 @@ export default async function services({ params }) {
             </div>
           </div>
         </section>
+
+        <OurResults />
 
         <section className="py-8 md:py-12">
           <div className="containerFull px-4 md:px-6">
@@ -72,7 +128,8 @@ export default async function services({ params }) {
                 </div>
               </div>
               <div className="w-full lg:w-7/12">
-                <div className="prose max-w-none pageLayoutBox md:pl-[30px]"
+                <div
+                  className="prose max-w-none pageLayoutBox md:pl-[30px]"
                   dangerouslySetInnerHTML={{
                     __html: service?.typesData?.details || "",
                   }}
@@ -117,7 +174,9 @@ export default async function services({ params }) {
           </section>
         )}
 
-        <OurResults />
+        <WhyChooseRyanClinic />
+
+        <Testimonials />
         <FAQSection faqs={service?.faq} />
       </div>
     </>

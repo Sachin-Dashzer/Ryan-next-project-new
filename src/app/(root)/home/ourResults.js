@@ -29,8 +29,6 @@ import ResultSeventeen from "../../../../public/uploads/results/17.jpg";
 
 const images = [
   ResultOne,
-  ResultTwo,
-  ResultThree,
   ResultFour,
   ResultFive,
   ResultSix,
@@ -52,9 +50,9 @@ export default function OurResults() {
     <section className="py-8 md:py-20 lg:py-24 text-center bg-gray-50">
       <div className="container mx-auto px-4 ">
         {/* Heading */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
+        <h5 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
           Ryan&apos;s Results
-        </h2>
+        </h5>
         <p className="max-w-2xl mx-auto text-gray-600 mb-6 md:mb-8 text-sm md:text-base">
           Our results aren&apos;t just great, they&apos;re{" "}
           <strong>outstanding</strong>!

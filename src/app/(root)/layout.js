@@ -25,7 +25,6 @@ export const metadata = {
   },
   description:
     "Get natural-looking hair with advanced, affordable transplants at Ryan Clinic. Turkey-trained experts. Book your free consultation now!",
-
   keywords: [
     "Hair Transplant India",
     "Ryan Clinic",
@@ -33,7 +32,6 @@ export const metadata = {
     "Hair Restoration",
     "Affordable Hair Transplant",
   ],
-
   robots: {
     index: true,
     follow: true,
@@ -45,7 +43,6 @@ export const metadata = {
       maxVideoPreview: -1,
     },
   },
-
   openGraph: {
     type: "website",
     siteName: "Ryan Clinic",
@@ -62,7 +59,6 @@ export const metadata = {
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
     site: "@ryan_clinic",
@@ -71,32 +67,30 @@ export const metadata = {
       "Get natural-looking hair with advanced, affordable transplants at Ryan Clinic. Turkey-trained experts. Book your free consultation now!",
     images: ["/uploads/logo.png"],
   },
-
   icons: {
     icon: "/favicon.ico",
   },
-
   alternates: {
     canonical: "https://clinicryan.com/",
-  },
-
-  other: {
-    "msvalidate.01": "CODE",
-    "yandex-verification": "CODE",
-    "X-UA-Compatible": "IE=edge",
-    yahooSeeker: "index, follow",
-    msnbot: "index, follow",
-    "allow-search": "yes",
-    "revisit-after": "daily",
-    distribution: "global",
-    author: "Ryan Clinic",
-    copyright: "clinicryan.com",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={baloo.variable} suppressHydrationWarning>
+      <head>
+        {/* ✅ Extra Meta Tags */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="msvalidate.01" content="CODE" />
+        <meta name="yandex-verification" content="CODE" />
+        <meta name="yahooSeeker" content="index, follow" />
+        <meta name="msnbot" content="index, follow" />
+        <meta name="allow-search" content="yes" />
+        <meta name="revisit-after" content="daily" />
+        <meta name="distribution" content="global" />
+        <meta name="author" content="Ryan Clinic" />
+        <meta name="copyright" content="clinicryan.com" />
+      </head>
       <body className={`${hindSiliguri.className} antialiased`}>
         <Header />
         {children}

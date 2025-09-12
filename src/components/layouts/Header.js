@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   ChevronDown,
   Phone,
   Calendar,
   Menu,
-  MessageCircle,
   X,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import confetti from "canvas-confetti";
 
 import { Button } from "@/components/ui/button";
 import Logo from "../../../public/uploads/logo-2.png";
@@ -22,6 +22,7 @@ const Header = () => {
   const [closeTimeout, setCloseTimeout] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false); // popup for appointment form
+  const formRef = useRef(null);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -54,17 +55,6 @@ const Header = () => {
       name: "Gallery",
       href: "/gallery/images",
     },
-    // {
-    //   name: "Branches",
-    //   href: "/branches",
-    //   hasDropdown: true,
-    //   key: "branches",
-    //   dropdownItems: [
-    //     { name: "Delhi", href: "/branches/delhi" },
-    //     { name: "Mumbai", href: "/branches/mumbai" },
-    //     { name: "Hyderabad", href: "/branches/hyderabad" },
-    //   ],
-    // },
     { name: "Contact us", href: "/contact" },
   ];
 
@@ -82,6 +72,35 @@ const Header = () => {
     }, 200);
     setCloseTimeout(timeout);
   };
+
+  // 🎉 Confetti helpers
+  function fire(particleRatio, opts) {
+    confetti({
+      ...opts,
+      particleCount: Math.floor(200 * particleRatio),
+      disableForReducedMotion: true,
+    });
+  }
+
+  function confettiExplosion(origin) {
+    fire(0.25, { spread: 26, startVelocity: 55, origin });
+    fire(0.2, { spread: 60, origin });
+    fire(0.35, { spread: 100, decay: 0.91, origin });
+    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, origin });
+    fire(0.1, { spread: 120, startVelocity: 45, origin });
+  }
+
+  // 🎉 Trigger confetti when popup opens
+  useEffect(() => {
+    if (showPopup && formRef.current) {
+      const rect = formRef.current.getBoundingClientRect();
+      const origin = {
+        x: (rect.left + rect.width / 2) / window.innerWidth,
+        y: (rect.top + rect.height / 2) / window.innerHeight,
+      };
+      confettiExplosion(origin);
+    }
+  }, [showPopup]);
 
   return (
     <>
@@ -196,15 +215,12 @@ const Header = () => {
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Background overlay */}
         <div
           className="fixed inset-0 bg-black/50"
           onClick={() => setMobileMenuOpen(false)}
         ></div>
 
-        {/* Sidebar */}
         <div className="fixed top-0 left-0 w-72 h-full bg-primary text-white shadow-lg p-6 z-50 overflow-y-auto">
-          {/* Close button */}
           <button
             onClick={() => setMobileMenuOpen(false)}
             className="absolute top-6 right-4 text-white"
@@ -212,7 +228,6 @@ const Header = () => {
             <X className="h-6 w-6" />
           </button>
 
-          {/* Logo */}
           <Link href="/" className="block mb-8">
             <Image
               src={Logo}
@@ -223,7 +238,6 @@ const Header = () => {
             />
           </Link>
 
-          {/* Navigation */}
           <nav>
             <ul className="space-y-4">
               {navItems.map((item) => (
@@ -262,7 +276,6 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* Buttons */}
           <div className="mt-8 flex flex-col gap-3">
             <Button
               asChild
@@ -290,13 +303,15 @@ const Header = () => {
       {/* Popup Modal */}
       {showPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="rounded-lg w-full max-w-md p-6 relative bg-white md:bg-transparent">
-            {/* Close Btn */}
+          <div
+            ref={formRef}
+            className="rounded-lg w-full max-w-md p-6 relative animate-zoomIn"
+          >
             <button
               onClick={() => setShowPopup(false)}
-              className="absolute top-0 right-0 md:top-2 md:right-2 rounded-4xl p-4 z-10 bg-transparent  md:bg-white text-black hover:text-red-600"
+              className="absolute top-2 right-2 rounded-full p-2 bg-white hover:bg-red-100 text-black z-10"
             >
-              <X className="h-5 w-5" />
+              <X className="h-8 w-8" />
             </button>
 
             <ContactForm />
@@ -304,6 +319,7 @@ const Header = () => {
         </div>
       )}
 
+      {/* Floating Action Buttons */}
       <div className="fixed right-6 bottom-6 flex flex-col gap-4 z-50">
         <Button
           asChild
@@ -317,11 +333,10 @@ const Header = () => {
         <Button
           asChild
           size="icon"
-          className="rounded-full w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white shadow-lg"
+          className="rounded-full w-12 h-12 bg-green-500 hover:bg-green-600 text-white shadow-lg"
         >
           <Link href="https://api.whatsapp.com/send?phone=+918882356930&text=Hi">
             <FaWhatsapp className="h-6 w-6" />
-
           </Link>
         </Button>
       </div>
