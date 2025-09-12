@@ -18,7 +18,7 @@ export default function InternationalAppointmentPage() {
     email: "",
     date: "",
     time: "",
-    branch: "",
+    branch: "Delhi",
     notes: "",
     country: "",
   });
@@ -193,7 +193,7 @@ export default function InternationalAppointmentPage() {
           </div>
 
           {/* Branch */}
-          <div>
+          {/* <div>
             <label className="block text-gray-700 font-medium mb-1">
               Select Branch <span className="text-red-500">*</span>
             </label>
@@ -212,7 +212,7 @@ export default function InternationalAppointmentPage() {
                 <option value="Hyderabad">Hyderabad</option>
               </select>
             </div>
-          </div>
+          </div> */}
 
           {/* Country Dropdown */}
           <div>
