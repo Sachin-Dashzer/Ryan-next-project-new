@@ -217,7 +217,7 @@ export default function InternationalAppointmentPage() {
           {/* Country Dropdown */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Select Country <span className="text-red-500">*</span>
+              Where Are You From <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <Globe className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
