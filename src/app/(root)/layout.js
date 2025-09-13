@@ -82,7 +82,8 @@ export default function RootLayout({ children }) {
         {/* ✅ Extra Meta Tags */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="msvalidate.01" content="DD718F54C1640669F3FF6B86F0C3BBDF" />
-        <meta name="yandex-verification" content="2c48028280a84f749a812039bf6567f8" />
+        {/* <meta name="yandex-verification" content="2c48028280a84f749a812039bf6567f8" /> */}
+        <meta name="yandex-verification" content="2a66899c829e502a" />
         <meta name="yahooSeeker" content="index, follow" />
         <meta name="msnbot" content="index, follow" />
         <meta name="allow-search" content="yes" />
