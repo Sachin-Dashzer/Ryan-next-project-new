@@ -3,7 +3,6 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
 import { Hind_Siliguri } from "next/font/google";
-import Script from "next/script"; // ✅ Import Script
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["latin"],
@@ -93,21 +92,6 @@ export default function RootLayout({ children }) {
         <meta name="copyright" content="clinicryan.com" />
       </head>
       <body className={`${hindSiliguri.className} antialiased`}>
-        {/* ✅ Google Analytics (gtag.js) */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-490TNHFLQZ"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-490TNHFLQZ');
-          `}
-        </Script>
-
         <Header />
         {children}
         <Footer />
