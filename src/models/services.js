@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 const serviceSchema = new mongoose.Schema(
   {
     bannerData: {
+      title: String,
       description: String,
       imageurl: String,
-      title: String,
+      imagealt: String, // ✅ banner alt tag
     },
     benefitsData: {
       title: String,
@@ -43,10 +44,12 @@ const serviceSchema = new mongoose.Schema(
       },
       title: String,
       overviewData: String,
+      keywords: [String], // ✅ multiple keywords
     },
     typesData: {
       details: String,
       images: [String],
+      alt: [String],
     },
   },
   {
