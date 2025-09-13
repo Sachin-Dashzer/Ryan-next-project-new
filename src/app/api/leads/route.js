@@ -11,15 +11,15 @@ const handler = async (req) => {
     console.log("📩 Incoming lead:", body);
 
     // ✅ Validate phone number (10 digits only)
-    if (!/^\d{10}$/.test(body.phone)) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "Phone number must be exactly 10 digits",
-        }),
-        { status: 400 }
-      );
-    }
+    // if (!/^\d{10}$/.test(body.phone)) {
+    //   return new Response(
+    //     JSON.stringify({
+    //       success: false,
+    //       message: "Phone number must be exactly 10 digits",
+    //     }),
+    //     { status: 400 }
+    //   );
+    // }
 
     // ✅ Save to DB (allow duplicates now)
     const newLead = await Leads.create(body);

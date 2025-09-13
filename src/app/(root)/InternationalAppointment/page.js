@@ -19,6 +19,7 @@ export default function InternationalAppointmentPage() {
     date: "",
     time: "",
     branch: "Delhi",
+    visit: "",
     notes: "",
     country: "",
   });
@@ -65,6 +66,7 @@ export default function InternationalAppointmentPage() {
           date: "",
           time: "",
           branch: "",
+          visit: "",
           notes: "",
           country: "",
         });
@@ -157,7 +159,7 @@ export default function InternationalAppointmentPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Preferred Date <span className="text-red-500">*</span>
+                Preferred Date <span className="text-red-500"></span>
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -166,7 +168,6 @@ export default function InternationalAppointmentPage() {
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  required
                   min={new Date().toISOString().split("T")[0]}
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
                 />
@@ -174,7 +175,7 @@ export default function InternationalAppointmentPage() {
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Preferred Time <span className="text-red-500">*</span>
+                Preferred Time <span className="text-red-500"></span>
               </label>
               <div className="relative">
                 <Clock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -183,12 +184,32 @@ export default function InternationalAppointmentPage() {
                   name="time"
                   value={formData.time}
                   onChange={handleChange}
-                  required
                   min="09:00"
                   max="19:00"
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900"
                 />
               </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              When do you plan for hair transplant{" "}
+              <span className="text-red-500"></span>
+            </label>
+            <div className="relative">
+              <Clock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+              <select
+                name="visit"
+                value={formData.visit}
+                onChange={handleChange}
+                className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              >
+                <option value="within week">Within a week</option>
+                <option value="within month">Within a month</option>
+                <option value="next 2-3 month">Next 2-3 month</option>
+                <option value="not sure">Not Sure</option>
+              </select>
             </div>
           </div>
 
@@ -237,7 +258,9 @@ export default function InternationalAppointmentPage() {
                 <option value="Germany">Germany</option>
                 <option value="France">France</option>
                 <option value="Singapore">Singapore</option>
-                <option value="United Arab Emirates">United Arab Emirates</option>
+                <option value="United Arab Emirates">
+                  United Arab Emirates
+                </option>
                 <option value="Other">Other</option>
               </select>
             </div>
@@ -266,7 +289,9 @@ export default function InternationalAppointmentPage() {
             type="submit"
             disabled={loading}
             className={`w-full py-3 md:py-4 rounded-lg font-semibold text-white text-lg ${
-              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
             {loading ? "Processing..." : "Book Appointment"}

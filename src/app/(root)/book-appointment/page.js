@@ -48,6 +48,7 @@ export default function BookAppointment() {
           email: "",
           date: "",
           time: "",
+          visit: "",
           branch: "",
           notes: "",
         });
@@ -140,7 +141,7 @@ export default function BookAppointment() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Preferred Date <span className="text-red-500">*</span>
+                Preferred Date <span className="text-red-500"></span>
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -149,7 +150,6 @@ export default function BookAppointment() {
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  required
                   min={new Date().toISOString().split("T")[0]} // ✅ Prevent past dates
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 />
@@ -159,7 +159,7 @@ export default function BookAppointment() {
             {/* Time */}
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Preferred Time <span className="text-red-500">*</span>
+                Preferred Time <span className="text-red-500"></span>
               </label>
               <div className="relative">
                 <Clock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -168,7 +168,6 @@ export default function BookAppointment() {
                   name="time"
                   value={formData.time}
                   onChange={handleChange}
-                  required
                   min="09:00" // ✅ 9:00 AM
                   max="19:00" // ✅ 7:00 PM
                   className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
@@ -178,6 +177,26 @@ export default function BookAppointment() {
           </div>
 
           {/* Branch */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              When do you plan for hair transplant{" "}
+              <span className="text-red-500"></span>
+            </label>
+            <div className="relative">
+              <Clock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+              <select
+                name="visit"
+                value={formData.visit}
+                onChange={handleChange}
+                className="w-full pl-10 border border-gray-300 rounded-lg px-4 py-3 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              >
+                <option value="within week">Within a week</option>
+                <option value="within month">Within a month</option>
+                <option value="next 2-3 month">Next 2-3 month</option>
+                <option value="not sure">Not Sure</option>
+              </select>
+            </div>
+          </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Select Branch <span className="text-red-500">*</span>

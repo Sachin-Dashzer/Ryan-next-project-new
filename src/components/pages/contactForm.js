@@ -36,10 +36,6 @@ export default function ContactForm() {
     e.preventDefault();
 
     // ✅ Frontend phone validation
-    if (!/^\d{10}$/.test(formData.phone)) {
-      alert("⚠️ Phone number must be exactly 10 digits");
-      return;
-    }
 
     setLoading(true);
 

@@ -20,7 +20,7 @@ export async function POST(req) {
 
     // ✅ Send to Google Sheets
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbzJgOWx0GVIEK1JgHH2PpttaV262JgTj7sSef5v5XFlDRnJ4DFncNUPIYB2sWPa0Bq_5g/exec",
+      "https://script.google.com/macros/s/AKfycbwwUT5rjsrEQud8syRW5Xf3Xotuq2diAhTukmCpBcoDLykxmvcJkasXZG02gOmb1119Fg/exec",
       {
         method: "POST",
         body: JSON.stringify(body),

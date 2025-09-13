@@ -38,6 +38,9 @@ const Header = () => {
         { name: "Beard Transplant", href: "/beard-transplant" },
         { name: "Female Hair Transplant", href: "/female-hair-transplant" },
         { name: "Eyebrow Transplant", href: "/eyebrow-transplant" },
+        { name: "Hair Transplant In Delhi", href: "/hair-transplant-in-Dehi" },
+        { name: "Hair Transplant In Mumbai", href: "/hair-transplant-in-Mumbai" },
+        { name: "Hair Transplant In Hyderabad", href: "/hair-transplant-in-Hyderabad" },
       ],
     },
     {
@@ -139,7 +142,7 @@ const Header = () => {
                         </button>
 
                         <div
-                          className={`absolute top-9 left-0 z-50 w-52 bg-primary rounded-sm shadow-lg transition-all duration-200 ease-in-out ${
+                          className={`absolute top-9 left-0 z-50 w-60 bg-primary rounded-sm shadow-lg transition-all duration-200 ease-in-out ${
                             openDropdown === item.key
                               ? "opacity-100 visible translate-y-0"
                               : "opacity-0 invisible translate-y-1"
