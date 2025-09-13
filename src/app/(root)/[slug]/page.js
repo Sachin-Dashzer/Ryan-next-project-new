@@ -90,11 +90,11 @@ export default async function ServicesPage({ params }) {
 
         <OurResults />
 
-        <section className="py-8 md:py-12">
+        <section className="py-8 md:py-12 h-fit">
           <div className="containerFull px-4 md:px-6">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               <div className="w-full lg:w-5/12">
-                <div className="h-auto lg:h-144 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[45%_55%] gap-4 md:gap-6 sticky top-6">
+                <div className="h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[45%_55%] gap-4 md:gap-6 sticky top-40">
                   <div className="rounded-xl h-48 md:h-60 lg:h-full overflow-hidden shadow-md">
                     <img
                       src={service?.typesData?.images[0]}

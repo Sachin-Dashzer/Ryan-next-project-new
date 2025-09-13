@@ -14,13 +14,9 @@ export default function ImageUploader({ onUpload }) {
 
     const formData = new FormData();
     formData.append('file', file);
-    
-    // Replace with your actual Cloudinary upload preset and cloud name
-    formData.append('upload_preset', 'dashzer-data'); 
-    formData.append('cloud_name', 'dq1tzl5ir');
 
     try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/dq1tzl5ir/image/upload`, {
+      const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -28,10 +24,10 @@ export default function ImageUploader({ onUpload }) {
       const data = await res.json();
 
       if (res.ok) {
-        setImageURL(data.secure_url);
-        if (onUpload) onUpload(data.secure_url, data.public_id);
+        setImageURL(data.url);
+        if (onUpload) onUpload(data.url); // send back to parent if needed
       } else {
-        alert(data.error?.message || 'Upload failed!');
+        alert(data.error || 'Upload failed!');
       }
     } catch (err) {
       console.error(err);
@@ -55,7 +51,12 @@ export default function ImageUploader({ onUpload }) {
       {imageURL && (
         <div className="mt-2 flex align-middle gap-3">
           <p className="text-sm text-gray-600">Uploaded Preview:</p>
-          <a href={imageURL} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 break-words">
+          <a
+            href={imageURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-blue-600 break-words"
+          >
             {imageURL}
           </a>
         </div>

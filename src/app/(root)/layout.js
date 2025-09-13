@@ -68,7 +68,7 @@ export const metadata = {
     images: ["/uploads/logo.png"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/uploads/r-logo.png",
   },
   alternates: {
     canonical: "https://clinicryan.com/",
@@ -81,8 +81,8 @@ export default function RootLayout({ children }) {
       <head>
         {/* ✅ Extra Meta Tags */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="msvalidate.01" content="CODE" />
-        <meta name="yandex-verification" content="CODE" />
+        <meta name="msvalidate.01" content="DD718F54C1640669F3FF6B86F0C3BBDF" />
+        <meta name="yandex-verification" content="2c48028280a84f749a812039bf6567f8" />
         <meta name="yahooSeeker" content="index, follow" />
         <meta name="msnbot" content="index, follow" />
         <meta name="allow-search" content="yes" />
